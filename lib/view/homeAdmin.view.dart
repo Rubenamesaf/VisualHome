@@ -14,7 +14,7 @@ class HomeAdminPage extends StatelessWidget {
           height: 200,
           alignment: Alignment.center,
           child: Text(
-            'HOLA ADMIN',
+            'HOLA ADMIN TEST RUBEN',
             style: TextStyle(
               color: GlobalColors.mainColor,
               fontSize: 35,
