@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart'; //Importa la librería de aut
 import 'package:login_v1/utils/global.colors.dart';
 import 'package:login_v1/view/homeUser.view.dart';
 import 'package:login_v1/view/homeAdmin.view.dart';
-import 'package:login_v1/view/widgets/button.global.dart';
-import 'package:login_v1/view/widgets/text.form.global.dart';
+//import 'package:login_v1/view/widgets/button.global.dart';
+//import 'package:login_v1/view/widgets/text.form.global.dart';
 import 'package:login_v1/view/widgets/social.login.dart';
 import 'package:logger/logger.dart';
 

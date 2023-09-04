@@ -47,18 +47,18 @@ class SocialLogin extends StatelessWidget {
           ],
         ),
         // ajustes aqui feo feos
-        Padding(
-          padding: const EdgeInsetsDirectional.fromSTEB(0, 44, 0, 30),
+        const Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(0, 44, 0, 30),
           child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 6),
+                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 6),
                 child: Text(
                   'Dont have an account yet? ',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontFamily: 'Outfit',
                     color: Colors.black,
                   ),

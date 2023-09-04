@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:login_v1/utils/global.colors.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+//import 'package:google_fonts/google_fonts.dart';
+//import 'package:provider/provider.dart';
+import 'dart:async';
+import 'package:get/get.dart';
+import 'package:login_v1/view/login.view.dart';
 
 class DesingSplashContainer extends StatelessWidget {
   const DesingSplashContainer({Key? key}) : super(key: key);
@@ -10,7 +13,7 @@ class DesingSplashContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Scaffold(
-        backgroundColor: GlobalColors.moradoColor,
+        backgroundColor: GlobalColors.narajanOscuroColor,
         body: SafeArea(
           top: true,
           child: Center(
@@ -20,13 +23,13 @@ class DesingSplashContainer extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    GlobalColors.moradoColor,
-                    GlobalColors.azulColor,
+                    GlobalColors.grayColor,
+                    GlobalColors.naranjaClaritoColor,
                     GlobalColors.narajanOscuroColor,
                     //Color(0xFFF29757),
                     GlobalColors.amarilloColor
                   ],
-                  stops: [0, 0, 1, 1],
+                  stops: const [0, 0, 1, 1],
                   begin: const AlignmentDirectional(-0.34, 1),
                   end: const AlignmentDirectional(0.34, -1),
                 ),
@@ -41,16 +44,17 @@ class DesingSplashContainer extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {
                         print('Button pressed ...');
+                        Get.to(LoginView());
                       },
                       style: ButtonStyle(
                         minimumSize:
-                            MaterialStateProperty.all(const Size(200, 40)),
+                            MaterialStateProperty.all(const Size(325, 72)),
                         padding: MaterialStateProperty.all(
                             const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0)),
                         backgroundColor: MaterialStateProperty.all(
                             GlobalColors.naranjaColor),
                         textStyle: MaterialStateProperty.all(const TextStyle(
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w600,
                         )),
                         elevation: MaterialStateProperty.all(3),
                         shape: MaterialStateProperty.all(
@@ -59,11 +63,21 @@ class DesingSplashContainer extends StatelessWidget {
                           ),
                         ),
                       ),
-                      child: const Text('Welcome'),
+                      child: const Text(
+                        'Iniciar Sección',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xFF0F1370),
+                          fontSize: 20,
+                          fontFamily: 'Inria Sans',
+                          fontWeight: FontWeight.w700,
+                          height: 0.95,
+                        ),
+                      ),
                     ),
                   ),
                   const Align(
-                    alignment: AlignmentDirectional(0, 0.4),
+                    alignment: AlignmentDirectional(0, 0.3),
                     child: Text(
                       'VisualHome',
                       textAlign: TextAlign.center,
@@ -76,14 +90,16 @@ class DesingSplashContainer extends StatelessWidget {
                     ),
                   ),
                   Align(
-                    alignment: const AlignmentDirectional(0, 0.45),
+                    alignment: const AlignmentDirectional(0, 0.38),
                     child: Text(
                       'Look, feel and read your home',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontFamily: 'Readex Pro',
-                        color: GlobalColors.moradoColor,
-                        fontWeight: FontWeight.w500,
-                      ),
+                          fontSize: 20,
+                          fontFamily: 'Inria Sans',
+                          color: GlobalColors.blancoColor,
+                          fontWeight: FontWeight.w400,
+                          height: 0.95),
                     ),
                   ),
                 ],
