@@ -38,11 +38,12 @@ dependencies:
   #firebase aunt
   firebase_core: ^2.15.1
   firebase_analytics: ^10.4.5
+  firebase_analytics_web: ^0.5.4+5
   firebase_auth: ^4.8.0
 
   logger: ^2.0.1  
   get: ^4.6.5
-  hexcolor: ^2.0.7
+  hexcolor: ^3.0.0
   google_fonts: ^4.0.3
   provider: ^6.0.5
   flutter_animate: 4.1.1+1
