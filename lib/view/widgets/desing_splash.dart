@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:login_v1/utils/global.colors.dart';
 //import 'package:google_fonts/google_fonts.dart';
 //import 'package:provider/provider.dart';
-import 'dart:async';
+//import 'dart:async';
 import 'package:get/get.dart';
 import 'package:login_v1/view/login.view.dart';
 
@@ -43,6 +43,7 @@ class DesingSplashContainer extends StatelessWidget {
                     alignment: const AlignmentDirectional(0, 0.6),
                     child: ElevatedButton(
                       onPressed: () {
+                        // ignore: avoid_print
                         print('Button pressed ...');
                         Get.to(LoginView());
                       },

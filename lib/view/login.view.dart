@@ -47,11 +47,14 @@ class LoginView extends StatelessWidget {
     }
   }
 
+  //DISEÑO
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // key: scaffoldKey,
-      backgroundColor: GlobalColors.moradoColor,
+      backgroundColor: GlobalColors.naranjaClaritoColor,
+
       body: Form(
         // key: _model.formKey,
         autovalidateMode: AutovalidateMode.always,
@@ -63,13 +66,17 @@ class LoginView extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Container(
-                    width: 200, //MediaQuery.sizeOf(context).width,
-                    height: 200,
+                    width: 392, //MediaQuery.sizeOf(context).width,
+                    height: 89.18,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFF19756),
+                      border: Border.all(width: 0.50),
+                    ),
                     alignment: Alignment.center,
                     child: Text(
                       'VisualHome',
                       style: TextStyle(
-                        color: GlobalColors.mainColor,
+                        color: GlobalColors.logoazulColor,
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
                       ),
@@ -78,7 +85,7 @@ class LoginView extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(0, 45, 0, 0),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -86,7 +93,7 @@ class LoginView extends StatelessWidget {
                     Expanded(
                       child: Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                            const EdgeInsetsDirectional.fromSTEB(24, 0, 45, 0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [
@@ -104,37 +111,38 @@ class LoginView extends StatelessWidget {
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                    color: GlobalColors.azulColor,
+                                    color: GlobalColors.amarilloColor,
                                     width: 1,
                                   ),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: GlobalColors.negroColor,
+                                    color: GlobalColors.blancoColor,
                                     width: 1,
                                   ),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 errorBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: GlobalColors.negroColor,
+                                    color: GlobalColors.blancoColor,
                                     width: 1,
                                   ),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 focusedErrorBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: GlobalColors.negroColor,
+                                    color: GlobalColors.moradoColor,
                                     width: 1,
                                   ),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 filled: true,
-                                fillColor: GlobalColors.azulColor,
+                                fillColor:
+                                    const Color.fromARGB(126, 103, 138, 207),
                                 prefixIcon: const Icon(
                                   Icons.email_outlined,
-                                  color: GlobalColors.naranjaClaritoColor,
+                                  color: GlobalColors.logoazulColor,
                                 ),
                               ),
                               style: TextStyle(
@@ -161,37 +169,38 @@ class LoginView extends StatelessWidget {
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(
-                                      color: GlobalColors.azulColor,
+                                      color: GlobalColors.amarilloColor,
                                       width: 1,
                                     ),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(
-                                      color: Color(0x00000000),
+                                      color: GlobalColors.azulColor,
                                       width: 1,
                                     ),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   errorBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(
-                                      color: Color(0x00000000),
+                                      color: GlobalColors.azulColor,
                                       width: 1,
                                     ),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   focusedErrorBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(
-                                      color: Color(0x00000000),
+                                      color: GlobalColors.amarilloColor,
                                       width: 1,
                                     ),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   filled: true,
-                                  fillColor: GlobalColors.azulColor,
+                                  fillColor:
+                                      const Color.fromARGB(126, 103, 138, 207),
                                   prefixIcon: Icon(
                                     Icons.lock_outline,
-                                    color: GlobalColors.narajanOscuroColor,
+                                    color: GlobalColors.logoazulColor,
                                   ),
                                   //    suffixIcon: InkWell(
                                   //      onTap: () => setState(
@@ -208,12 +217,7 @@ class LoginView extends StatelessWidget {
                                   //      ),
                                   //  ),
                                 ),
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.normal,
-                                  color: GlobalColors.textColor,
-                                  fontFamily: 'Outfit',
-                                ),
+
                                 // validator: _model
                                 //     .passwordTextControllerValidator
                                 //     .asValidator(context),
@@ -221,14 +225,16 @@ class LoginView extends StatelessWidget {
                             ),
                             Padding(
                               padding: const EdgeInsetsDirectional.fromSTEB(
-                                  0, 24, 0, 0),
+                                  0, 250, 0, 0),
                               child: ElevatedButton(
                                 onPressed: () async {
                                   await _signInWithEmailAndPassword(context);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   padding: const EdgeInsetsDirectional.fromSTEB(
-                                      0, 0, 0, 0),
+                                      65, 25, 65, 25),
+                                  backgroundColor:
+                                      GlobalColors.narajanOscuroColor,
                                   //iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                   //    0, 0, 0, 0),
                                   // color: GlobalColors.negroColor,
@@ -244,10 +250,21 @@ class LoginView extends StatelessWidget {
                                   //  ),
                                   //  borderRadius: BorderRadius.circular(8),
                                 ),
-                                child: Text('Login'),
+                                child: const Text(
+                                  'Continuar',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: GlobalColors.logoazulColor,
+                                    fontSize: 22,
+                                    fontFamily: 'Inria Sans',
+                                    fontWeight: FontWeight.w700,
+                                    height: 0.86,
+                                  ),
+                                ),
                               ),
                             ),
-                            const SocialLogin()
+                            // DESCOMENTAR ESTO
+                            // const SocialLogin()
                           ],
                         ),
                       ),

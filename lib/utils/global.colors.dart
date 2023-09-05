@@ -14,4 +14,5 @@ class GlobalColors {
   static const naranjaClaritoColor = Color(0xF2FEC49A);
   static HexColor moradoColor = HexColor('#4B39EF');
   static const azulColor = Color(0xFF678ACF);
+  static const logoazulColor = Color(0xFF0F1370);
 }

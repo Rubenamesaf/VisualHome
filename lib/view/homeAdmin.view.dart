@@ -10,7 +10,7 @@ class HomeAdminPage extends StatelessWidget {
         scaffoldBackgroundColor: const Color.fromARGB(255, 18, 32, 47),
       ),
       home: Scaffold(
-        body: ListView(children: [
+        body: ListView(children: const [
           AdminPrincipal(),
         ]),
       ),
@@ -19,6 +19,8 @@ class HomeAdminPage extends StatelessWidget {
 }
 
 class AdminPrincipal extends StatelessWidget {
+  const AdminPrincipal({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -299,12 +301,12 @@ class AdminPrincipal extends StatelessWidget {
                   height: 50,
                   clipBehavior: Clip.antiAlias,
                   decoration: const BoxDecoration(),
-                  child: Stack(
+                  child: const Stack(
                     children: [
                       Positioned(
                         left: 6.14,
                         top: 10.90,
-                        child: Container(
+                        child: SizedBox(
                           width: 35.16,
                           height: 39.01,
                           //  child: Stack(children: [
