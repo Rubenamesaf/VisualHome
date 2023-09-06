@@ -5,7 +5,7 @@ import 'package:login_v1/view/homeUser.view.dart';
 import 'package:login_v1/view/homeAdmin.view.dart';
 //import 'package:login_v1/view/widgets/button.global.dart';
 //import 'package:login_v1/view/widgets/text.form.global.dart';
-import 'package:login_v1/view/widgets/social.login.dart';
+//import 'package:login_v1/view/widgets/social.login.dart';
 import 'package:logger/logger.dart';
 
 class LoginView extends StatelessWidget {
@@ -88,11 +88,11 @@ class LoginView extends StatelessWidget {
                         width: 392, //MediaQuery.sizeOf(context).width,
                         height: 89.18,
                         decoration: BoxDecoration(
-                          color: Color(0xFFF19756),
+                          color: const Color(0xFFF19756),
                           border: Border.all(width: 0.50),
                         ),
                         alignment: Alignment.center,
-                        child: Text(
+                        child: const Text(
                           'VisualHome',
                           style: TextStyle(
                             color: GlobalColors.logoazulColor,
@@ -218,7 +218,7 @@ class LoginView extends StatelessWidget {
                                     filled: true,
                                     fillColor: const Color.fromARGB(
                                         126, 103, 138, 207),
-                                    prefixIcon: Icon(
+                                    prefixIcon: const Icon(
                                       Icons.lock_outline,
                                       color: GlobalColors.logoazulColor,
                                     ),
