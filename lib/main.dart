@@ -1,7 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:login_v1/view/splash.view.dart';
+import 'package:login_v1/view/homeAdmin.view.dart';
+//import 'package:login_v1/view/splash.view.dart';
 
 void main() async {
   WidgetsFlutterBinding
@@ -20,8 +21,8 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SplashView(),
-    );
+        debugShowCheckedModeBanner: false,
+        home: HomeAdminPage() // se pone esto -- SplashView(),
+        );
   }
 }
