@@ -4,14 +4,34 @@ import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:login_v1/utils/global.colors.dart';
 
-class sistemaEspecificoAdmin extends StatelessWidget {
-  const sistemaEspecificoAdmin({Key? key});
+class SistemaEspecificoAdmin extends StatefulWidget {
+  const SistemaEspecificoAdmin({Key? key}) : super(key: key);
+
+  @override
+  _SistemaEspecificoAdminState createState() => _SistemaEspecificoAdminState();
+}
+
+class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
+  double baseWidth = 393;
+  double fem = 1.0;
+  double ffem = 1.0;
+  bool isSwitched = false;
+  List<String> elementosHistorial = [
+    "Elemento 1",
+    "Elemento 2",
+    "Elemento 3",
+    // Agrega más elementos aquí
+  ];
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    fem = MediaQuery.of(context).size.width / baseWidth;
+    ffem = fem * 0.97;
+  }
 
   @override
   Widget build(BuildContext context) {
-    double baseWidth = 393;
-    double fem = MediaQuery.of(context).size.width / baseWidth;
-    double ffem = fem * 0.97;
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -135,15 +155,29 @@ class sistemaEspecificoAdmin extends StatelessWidget {
                                   borderRadius:
                                       BorderRadius.circular(100 * fem),
                                 ),
-                                child: Text(
-                                  'Timbre',
-                                  style: TextStyle(
-                                    fontFamily: 'Inria Sans',
-                                    fontSize: 22 * ffem,
-                                    fontWeight: FontWeight.w700,
-                                    height: 0.8636363636 * ffem / fem,
-                                    color: Color(0xff0f1370),
-                                  ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Timbre',
+                                      style: TextStyle(
+                                        fontFamily: 'Inria Sans',
+                                        fontSize: 22 * ffem,
+                                        fontWeight: FontWeight.w700,
+                                        height: 0.8636363636 * ffem / fem,
+                                        color: Color(0xff0f1370),
+                                      ),
+                                    ),
+                                    Switch(
+                                      value: isSwitched,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          isSwitched = value;
+                                        });
+                                      },
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -166,24 +200,23 @@ class sistemaEspecificoAdmin extends StatelessWidget {
                       ),
                       Container(
                         margin: EdgeInsets.fromLTRB(
-                            4 * fem, 0 * fem, 0 * fem, 65 * fem),
+                            4 * fem, 0 * fem, 0 * fem, 20 * fem),
                         padding: EdgeInsets.fromLTRB(
-                            115.5 * fem, 42.5 * fem, 109.5 * fem, 21.5 * fem),
+                            115.5 * fem, 0 * fem, 109.5 * fem, 0 * fem),
                         width: 329 * fem,
                         height: 330 * fem,
                         decoration: BoxDecoration(
                           color: Color(0xf2fec49a),
                           borderRadius: BorderRadius.circular(100 * fem),
                         ),
-                        child: Center(
-                          child: SizedBox(
-                            child: Container(
-                              constraints: BoxConstraints(
-                                maxWidth: 104 * fem,
-                              ),
-                              child: Text(
-                                'HISTORIAL',
-                                textAlign: TextAlign.center,
+                        child: ListView.separated(
+                          itemCount: elementosHistorial.length,
+                          separatorBuilder: (context, index) =>
+                              Divider(), // Separador entre elementos
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              title: Text(
+                                elementosHistorial[index],
                                 style: TextStyle(
                                   fontFamily: 'Inria Sans',
                                   fontSize: 20 * ffem,
@@ -192,8 +225,8 @@ class sistemaEspecificoAdmin extends StatelessWidget {
                                   color: Color(0xff0f1370),
                                 ),
                               ),
-                            ),
-                          ),
+                            );
+                          },
                         ),
                       ),
                       Container(
@@ -229,4 +262,10 @@ class sistemaEspecificoAdmin extends StatelessWidget {
       ),
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: SistemaEspecificoAdmin(),
+  ));
 }
