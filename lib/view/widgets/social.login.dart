@@ -46,7 +46,7 @@ class SocialLogin extends StatelessWidget {
             )
           ],
         ),
-        // ajustes aqui feo feos
+        /*// ajustes aqui feo feos
         const Padding(
           padding: EdgeInsetsDirectional.fromSTEB(0, 44, 0, 30),
           child: Row(
@@ -67,7 +67,7 @@ class SocialLogin extends StatelessWidget {
               //PEGAR EL PADING AQUIIIIII
             ],
           ),
-        ),
+        ),*/
       ],
     );
   }
