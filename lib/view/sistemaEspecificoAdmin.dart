@@ -3,25 +3,60 @@ import 'package:flutter/gestures.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:login_v1/utils/global.colors.dart';
+import 'dart:convert' as convert;
+import 'package:http/http.dart' as http;
+import 'package:login_v1/historial_model.dart';
 
 class SistemaEspecificoAdmin extends StatefulWidget {
   const SistemaEspecificoAdmin({Key? key}) : super(key: key);
-
   @override
   _SistemaEspecificoAdminState createState() => _SistemaEspecificoAdminState();
 }
 
 class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
+  List<HistorialModel> registros = <HistorialModel>[];
+  bool activacionTimbre = false;
   double baseWidth = 393;
   double fem = 1.0;
   double ffem = 1.0;
   bool isSwitched = false;
-  List<String> elementosHistorial = [
-    "Elemento 1",
-    "Elemento 2",
-    "Elemento 3",
-    // Agrega más elementos aquí
-  ];
+
+  getHistorialFromSheet() async {
+    var url = Uri.parse(
+        "https://script.google.com/macros/s/AKfycbzVU6b_xI8GbFVsdIFoZzGgnVm5_7ifI6jl3RFnOEtMVQew-MEuj-1gLsv7K-VzSZhg/exec");
+
+    var raw = await http.get(url);
+
+    var jsonRegistro = convert.jsonDecode(raw.body);
+
+    jsonRegistro.forEach((elemento) {
+      // Verificar si el sistema es "Timbre"
+      if (elemento['sistema'] == "Timbre") {
+        HistorialModel historialModel = HistorialModel(
+          accion: elemento['accion'],
+          marcaTemporal: elemento['marca_temporal'],
+          sistema: elemento['sistema'],
+        );
+
+        setState(() {
+          registros.add(historialModel);
+        });
+      }
+    });
+  }
+
+  void toggleSwitch(bool value) {
+    // Implementa la funcionalidad del botón switch aquí
+    setState(() {
+      activacionTimbre = value;
+    });
+  }
+
+  @override
+  void initState() {
+    getHistorialFromSheet();
+    super.initState();
+  }
 
   @override
   void didChangeDependencies() {
@@ -53,10 +88,7 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                     color: Color(0xbaf19756),
                   ),
                   child: ImageFiltered(
-                    imageFilter: ImageFilter.blur(
-                      sigmaX: 2 * fem,
-                      sigmaY: 2 * fem,
-                    ),
+                    imageFilter: ImageFilter.blur(),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -65,11 +97,11 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                               0 * fem, 13.5 * fem, 38.88 * fem, 0 * fem),
                           width: 26.85 * fem,
                           height: 22.48 * fem,
-                          child: Image.asset(
+                          /*child: Image.asset(
                             'assets/page-1/images/bx-arrow-back-1-1vf.png',
                             width: 26.85 * fem,
                             height: 22.48 * fem,
-                          ),
+                          ),*/
                         ),
                         Center(
                           child: Container(
@@ -95,16 +127,16 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                margin: EdgeInsets.fromLTRB(
+                                  /*margin: EdgeInsets.fromLTRB(
                                     0 * fem, 0 * fem, 0 * fem, 2.5 * fem),
                                 width: 50 * fem,
-                                height: 50 * fem,
-                                child: Image.asset(
+                                height: 50 * fem,*/
+                                  /*child: Image.asset(
                                   'assets/page-1/images/undrawprofilepicreiwgo-2.png',
                                   width: 50 * fem,
                                   height: 50 * fem,
-                                ),
-                              ),
+                                ),*/
+                                  ),
                               Center(
                                 child: Container(
                                   width: double.infinity,
@@ -160,7 +192,7 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      'Timbre',
+                                      "Timbre",
                                       style: TextStyle(
                                         fontFamily: 'Inria Sans',
                                         fontSize: 22 * ffem,
@@ -170,12 +202,8 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                                       ),
                                     ),
                                     Switch(
-                                      value: isSwitched,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          isSwitched = value;
-                                        });
-                                      },
+                                      value: activacionTimbre,
+                                      onChanged: toggleSwitch,
                                     ),
                                   ],
                                 ),
@@ -188,10 +216,10 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                                 child: SizedBox(
                                   width: 71 * fem,
                                   height: 59 * fem,
-                                  child: Image.asset(
+                                  /*child: Image.asset(
                                     'assets/page-1/images/image-12.png',
                                     fit: BoxFit.cover,
-                                  ),
+                                  ),*/
                                 ),
                               ),
                             ),
@@ -209,22 +237,13 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                           color: Color(0xf2fec49a),
                           borderRadius: BorderRadius.circular(100 * fem),
                         ),
-                        child: ListView.separated(
-                          itemCount: elementosHistorial.length,
-                          separatorBuilder: (context, index) =>
-                              Divider(), // Separador entre elementos
+                        child: ListView.builder(
+                          itemCount: registros.length,
                           itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text(
-                                elementosHistorial[index],
-                                style: TextStyle(
-                                  fontFamily: 'Inria Sans',
-                                  fontSize: 20 * ffem,
-                                  fontWeight: FontWeight.w700,
-                                  height: 0.8636363636 * ffem / fem,
-                                  color: Color(0xff0f1370),
-                                ),
-                              ),
+                            return Registro(
+                              marcaTemporal: registros[index].marcaTemporal,
+                              sistema: registros[index].sistema,
+                              accion: registros[index].accion,
                             );
                           },
                         ),
@@ -249,11 +268,11 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                 Container(
                   width: 393 * fem,
                   height: 121 * fem,
-                  child: Image.asset(
+                  /*child: Image.asset(
                     'assets/page-1/images/auto-group-xqaw.png',
                     width: 393 * fem,
                     height: 121 * fem,
-                  ),
+                  ),*/
                 ),
               ],
             ),
@@ -264,8 +283,24 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
   }
 }
 
-void main() {
+/*void main() {
   runApp(MaterialApp(
     home: SistemaEspecificoAdmin(),
   ));
+}*/
+
+class Registro extends StatelessWidget {
+  final String marcaTemporal, sistema, accion;
+  Registro(
+      {required this.marcaTemporal,
+      required this.sistema,
+      required this.accion});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(accion),
+      subtitle: Text("($marcaTemporal)"),
+    );
+  }
 }
