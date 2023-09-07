@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:login_v1/view/homeAdmin.view.dart';
+import 'package:login_v1/view/homeUser.view.dart';
+import 'package:login_v1/view/sistemaEspecificoAdmin.dart';
 //import 'package:login_v1/view/splash.view.dart';
 
 void main() async {
@@ -22,7 +24,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return const GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        home: HomeAdminPage() // se pone esto -- SplashView(),
+        home: SistemaEspecificoAdmin() // se pone esto -- SplashView(),
         );
   }
 }
