@@ -78,34 +78,30 @@ class HomeAdminPage extends StatelessWidget {
             Positioned(
               left: 50,
               top: 600,
-              child: GestureDetector(
-                onTap: () {
-                  // Acción a realizar al presionar el texto "AGREGAR VIVIENDA"
-                  print('Text pressed ...');
-                  Get.to(editHomeAdmin());
-                },
-                child: Text(
-                  'AGREGAR VIVIENDA',
-                  style: TextStyle(
-                    color: Color(0xFF0F1370),
-                    fontSize: 22,
-                    fontFamily: 'Inria Sans',
-                    fontWeight: FontWeight.w700,
-                    height: 0.86,
-                  ),
+              child: Text(
+                'AGREGAR VIVIENDA',
+                style: TextStyle(
+                  color: Color(0xFF0F1370),
+                  fontSize: 22,
+                  fontFamily: 'Inria Sans',
+                  fontWeight: FontWeight.w700,
+                  height: 0.86,
                 ),
               ),
             ),
             Positioned(
               left: 274,
-              top: 587,
-              child: Container(
-                width: 39,
-                height: 41,
-                child: SvgPicture.asset(
-                  'assets/images/image15.svg',
-                  height: 40,
+              top: 570,
+              child: IconButton(
+                icon: Icon(
+                  Icons.add_circle_outline,
+                  color: GlobalColors.logoazulColor,
                 ),
+                iconSize: 50,
+                onPressed: () {
+                  print('IconButton pressed ...');
+                  Get.to(editHomeAdmin());
+                },
               ),
             ),
             // FIN TEXTO AGREGAR VIVIENDA

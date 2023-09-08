@@ -1,33 +1,34 @@
 {
   "project_info": {
-    "project_number": "692033299915",
-    "project_id": "flutter-login-8aa9e",
-    "storage_bucket": "flutter-login-8aa9e.appspot.com"
+    "project_number": "83304052266",
+    "firebase_url": "https://domotica-sordos-default-rtdb.firebaseio.com",
+    "project_id": "domotica-sordos",
+    "storage_bucket": "domotica-sordos.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:692033299915:android:8230b62613d690d904c24e",
+        "mobilesdk_app_id": "1:83304052266:android:788923b4b6074995a4b553",
         "android_client_info": {
-          "package_name": "com.example.login_v1"
+          "package_name": "com.visualHome"
         }
       },
       "oauth_client": [
         {
-          "client_id": "692033299915-ivnnf526g29p7lscqvdru1f076qbqfu4.apps.googleusercontent.com",
+          "client_id": "83304052266-31tamt7omb9l5oq7ra1e4j68sutfp1s1.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCnl1h1LLBQpbASz4DRn-PGWfYqBZQfUa0"
+          "current_key": "AIzaSyBV37Vddq6Kmh0g4aHthdjEGYJaJgt1_Rc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "692033299915-ivnnf526g29p7lscqvdru1f076qbqfu4.apps.googleusercontent.com",
+              "client_id": "83304052266-31tamt7omb9l5oq7ra1e4j68sutfp1s1.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
