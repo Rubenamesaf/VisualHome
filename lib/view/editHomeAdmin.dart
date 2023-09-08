@@ -10,7 +10,7 @@ class editHomeAdmin extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  ViviendaModel vivienda = new ViviendaModel();
+  // ViviendaModel vivienda = new ViviendaModel(name: name, emailAddress: emailAddress, pasword: pasword, address: address);
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +71,7 @@ class editHomeAdmin extends StatelessWidget {
                         //textInputType: TextInputType.emailAddress,
                         //controller: _model.emailTextController,
                         obscureText: false,
-                        initialValue: vivienda.name,
+                        //    initialValue: vivienda.name,
                         decoration: InputDecoration(
                           labelText: 'Name',
                           hintText: 'Your Name...',
@@ -143,7 +143,7 @@ class editHomeAdmin extends StatelessWidget {
                         //textInputType: TextInputType.emailAddress,
                         //controller: _model.emailTextController,
                         obscureText: false,
-                        initialValue: vivienda.pasword,
+                        //    initialValue: vivienda.pasword,
                         decoration: InputDecoration(
                           labelText: 'Email Address',
                           hintText: 'Your email...',
@@ -214,7 +214,7 @@ class editHomeAdmin extends StatelessWidget {
                         //textInputType: TextInputType.emailAddress,
                         //controller: _model.emailTextController,
                         obscureText: false,
-                        initialValue: vivienda.emailAddress,
+                        //    initialValue: vivienda.emailAddress,
                         decoration: InputDecoration(
                           labelText: 'Password',
                           hintText: 'Enter your password here...',
@@ -285,7 +285,7 @@ class editHomeAdmin extends StatelessWidget {
                         //textInputType: TextInputType.emailAddress,
                         //controller: _model.emailTextController,
                         obscureText: false,
-                        initialValue: vivienda.address,
+                        //   initialValue: vivienda.address,
                         decoration: InputDecoration(
                           labelText: 'Address',
                           hintText: 'Your Adress...',
@@ -334,14 +334,14 @@ class editHomeAdmin extends StatelessWidget {
                             color: GlobalColors.textColor,
                             fontFamily: 'Outfit'),
                         keyboardType: TextInputType.streetAddress,
-                        onSaved: (Value) => vivienda.address = Value,
-                        validator: (Value) {
-                          if (Value.contains('hola')) {
-                            return 'ingrese una direccion';
-                          } else {
-                            return null;
-                          }
-                        },
+                        //  onSaved: (Value) => vivienda.address = Value,
+                        //  validator: (Value) {
+                        //   if (Value.contains('hola')) {
+                        //      return 'ingrese una direccion';
+                        //     } else {
+                        //       return null;
+                        //      }
+                        //     },
                         //validator: _model.emailTextControllerValidator
                         //    .asValidator(context),
                       ),
