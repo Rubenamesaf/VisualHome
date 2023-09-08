@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+//import 'package:flutter_svg/svg.dart';
 import 'package:login_v1/utils/global.colors.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
 import 'package:login_v1/view/editHomeAdmin.dart';
@@ -16,7 +16,7 @@ class HomeAdminPage extends StatelessWidget {
         child: Stack(
           children: [
             AdminPrincipal(),
-            Positioned(
+            const Positioned(
               left: 134,
               top: 135,
               child: SizedBox(
@@ -75,7 +75,7 @@ class HomeAdminPage extends StatelessWidget {
               ),
             ),
             // TEXTO AGREGAR VIVIENDA
-            Positioned(
+            const Positioned(
               left: 50,
               top: 600,
               child: Text(
@@ -93,7 +93,7 @@ class HomeAdminPage extends StatelessWidget {
               left: 274,
               top: 570,
               child: IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.add_circle_outline,
                   color: GlobalColors.logoazulColor,
                 ),
@@ -113,8 +113,8 @@ class HomeAdminPage extends StatelessWidget {
 
   Widget _buildViviendaItem(String viviendaName) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 8.0),
-      padding: EdgeInsets.all(16.0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         color: GlobalColors.naranjaClaritoColor, // Color de fondo azul
         borderRadius: BorderRadius.circular(30), // Esquinas redondeadas
@@ -123,7 +123,7 @@ class HomeAdminPage extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           viviendaName,
-          style: TextStyle(
+          style: const TextStyle(
             color: Color(0xFF0F1370), // Color del texto blanco
             fontSize: 16,
             fontWeight: FontWeight.bold,
