@@ -127,16 +127,16 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                  /*margin: EdgeInsets.fromLTRB(
+                                margin: EdgeInsets.fromLTRB(
                                     0 * fem, 0 * fem, 0 * fem, 2.5 * fem),
                                 width: 50 * fem,
-                                height: 50 * fem,*/
-                                  /*child: Image.asset(
-                                  'assets/page-1/images/undrawprofilepicreiwgo-2.png',
+                                height: 50 * fem,
+                                /*child: Image.asset(
+                                  'assets/images/undraw_profile_pic.svg',
                                   width: 50 * fem,
                                   height: 50 * fem,
                                 ),*/
-                                  ),
+                              ),
                               Center(
                                 child: Container(
                                   width: double.infinity,
@@ -230,12 +230,12 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                         margin: EdgeInsets.fromLTRB(
                             4 * fem, 0 * fem, 0 * fem, 20 * fem),
                         padding: EdgeInsets.fromLTRB(
-                            115.5 * fem, 0 * fem, 109.5 * fem, 0 * fem),
+                            60 * fem, 0 * fem, 0 * fem, 0 * fem),
                         width: 329 * fem,
                         height: 330 * fem,
                         decoration: BoxDecoration(
                           color: Color(0xf2fec49a),
-                          borderRadius: BorderRadius.circular(100 * fem),
+                          borderRadius: BorderRadius.circular(75 * fem),
                         ),
                         child: ListView.builder(
                           itemCount: registros.length,
@@ -266,6 +266,7 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                   ),
                 ),
                 Container(
+                  // autogroupxqawTdR (WdexbrtJVE15SBV4C3xqaw)
                   width: 393 * fem,
                   height: 121 * fem,
                   /*child: Image.asset(

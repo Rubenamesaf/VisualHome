@@ -19,7 +19,7 @@ class AdminPrincipal extends StatelessWidget {
           height: 780,
           clipBehavior: Clip.antiAlias,
           decoration:
-              const BoxDecoration(color: GlobalColors.naranjaClaritoColor),
+              const BoxDecoration(color: Color.fromARGB(240, 252, 227, 210)),
           child: Stack(
             children: [
               Positioned(
@@ -144,20 +144,18 @@ class AdminPrincipal extends StatelessWidget {
                   ),
                 ),
               ),
-              Positioned(
+              /*Positioned(
                 left: 274,
                 top: 587,
                 child: Container(
                   width: 39,
                   height: 41,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage("https://via.placeholder.com/39x41"),
-                      fit: BoxFit.fill,
-                    ),
+                  child: SvgPicture.asset(
+                    'assets/images/image15.svg',
+                    height: 40,
                   ),
                 ),
-              ),
+              ),*/
             ],
           ),
         ),

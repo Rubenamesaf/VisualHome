@@ -4,7 +4,8 @@ import 'package:get/get.dart';
 import 'package:login_v1/view/homeAdmin.view.dart';
 import 'package:login_v1/view/homeUser.view.dart';
 import 'package:login_v1/view/sistemaEspecificoAdmin.dart';
-//import 'package:login_v1/view/splash.view.dart';
+import 'package:login_v1/view/splash.view.dart';
+import 'package:login_v1/view/widgets/admin_principal.dart';
 
 void main() async {
   WidgetsFlutterBinding
@@ -24,7 +25,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return const GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        home: SistemaEspecificoAdmin() // se pone esto -- SplashView(),
+        home: HomeAdminPage() // se pone esto -- SplashView(),
         );
   }
 }
