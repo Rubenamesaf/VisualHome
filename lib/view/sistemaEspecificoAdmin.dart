@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 //import 'package:flutter/gestures.dart';
 import 'dart:ui';
 //import 'package:google_fonts/google_fonts.dart';
@@ -6,6 +7,7 @@ import 'dart:ui';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:login_v1/historial_model.dart';
+import '../realtime_db.dart';
 
 class SistemaEspecificoAdmin extends StatefulWidget {
   const SistemaEspecificoAdmin({Key? key}) : super(key: key);
@@ -251,14 +253,19 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                       Container(
                         margin: EdgeInsets.fromLTRB(
                             0 * fem, 0 * fem, 34 * fem, 0 * fem),
-                        child: Text(
-                          'DESCARGAR REPORTE',
-                          style: TextStyle(
-                            fontFamily: 'Inria Sans',
-                            fontSize: 22 * ffem,
-                            fontWeight: FontWeight.w700,
-                            height: 0.8636363636 * ffem / fem,
-                            color: Color(0xff0f1370),
+                        child: TextButton(
+                          onPressed: () {
+                            Get.to(() => realtime_db());
+                          },
+                          child: Text(
+                            'DESCARGAR REPORTE',
+                            style: TextStyle(
+                              fontFamily: 'Inria Sans',
+                              fontSize: 22 * ffem,
+                              fontWeight: FontWeight.w700,
+                              height: 0.8636363636 * ffem / fem,
+                              color: Color(0xff0f1370),
+                            ),
                           ),
                         ),
                       ),

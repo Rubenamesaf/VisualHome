@@ -1,17 +1,20 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:login_v1/realtime_db.dart';
 import 'package:login_v1/view/homeAdmin.view.dart';
+import 'package:login_v1/view/login.view.dart';
 //import 'package:login_v1/view/homeUser.view.dart';
 //import 'package:login_v1/view/sistemaEspecificoAdmin.dart';
-//import 'package:login_v1/view/splash.view.dart';
+import 'package:login_v1/view/splash.view.dart';
 //import 'package:login_v1/view/widgets/admin_principal.dart';
 
 void main() async {
   WidgetsFlutterBinding
       .ensureInitialized(); // Asegura que los widgets esten inicializados
 
-  await Firebase.initializeApp(); // Inicializa Firebase
+  FirebaseApp firebaseApp =
+      await Firebase.initializeApp(); // Inicializa Firebase
 
   runApp(const App());
 }
@@ -23,9 +26,9 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
+    return GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        home: HomeAdminPage() // se pone esto -- SplashView(),
+        home: SplashView() // se pone esto -- SplashView(),
         );
   }
 }
