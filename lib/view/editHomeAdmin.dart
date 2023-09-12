@@ -322,10 +322,10 @@ class editHomeAdmin extends StatelessWidget {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           filled: true,
-                          fillColor: const Color.fromARGB(126, 103, 138, 207),
+                          fillColor: Color(0x7D678ACF),
                           prefixIcon: const Icon(
                             Icons.home,
-                            color: GlobalColors.logoazulColor,
+                            color: Color(0xFF0F1370),
                           ),
                         ),
                         style: TextStyle(
@@ -364,12 +364,11 @@ Widget _crearBotonGuardar() {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),
-      backgroundColor: GlobalColors.amarilloColor,
-      foregroundColor: GlobalColors.logoazulColor,
+      backgroundColor: Color(0xD1FBE288),
+      foregroundColor: Color(0xFF0F1370),
     ),
     onPressed: () {
       print('IconButton pressed ...');
-      Get.to(const SistemaEspecificoAdmin());
     },
     label: const Text('Guardar'),
     icon: const Icon(Icons.save),

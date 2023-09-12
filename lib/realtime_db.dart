@@ -1,6 +1,8 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'dart:convert' as convert;
+//import 'package:login_v1/viviendas_model.dart';
 
 class realtime_db extends StatefulWidget {
   @override
@@ -71,6 +73,11 @@ class _realtime_dbState extends State<realtime_db> {
                     _delete();
                   },
                   child: Text(" delete value")),
+              TextButton(
+                  onPressed: () {
+                    _leerllaves();
+                  },
+                  child: Text("LEER LLAVES")),
             ],
           ),
         ),
@@ -79,7 +86,7 @@ class _realtime_dbState extends State<realtime_db> {
   }
 
   _createDB() {
-    _dbref.child("Vivienda 2").set({
+    _dbref.child("Vivienda 7").set({
       'Timbre': 0,
       "TelefonoFijo": 0,
       'RuidoAlto': 0,
@@ -107,11 +114,7 @@ class _realtime_dbState extends State<realtime_db> {
   }
 
   _readdb_onechild() {
-    _dbref
-        .child("Vivienda 1")
-        .child("BotonPanico")
-        .once()
-        .then((DatabaseEvent event) {
+    _dbref.child("Vivienda 2").once().then((DatabaseEvent event) {
       final dataSnapshot = event.snapshot;
       if (dataSnapshot.value != null) {
         print(" read once - " + dataSnapshot.value.toString());
@@ -124,6 +127,27 @@ class _realtime_dbState extends State<realtime_db> {
 
   _updatevalue() {
     _dbref.child("Vivienda 1").update({"Timbre": 2});
+  }
+
+  _leerllaves() {
+    _dbref.child("").once().then((DatabaseEvent event) {
+      final dataSnapshot = event.snapshot;
+      if (dataSnapshot.value != null) {
+        print(" read once - " + dataSnapshot.value.toString());
+        setState(() {
+          final dynamic data = dataSnapshot.value;
+          if (data is Map<Object?, Object?>) {
+            final List<String> viviendas = [];
+            data.forEach((key, value) {
+              if (key is String) {
+                viviendas.add(key);
+              }
+            });
+            print(viviendas); // Esto imprimirá ["Vivienda 1", "Vivienda 2"]
+          }
+        });
+      }
+    });
   }
 
   _updatevalue_count() {

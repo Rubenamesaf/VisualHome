@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart'; //Importa la librería de autenticación de Firebase
+import 'package:hexcolor/hexcolor.dart';
 import 'package:login_v1/utils/global.colors.dart';
 import 'package:login_v1/view/homeUser.view.dart';
 import 'package:login_v1/view/homeAdmin.view.dart';
-//import 'package:login_v1/view/widgets/button.global.dart';
-//import 'package:login_v1/view/widgets/text.form.global.dart';
-//import 'package:login_v1/view/widgets/social.login.dart';
+import 'package:login_v1/view/widgets/button.global.dart';
+import 'package:login_v1/view/widgets/text.form.global.dart';
+import 'package:login_v1/view/widgets/social.login.dart';
 import 'package:logger/logger.dart';
 
 class LoginView extends StatelessWidget {
@@ -29,7 +30,7 @@ class LoginView extends StatelessWidget {
         if (userInstance.email == "admin@gmail.com") {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const HomeAdminPage()),
+            MaterialPageRoute(builder: (context) => HomeAdminPage()),
           );
         } else {
           Navigator.push(
@@ -59,10 +60,10 @@ class LoginView extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              GlobalColors.grayColor,
-              GlobalColors.naranjaClaritoColor,
-              GlobalColors.narajanOscuroColor,
-              GlobalColors.amarilloColor,
+              HexColor('#ADBACEC7'),
+              HexColor('#ED9A5E'),
+              HexColor('#F29757D'),
+              Color(0xD1FBE288),
             ],
             stops: const [0, 0, 1, 1],
             begin: const AlignmentDirectional(-0.34, 1),
@@ -95,7 +96,7 @@ class LoginView extends StatelessWidget {
                         child: const Text(
                           'VisualHome',
                           style: TextStyle(
-                            color: GlobalColors.logoazulColor,
+                            color: Color(0xFF0F1370),
                             fontSize: 35,
                             fontWeight: FontWeight.bold,
                           ),
@@ -131,28 +132,28 @@ class LoginView extends StatelessWidget {
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(
-                                      color: GlobalColors.amarilloColor,
+                                      color: Color(0xD1FBE288),
                                       width: 1,
                                     ),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: GlobalColors.blancoColor,
+                                      color: HexColor('#FFFFFF'),
                                       width: 1,
                                     ),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   errorBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: GlobalColors.blancoColor,
+                                      color: HexColor('#FFFFFF'),
                                       width: 1,
                                     ),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   focusedErrorBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: GlobalColors.moradoColor,
+                                      color: HexColor('#4B39EF'),
                                       width: 1,
                                     ),
                                     borderRadius: BorderRadius.circular(8),
@@ -162,13 +163,13 @@ class LoginView extends StatelessWidget {
                                       const Color.fromARGB(126, 103, 138, 207),
                                   prefixIcon: const Icon(
                                     Icons.email_outlined,
-                                    color: GlobalColors.logoazulColor,
+                                    color: Color(0xFF0F1370),
                                   ),
                                 ),
                                 style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.normal,
-                                    color: GlobalColors.textColor,
+                                    color: HexColor('#101470'),
                                     fontFamily: 'Outfit'),
                                 keyboardType: TextInputType.emailAddress,
                                 //validator: _model.emailTextControllerValidator
@@ -188,29 +189,29 @@ class LoginView extends StatelessWidget {
                                       color: Color(0x9AFFFFFF),
                                     ),
                                     enabledBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                        color: GlobalColors.amarilloColor,
+                                      borderSide: BorderSide(
+                                        color: Color(0xD1FBE288),
                                         width: 1,
                                       ),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                        color: GlobalColors.azulColor,
+                                      borderSide: BorderSide(
+                                        color: Color(0xFF678ACF),
                                         width: 1,
                                       ),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     errorBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                        color: GlobalColors.azulColor,
+                                      borderSide: BorderSide(
+                                        color: Color(0xFF678ACF),
                                         width: 1,
                                       ),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     focusedErrorBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                        color: GlobalColors.amarilloColor,
+                                      borderSide: BorderSide(
+                                        color: Color(0xD1FBE288),
                                         width: 1,
                                       ),
                                       borderRadius: BorderRadius.circular(8),
@@ -220,7 +221,7 @@ class LoginView extends StatelessWidget {
                                         126, 103, 138, 207),
                                     prefixIcon: const Icon(
                                       Icons.lock_outline,
-                                      color: GlobalColors.logoazulColor,
+                                      color: Color(0xFF0F1370),
                                     ),
                                     //    suffixIcon: InkWell(
                                     //      onTap: () => setState(
@@ -254,8 +255,7 @@ class LoginView extends StatelessWidget {
                                     padding:
                                         const EdgeInsetsDirectional.fromSTEB(
                                             65, 25, 65, 25),
-                                    backgroundColor:
-                                        GlobalColors.narajanOscuroColor,
+                                    backgroundColor: HexColor('#F29757DB'),
                                     //iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                     //    0, 0, 0, 0),
                                     // color: GlobalColors.negroColor,
@@ -275,7 +275,7 @@ class LoginView extends StatelessWidget {
                                     'Continuar',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      color: GlobalColors.logoazulColor,
+                                      color: Color(0xFF0F1370),
                                       fontSize: 22,
                                       fontFamily: 'Inria Sans',
                                       fontWeight: FontWeight.w700,

@@ -1,12 +1,46 @@
 import 'package:flutter/material.dart';
 //import 'package:flutter_svg/svg.dart';
 import 'package:login_v1/utils/global.colors.dart';
+import 'package:login_v1/view/viviendaEsecificaAdmin.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
 import 'package:login_v1/view/editHomeAdmin.dart';
 import 'package:get/get.dart';
 
-class HomeAdminPage extends StatelessWidget {
-  const HomeAdminPage({Key? key}) : super(key: key);
+import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
+
+class HomeAdminPage extends StatefulWidget {
+  @override
+  _HomeAdminPageState createState() => _HomeAdminPageState();
+}
+
+class _HomeAdminPageState extends State<HomeAdminPage> {
+  DatabaseReference _dbref = FirebaseDatabase.instance.reference();
+  List<String> viviendas = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _leerViviendas();
+  }
+
+  void _leerViviendas() {
+    _dbref.child("").once().then((DatabaseEvent event) {
+      final dataSnapshot = event.snapshot;
+      if (dataSnapshot.value != null) {
+        final dynamic data = dataSnapshot.value;
+        if (data is Map<Object?, Object?>) {
+          viviendas.clear();
+          data.forEach((key, value) {
+            if (key is String) {
+              viviendas.add(key);
+            }
+          });
+          setState(() {});
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,26 +85,19 @@ class HomeAdminPage extends StatelessWidget {
                 ),
               ),
             ),
+
             // Lista de Viviendas
             Positioned(
               left: 50,
-              top: 200, // Ajusta la posición según sea necesario
+              top: 180, // Ajusta la posición según sea necesario
               child: Container(
                 width: 285, // Ajusta el ancho de acuerdo a tu diseño
-                height: 300, // Ajusta la altura según sea necesario
-                child: ListView(
-                  children: <Widget>[
-                    _buildViviendaItem("Vivienda 1"),
-                    _buildViviendaItem("Vivienda 2"),
-                    _buildViviendaItem("Vivienda 3"),
-                    _buildViviendaItem("Vivienda 4"),
-                    _buildViviendaItem("Vivienda 5"),
-                    _buildViviendaItem("Vivienda 6"),
-                    _buildViviendaItem("Vivienda 7"),
-                    _buildViviendaItem("Vivienda 8"),
-                    _buildViviendaItem("Vivienda 9"),
-                    _buildViviendaItem("Vivienda 10"),
-                  ],
+                height: 350, // Ajusta la altura según sea necesario
+                child: ListView.builder(
+                  itemCount: viviendas.length,
+                  itemBuilder: (context, index) {
+                    return _buildViviendaItem(viviendas[index]);
+                  },
                 ),
               ),
             ),
@@ -95,7 +122,7 @@ class HomeAdminPage extends StatelessWidget {
               child: IconButton(
                 icon: const Icon(
                   Icons.add_circle_outline,
-                  color: GlobalColors.logoazulColor,
+                  color: Color(0xFF0F1370),
                 ),
                 iconSize: 50,
                 onPressed: () {
@@ -112,24 +139,37 @@ class HomeAdminPage extends StatelessWidget {
   }
 
   Widget _buildViviendaItem(String viviendaName) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: GlobalColors.naranjaClaritoColor, // Color de fondo azul
-        borderRadius: BorderRadius.circular(30), // Esquinas redondeadas
-      ),
-      child: Align(
-        alignment: Alignment.center,
-        child: Text(
-          viviendaName,
-          style: const TextStyle(
-            color: Color(0xFF0F1370), // Color del texto blanco
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+    return InkWell(
+      onTap: () {
+        // Navegar a la página deseada cuando se presione una vivienda
+        Get.to(() => ViviendaEspecificaAdmin(), arguments: viviendaName);
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 8.0),
+        padding: const EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: Color(0xbaf19756), // Color de fondo azul
+          borderRadius: BorderRadius.circular(30), // Esquinas redondeadas
+        ),
+        child: Align(
+          alignment: Alignment.center,
+          child: Text(
+            viviendaName,
+            style: const TextStyle(
+              color: Color(0xFF0F1370), // Color del texto blanco
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
     );
   }
+}
+
+class GlobalColors {
+  static const azulColor =
+      Color(0xFF0000FF); // Cambia este color según tus preferencias
+  static const naranjaClaritoColor =
+      Color(0xFFFFD700); // Cambia este color según tus preferencias
 }
