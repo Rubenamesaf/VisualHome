@@ -58,7 +58,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: GlobalColors.azulColor,
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: Center(
         child: Stack(
           children: [

@@ -109,7 +109,7 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF678ACF),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: Center(
         child: Stack(
           children: [

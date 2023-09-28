@@ -138,28 +138,16 @@ class AdminPrincipal extends StatelessWidget {
                         child: Container(
                           width: 35.16,
                           height: 39.01,
-                          child: SvgPicture.asset(
+                          /*child: SvgPicture.asset(
                             'assets/images/undraw_profile_pic.svg',
                             height: 40,
-                          ),
+                          ),*/
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-              /*Positioned(
-                left: 274,
-                top: 587,
-                child: Container(
-                  width: 39,
-                  height: 41,
-                  child: SvgPicture.asset(
-                    'assets/images/image15.svg',
-                    height: 40,
-                  ),
-                ),
-              ),*/
             ],
           ),
         ),

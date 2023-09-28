@@ -102,14 +102,14 @@ class LoginView extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              HexColor('#ADBACEC7'),
-              HexColor('#ED9A5E'),
-              HexColor('#F29757D'),
+              Color.fromARGB(248, 93, 95, 168),
+              HexColor('#ee8133'),
+              Color(0xF2FEC49A),
               Color(0xD1FBE288),
             ],
-            stops: const [0, 0, 1, 1],
-            begin: const AlignmentDirectional(-0.34, 1),
-            end: const AlignmentDirectional(0.34, -1),
+            stops: const [0.19, 0.25, 0.8, 0.9],
+            begin: const AlignmentDirectional(-1.0, 1.0),
+            end: const AlignmentDirectional(1.0, -1.0),
           ),
         ),
         child: Center(
