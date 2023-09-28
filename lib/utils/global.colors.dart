@@ -11,7 +11,7 @@ class GlobalColors {
   static HexColor naranjaFUERTE = HexColor('#ee8133');
   static HexColor naranjaColor = HexColor('#ED9A5E');
   static HexColor narajanOscuroColor =
-      HexColor('#F29757DB'); // esta wea es morada OJITO
+      HexColor('#ED9A5E'); // esta wea es morada OJITO***
   static const amarilloColor = Color(0xD1FBE288);
   static const naranjaClaritoColor = Color(0xF2FEC49A);
   static HexColor moradoColor = HexColor('#4B39EF');

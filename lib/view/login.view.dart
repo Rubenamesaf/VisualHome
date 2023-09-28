@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart'; //Importa la librería de autenticación de Firebase
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:login_v1/utils/global.colors.dart';
-import 'package:login_v1/view/homeUser.view.dart';
-import 'package:login_v1/view/homeAdmin.view.dart';
-import 'package:login_v1/view/widgets/button.global.dart';
-import 'package:login_v1/view/widgets/text.form.global.dart';
-import 'package:login_v1/view/widgets/social.login.dart';
 import 'package:logger/logger.dart';
+import 'widgets/admin_principal.dart';
+
+import 'homeAdmin.view.dart';
+import 'homeUser.view.dart';
 
 class LoginView extends StatelessWidget {
   LoginView({Key? key}) : super(key: key);
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final Logger _logger = Logger();
+  DatabaseReference _dbref = FirebaseDatabase.instance.reference();
 
   Future<void> _signInWithEmailAndPassword(BuildContext context) async {
     try {
@@ -21,41 +21,83 @@ class LoginView extends StatelessWidget {
         email: emailController.text,
         password: passwordController.text,
       );
-      _logger.i("que exito");
+      _logger.i("que éxito");
       // Obtener el usuario actualmente autenticado
       User? userInstance = FirebaseAuth.instance.currentUser;
 
       if (userInstance != null) {
-        //Verificar el rol del usuario y dirigirlo a la pantalla
-        if (userInstance.email == "admin@gmail.com") {
+        // Obtener la lista de administradores
+        final administradoresEmailList = await _getAdministradores();
+
+        // Validar si el correo pertenece a un administrador
+        if (administradoresEmailList.contains(emailController.text)) {
+          // El correo pertenece a un administrador
+          // Redirige a la pantalla de administrador
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => HomeAdminPage()),
+            MaterialPageRoute(
+              builder: (context) =>
+                  HomeAdminPage(userEmail: userInstance.email ?? ""),
+            ),
           );
         } else {
+          // El correo no es de un administrador, redirige a la pantalla de usuario
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const HomeUserPage()),
+            MaterialPageRoute(
+              builder: (context) =>
+                  HomeUserPage(userEmail: userInstance.email ?? ""),
+            ),
           );
         }
       }
-      // Aqui puedes manejar la navegacion a la siguiente pantalla despues del inicio de seccion exitoso.
+      // Aquí puedes manejar la navegación a la siguiente pantalla después del inicio de sesión exitoso.
     } catch (e) {
-      // Aqui puedes manejar los errores de inicio de seccion.
-      _logger.i("Un mensaje de información"); // i para información
-      //_logger.d("Un mensaje de depuración"); // d para depuración
-      _logger.e("Error en el inicio de sesión: $e"); // e para error
+      // Aquí puedes manejar los errores de inicio de sesión.
+      _logger.i("Un mensaje de información");
+      _logger.e("Error en el inicio de sesión: $e");
     }
   }
 
-  //DISEÑO
+  // Obtener la lista de administradores desde la base de datos
+  Future<List<String>> _getAdministradores() async {
+    try {
+      final DatabaseEvent event = await _dbref.child("Administradores").once();
+
+      if (event.snapshot != null) {
+        final Map<dynamic, dynamic>? data =
+            event.snapshot.value as Map<dynamic, dynamic>?;
+
+        final List<String> administradoresEmailList = [];
+
+        if (data != null) {
+          data.forEach((key, value) {
+            final email = value["Email"];
+            if (email != null) {
+              administradoresEmailList.add(email.toString());
+            }
+            print("Email encontrado: $email");
+          });
+        }
+
+        return administradoresEmailList;
+      }
+
+      // Si no hay datos disponibles, regresa una lista vacía
+      return [];
+    } catch (error) {
+      print("Error al obtener datos de Administradores: $error");
+      // Manejar errores aquí
+      return [];
+    }
+  }
+
+  // DISEÑO
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // key: scaffoldKey,
       backgroundColor: Colors.transparent,
-      //backgroundColor: GlobalColors.naranjaClaritoColor,
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -71,22 +113,17 @@ class LoginView extends StatelessWidget {
           ),
         ),
         child: Center(
-          //body: Form(
-          // key: _model.formKey,
-          // autovalidateMode: AutovalidateMode.always,
           child: SingleChildScrollView(
             child: Column(
-              // mainAxisSize: MainAxisSize.max,
               children: [
                 Row(
-                  // mainAxisSize: MainAxisSize.max,
                   children: [
                     Positioned(
                       top: 0,
                       left: 0,
                       right: 0,
                       child: Container(
-                        width: 392, //MediaQuery.sizeOf(context).width,
+                        width: 392,
                         height: 89.18,
                         decoration: BoxDecoration(
                           color: const Color(0xFFF19756),
@@ -120,8 +157,6 @@ class LoginView extends StatelessWidget {
                             children: [
                               TextFormField(
                                 controller: emailController,
-                                //textInputType: TextInputType.emailAddress,
-                                //controller: _model.emailTextController,
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   labelText: 'Email Address',
@@ -167,13 +202,12 @@ class LoginView extends StatelessWidget {
                                   ),
                                 ),
                                 style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal,
-                                    color: HexColor('#101470'),
-                                    fontFamily: 'Outfit'),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal,
+                                  color: HexColor('#101470'),
+                                  fontFamily: 'Outfit',
+                                ),
                                 keyboardType: TextInputType.emailAddress,
-                                //validator: _model.emailTextControllerValidator
-                                //    .asValidator(context),
                               ),
                               Padding(
                                 padding: const EdgeInsetsDirectional.fromSTEB(
@@ -223,25 +257,7 @@ class LoginView extends StatelessWidget {
                                       Icons.lock_outline,
                                       color: Color(0xFF0F1370),
                                     ),
-                                    //    suffixIcon: InkWell(
-                                    //      onTap: () => setState(
-                                    //       () => _model.passwordVisibility =
-                                    //            !_model.passwordVisibility,
-                                    //      ),
-                                    //      focusNode: FocusNode(skipTraversal: true),
-                                    //      child: Icon(
-                                    //        _model.passwordVisibility
-                                    //            ? Icons.visibility_outlined
-                                    //            : Icons.visibility_off_outlined,
-                                    //        color: const Color(0x80FFFFFF),
-                                    //        size: 22,
-                                    //      ),
-                                    //  ),
                                   ),
-
-                                  // validator: _model
-                                  //     .passwordTextControllerValidator
-                                  //     .asValidator(context),
                                 ),
                               ),
                               Padding(
@@ -256,20 +272,12 @@ class LoginView extends StatelessWidget {
                                         const EdgeInsetsDirectional.fromSTEB(
                                             65, 25, 65, 25),
                                     backgroundColor: HexColor('#F29757DB'),
-                                    //iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                    //    0, 0, 0, 0),
-                                    // color: GlobalColors.negroColor,
                                     textStyle: const TextStyle(
                                       fontFamily: 'Outfit',
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                     ),
                                     elevation: 3,
-                                    // borderSide: const BorderSide(
-                                    //   color: Colors.transparent,
-                                    //   width: 1,
-                                    //  ),
-                                    //  borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: const Text(
                                     'Continuar',
@@ -284,8 +292,6 @@ class LoginView extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              // DESCOMENTAR ESTO
-                              // const SocialLogin()
                             ],
                           ),
                         ),

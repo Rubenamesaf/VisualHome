@@ -1,18 +1,18 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-//import 'package:flutter/gestures.dart';
 import 'dart:ui';
-//import 'package:google_fonts/google_fonts.dart';
-//import 'package:login_v1/utils/global.colors.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:login_v1/historial_model.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
 import '../realtime_db.dart';
 
 class SistemaEspecificoAdmin extends StatefulWidget {
-  const SistemaEspecificoAdmin({Key? key}) : super(key: key);
+  final String userEmail;
+  SistemaEspecificoAdmin({required this.userEmail, Key? key}) : super(key: key);
+
   @override
   _SistemaEspecificoAdminState createState() => _SistemaEspecificoAdminState();
 }
@@ -28,6 +28,8 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
   String viviendaName = '';
   bool estado = false;
   int estadoBinario = 0;
+  DateTime? fechaInicio;
+  DateTime? fechaFin;
 
   @override
   void initState() {
@@ -45,30 +47,30 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
 
   getHistorialFromSheet() async {
     var url = Uri.parse(
-        "https://script.google.com/macros/s/AKfycbzVU6b_xI8GbFVsdIFoZzGgnVm5_7ifI6jl3RFnOEtMVQew-MEuj-1gLsv7K-VzSZhg/exec");
+        "https://script.google.com/macros/s/AKfycbxQtdC-1mo9kgNQcQrzVHeCkz5y9ar1CrUUTo7alEMVASVzGKhgqPIkEm8kB5ExQBmJ0w/exec");
 
     var raw = await http.get(url);
 
     var jsonRegistro = convert.jsonDecode(raw.body);
 
     jsonRegistro.forEach((elemento) {
-      // Verificar si el sistema es "Timbre"
-      if (elemento['sistema'] == sistema) {
-        HistorialModel historialModel = HistorialModel(
-          accion: elemento['accion'],
-          marcaTemporal: elemento['marca_temporal'],
-          sistema: elemento['sistema'],
-        );
+      if (elemento['vivienda'] == viviendaName) {
+        if (elemento['sistema'] == sistema) {
+          HistorialModel historialModel = HistorialModel(
+              accion: elemento['accion'],
+              marcaTemporal: elemento['marca_temporal'],
+              sistema: elemento['sistema'],
+              vivienda: elemento['vivienda']);
 
-        setState(() {
-          registros.add(historialModel);
-        });
+          setState(() {
+            registros.add(historialModel);
+          });
+        }
       }
     });
   }
 
   void toggleSwitch(bool value) {
-    // Implementa la funcionalidad del botón switch aquí
     setState(() {
       estado = value;
       if (estado == true) {
@@ -87,6 +89,23 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
     ffem = fem * 0.97;
   }
 
+  List<HistorialModel> filtrarRegistrosPorFecha() {
+    if (fechaInicio == null || fechaFin == null) {
+      return registros;
+    }
+
+    return registros.where((registro) {
+      // Formatea la cadena de fecha al formato esperado (ejemplo: "September 8, 2023 at 08:03PM")
+      String formattedDate =
+          registro.marcaTemporal.replaceAll(" at ", " "); // Elimina "at"
+      DateTime marcaTemporal =
+          DateFormat("MMMM d, yyyy h:mma").parse(formattedDate);
+
+      return marcaTemporal.isAfter(fechaInicio!) &&
+          marcaTemporal.isBefore(fechaFin!);
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,12 +113,12 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
       body: Center(
         child: Stack(
           children: [
-            AdminPrincipal(),
+            AdminPrincipal(administratorName: widget.userEmail),
             Positioned(
-              left: 134,
+              left: 110,
               top: 135,
               child: SizedBox(
-                width: 132,
+                width: 200,
                 height: 38,
                 child: Text(
                   '$viviendaName',
@@ -167,10 +186,6 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                             child: SizedBox(
                               width: 71 * fem,
                               height: 59 * fem,
-                              /*child: Image.asset(
-                                    'assets/page-1/images/image-12.png',
-                                    fit: BoxFit.cover,
-                                  ),*/
                             ),
                           ),
                         ),
@@ -180,23 +195,123 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                   Container(
                     margin: EdgeInsets.fromLTRB(
                         4 * fem, 0 * fem, 0 * fem, 20 * fem),
-                    padding: EdgeInsets.fromLTRB(
-                        60 * fem, 0 * fem, 0 * fem, 0 * fem),
+                    padding:
+                        EdgeInsets.fromLTRB(0 * fem, 5 * fem, 0 * fem, 0 * fem),
                     width: 329 * fem,
                     height: 330 * fem,
                     decoration: BoxDecoration(
                       color: Color(0xf2fec49a),
-                      borderRadius: BorderRadius.circular(75 * fem),
+                      borderRadius: BorderRadius.circular(0 * fem),
                     ),
-                    child: ListView.builder(
-                      itemCount: registros.length,
-                      itemBuilder: (context, index) {
-                        return Registro(
-                          marcaTemporal: registros[index].marcaTemporal,
-                          sistema: registros[index].sistema,
-                          accion: registros[index].accion,
-                        );
-                      },
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment
+                              .spaceAround, // Espacio entre los botones
+                          children: [
+                            Text(
+                              'Filtrar',
+                              style: TextStyle(
+                                fontFamily: 'Inria Sans',
+                                fontSize: 22 * ffem,
+                                fontWeight: FontWeight.w700,
+                                height: 0.8636363636 * ffem / fem,
+                                color: Color.fromARGB(255, 0, 0, 0),
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: () async {
+                                final selectedDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: fechaInicio ?? DateTime.now(),
+                                  firstDate: DateTime(2020),
+                                  lastDate: DateTime.now(),
+                                );
+                                if (selectedDate != null) {
+                                  setState(() {
+                                    fechaInicio = selectedDate;
+                                  });
+                                }
+                              },
+                              child: Text('Desde'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () async {
+                                final selectedDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: fechaFin ?? DateTime.now(),
+                                  firstDate: DateTime(2020),
+                                  lastDate: DateTime.now(),
+                                );
+                                if (selectedDate != null) {
+                                  setState(() {
+                                    fechaFin = selectedDate;
+                                  });
+                                }
+                              },
+                              child: Text('Hasta'),
+                            ),
+                          ],
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment
+                                .spaceAround, // Espacio entre los botones
+                            children: [
+                              Text(
+                                fechaInicio != null
+                                    ? 'Desde: ${DateFormat('dd/MM/yyyy').format(fechaInicio!)}'
+                                    : 'Desde: N/S',
+                                style: TextStyle(
+                                  fontFamily: 'Inria Sans',
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Text(
+                                fechaFin != null
+                                    ? 'Hasta: ${DateFormat('dd/MM/yyyy').format(fechaFin!)}'
+                                    : 'Hasta: N/S',
+                                style: TextStyle(
+                                  fontFamily: 'Inria Sans',
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ]),
+                        Positioned(
+                          left: 110,
+                          top: 200,
+                          child: Container(
+                            width: 325,
+                            decoration: const ShapeDecoration(
+                              color: Color.fromARGB(255, 0, 0, 0),
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                  width: 1.50,
+                                  strokeAlign: BorderSide.strokeAlignCenter,
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: filtrarRegistrosPorFecha().length,
+                            itemBuilder: (context, index) {
+                              final registrosFiltrados =
+                                  filtrarRegistrosPorFecha();
+                              return Registro(
+                                marcaTemporal:
+                                    registrosFiltrados[index].marcaTemporal,
+                                sistema: registrosFiltrados[index].sistema,
+                                accion: registrosFiltrados[index].accion,
+                                vivienda: registrosFiltrados[index].vivienda,
+                              );
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   Container(
@@ -222,14 +337,8 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
               ),
             ),
             Container(
-              // autogroupxqawTdR (WdexbrtJVE15SBV4C3xqaw)
               width: 393 * fem,
               height: 121 * fem,
-              /*child: Image.asset(
-                    'assets/page-1/images/auto-group-xqaw.png',
-                    width: 393 * fem,
-                    height: 121 * fem,
-                  ),*/
             ),
           ],
         ),
@@ -238,24 +347,16 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
   }
 }
 
-/*void main() {
-  runApp(MaterialApp(
-    home: SistemaEspecificoAdmin(),
-  ));
-}*/
-
 class Registro extends StatelessWidget {
-  final String marcaTemporal, sistema, accion;
+  final String marcaTemporal, sistema, accion, vivienda;
   Registro(
       {required this.marcaTemporal,
       required this.sistema,
-      required this.accion});
+      required this.accion,
+      required this.vivienda});
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(accion),
-      subtitle: Text("($marcaTemporal)"),
-    );
+    return ListTile(title: Text(accion), subtitle: Text("($marcaTemporal)"));
   }
 }

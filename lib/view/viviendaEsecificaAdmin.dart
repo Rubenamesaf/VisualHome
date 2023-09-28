@@ -9,6 +9,7 @@ import 'package:login_v1/historial_model%20copy.dart';
 import 'package:login_v1/models/vivienda_model.dart';
 import 'package:login_v1/utils/global.colors.dart';
 import 'package:login_v1/utils/botongenerico.dart';
+import 'package:login_v1/view/editarVivienda.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
 import 'package:login_v1/view/editHomeAdmin.dart';
 import 'package:login_v1/view/sistemaEspecificoAdmin.dart';
@@ -27,6 +28,9 @@ class Sistema {
 }
 
 class ViviendaEspecificaAdmin extends StatefulWidget {
+  final String userEmail;
+  ViviendaEspecificaAdmin({required this.userEmail, Key? key})
+      : super(key: key);
   @override
   _ViviendaEspecificaAdminState createState() =>
       _ViviendaEspecificaAdminState();
@@ -42,14 +46,14 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
   void initState() {
     super.initState();
     viviendaName = Get.arguments;
-    _readdb_onechild();
+    _setupDatabaseListener();
   }
 
-  _readdb_onechild() {
-    _dbref.child("$viviendaName").once().then((DatabaseEvent event) {
+  void _setupDatabaseListener() {
+    _dbref.child("$viviendaName").onValue.listen((event) {
       final dataSnapshot = event.snapshot;
       if (dataSnapshot.value != null) {
-        print(" read once - " + dataSnapshot.value.toString());
+        print("Datos actualizados - " + dataSnapshot.value.toString());
         setState(() {
           databasejson = dataSnapshot.value.toString();
 
@@ -76,13 +80,15 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
           }
         });
         print(sistemasList);
+        setState(() {});
       }
     });
   }
 
   RichText buildRichText(bool isActive) {
     final TextStyle defaultStyle = TextStyle(
-      color: Colors.black, // Color por defecto para sistemas inactivos
+      color: Color.fromARGB(
+          255, 255, 0, 0), // Color por defecto para sistemas inactivos
       fontWeight:
           FontWeight.normal, // Estilo por defecto para sistemas inactivos
     );
@@ -109,12 +115,12 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
       body: Center(
         child: Stack(
           children: [
-            AdminPrincipal(),
+            AdminPrincipal(administratorName: widget.userEmail),
             Positioned(
-              left: 134,
+              left: 110,
               top: 135,
               child: SizedBox(
-                width: 132,
+                width: 200,
                 height: 38,
                 child: Text(
                   '$viviendaName',
@@ -129,10 +135,10 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
               ),
             ),
             Positioned(
-              left: 128,
+              left: 110,
               top: 160,
               child: Container(
-                width: 134,
+                width: 170,
                 decoration: const ShapeDecoration(
                   color: GlobalColors.azulColor,
                   shape: RoundedRectangleBorder(
@@ -167,7 +173,9 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
                       subtitle: buildRichText(sistema.estado),
                       trailing: ElevatedButton(
                         onPressed: () {
-                          Get.to(() => SistemaEspecificoAdmin(),
+                          Get.to(
+                              () => SistemaEspecificoAdmin(
+                                  userEmail: widget.userEmail),
                               arguments: arguments);
                         },
                         child: Text('Editar'),
@@ -201,8 +209,13 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
                 ),
                 iconSize: 50,
                 onPressed: () {
+                  final arguments = {
+                    'viviendaName': viviendaName,
+                    'sistemasList': sistemasList
+                  };
                   print('IconButton pressed ...');
-                  Get.to(editHomeAdmin());
+                  Get.to(() => EditarVivienda(userEmail: widget.userEmail),
+                      arguments: arguments);
                 },
               ),
             ),

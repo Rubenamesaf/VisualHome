@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
-//import 'package:get/get.dart';
+import 'package:get/get.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:login_v1/utils/global.colors.dart';
-//import 'package:login_v1/view/homeAdmin.view.dart';
+import 'package:login_v1/view/homeAdmin.view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-//import 'package:login_v1/view/editHomeAdmin.dart';
+import 'package:login_v1/view/editHomeAdmin.dart';
 
 class AdminPrincipal extends StatelessWidget {
+  String administratorName;
+
+  AdminPrincipal({required this.administratorName, Key? key}) : super(key: key);
+
   // final List<Vivienda> viviendas;
   // final Function(String) agregarVivienda;
 
@@ -15,8 +20,8 @@ class AdminPrincipal extends StatelessWidget {
     return Column(
       children: [
         Container(
-          // width: 393,
-          height: 780,
+          //width: 392.7,
+          height: 759,
           clipBehavior: Clip.antiAlias,
           decoration:
               const BoxDecoration(color: Color.fromARGB(240, 252, 227, 210)),
@@ -31,7 +36,7 @@ class AdminPrincipal extends StatelessWidget {
                     width: 393,
                     height: 89.18,
                     decoration: BoxDecoration(
-                      color: GlobalColors.naranjaColor,
+                      color: HexColor('#ED9A5E'),
                       border: Border.all(width: 0.50),
                     ),
                   ),
@@ -46,7 +51,7 @@ class AdminPrincipal extends StatelessWidget {
                     width: 393,
                     height: 88,
                     decoration: BoxDecoration(
-                      color: GlobalColors.blancoColor,
+                      color: HexColor('#FFFFFF'),
                       border: Border.all(width: 0.05),
                     ),
                   ),
@@ -98,15 +103,14 @@ class AdminPrincipal extends StatelessWidget {
                   ),
                 ),
               ),
-              const Positioned(
+              Positioned(
                 left: 200,
                 top: 65,
                 child: SizedBox(
                   width: 170,
                   height: 500,
                   child: Text(
-                    // aqui hay que buscar le nombre la persona OJO
-                    'Karla',
+                    administratorName, // Utiliza el nombre del usuario aquí
                     textAlign: TextAlign.end,
                     style: TextStyle(
                       color: Color(0xFF0F1370),

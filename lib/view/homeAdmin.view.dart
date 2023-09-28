@@ -1,15 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter_svg/svg.dart';
-import 'package:login_v1/utils/global.colors.dart';
-import 'package:login_v1/view/viviendaEsecificaAdmin.dart';
-import 'package:login_v1/view/widgets/admin_principal.dart';
-import 'package:login_v1/view/editHomeAdmin.dart';
 import 'package:get/get.dart';
-
-import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'agregarVivienda.dart';
+import 'viviendaEsecificaAdmin.dart';
+import 'widgets/admin_principal.dart';
 
 class HomeAdminPage extends StatefulWidget {
+  final String userEmail;
+  HomeAdminPage({required this.userEmail, Key? key}) : super(key: key);
+
   @override
   _HomeAdminPageState createState() => _HomeAdminPageState();
 }
@@ -17,14 +17,32 @@ class HomeAdminPage extends StatefulWidget {
 class _HomeAdminPageState extends State<HomeAdminPage> {
   DatabaseReference _dbref = FirebaseDatabase.instance.reference();
   List<String> viviendas = [];
+  var cantidadViviendas;
+  String adminName = "";
 
+  @override
   @override
   void initState() {
     super.initState();
+
+    // Leer las viviendas de la base de datos
     _leerViviendas();
+
+    // Escuchar eventos de la base de datos
+    _dbref.onChildAdded.listen((event) {
+      // Un nuevo hijo (vivienda) se agregó a la base de datos.
+      // Actualiza la lista de viviendas y el estado.
+      final viviendaName = event.snapshot.key;
+
+      // Verificar si viviendaName no es nulo antes de agregarlo a la lista
+      if (viviendaName != null) {
+        viviendas.add(viviendaName);
+        setState(() {});
+      }
+    });
   }
 
-  void _leerViviendas() {
+  Future<void> _leerViviendas() async {
     _dbref.child("").once().then((DatabaseEvent event) {
       final dataSnapshot = event.snapshot;
       if (dataSnapshot.value != null) {
@@ -32,11 +50,25 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
         if (data is Map<Object?, Object?>) {
           viviendas.clear();
           data.forEach((key, value) {
-            if (key is String) {
+            if (key is String && key != "Administradores") {
               viviendas.add(key);
             }
-          });
+            if (key == "Administradores") {
+              /*// Buscar el administrador con el email del usuario
+              Admin? admin = await getAdminByEmail(widget.userEmail);
+
+              // Si el administrador existe, actualizar el estado
+              if (admin != null) {
+                setState(() {
+                  // Guardar el nombre del administrador
+                  adminName = admin.nombre;
+                });*/
+            }
+          }
+              // }
+              );
           setState(() {});
+          cantidadViviendas = viviendas.length;
         }
       }
     });
@@ -49,7 +81,7 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
       body: Center(
         child: Stack(
           children: [
-            AdminPrincipal(),
+            AdminPrincipal(administratorName: widget.userEmail),
             const Positioned(
               left: 134,
               top: 135,
@@ -127,7 +159,8 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
                 iconSize: 50,
                 onPressed: () {
                   print('IconButton pressed ...');
-                  Get.to(editHomeAdmin());
+                  Get.to(() => AgregarVivienda(userEmail: widget.userEmail),
+                      arguments: cantidadViviendas);
                 },
               ),
             ),
@@ -141,8 +174,12 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
   Widget _buildViviendaItem(String viviendaName) {
     return InkWell(
       onTap: () {
-        // Navegar a la página deseada cuando se presione una vivienda
-        Get.to(() => ViviendaEspecificaAdmin(), arguments: viviendaName);
+        if (viviendaName != null) {
+          Get.to(
+            () => ViviendaEspecificaAdmin(userEmail: widget.userEmail),
+            arguments: viviendaName,
+          );
+        }
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 8.0),

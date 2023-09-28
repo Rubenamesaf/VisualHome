@@ -19,7 +19,8 @@ class editHomeAdmin extends StatelessWidget {
       body: Center(
         child: Stack(
           children: [
-            AdminPrincipal(),
+            AdminPrincipal(administratorName: "Nombre del Administrador"),
+
             const Positioned(
               left: 50,
               top: 135,
