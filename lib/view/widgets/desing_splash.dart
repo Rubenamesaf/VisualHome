@@ -66,7 +66,7 @@ class DesingSplashContainer extends StatelessWidget {
                         ),
                       ),
                       child: const Text(
-                        'Iniciar Sección',
+                        'Iniciar Sesión',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color(0xFF0F1370),
