@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'widgets/admin_principal.dart';
@@ -8,8 +9,19 @@ import 'widgets/admin_principal.dart';
 import 'homeAdmin.view.dart';
 import 'homeUser.view.dart';
 
-class LoginView extends StatelessWidget {
+class LoginView extends StatefulWidget {
   LoginView({Key? key}) : super(key: key);
+
+  // DISEÑO
+
+  @override
+  _LoginViewState createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool showPassword = false; // este es para que la clave se oculte
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final Logger _logger = Logger();
@@ -92,216 +104,295 @@ class LoginView extends StatelessWidget {
     }
   }
 
-  // DISEÑO
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(248, 93, 95, 168),
-              HexColor('#ee8133'),
-              Color(0xF2FEC49A),
-              Color(0xD1FBE288),
-            ],
-            stops: const [0.19, 0.25, 0.8, 0.9],
-            begin: const AlignmentDirectional(-1.0, 1.0),
-            end: const AlignmentDirectional(1.0, -1.0),
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          flexibleSpace: Container(
+            width: double.infinity,
+            height: 89.18,
+            decoration: BoxDecoration(
+              color: const Color(0xFFF19756),
+              border: Border.all(width: 0.50),
+            ),
+            alignment: Alignment.center,
+            child: const Text(
+              'VisualHome',
+              style: TextStyle(
+                color: Color(0xFF0F1370),
+                fontSize: 35,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Positioned(
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        width: 392,
-                        height: 89.18,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF19756),
-                          border: Border.all(width: 0.50),
-                        ),
-                        alignment: Alignment.center,
-                        child: const Text(
-                          'VisualHome',
-                          style: TextStyle(
-                            color: Color(0xFF0F1370),
-                            fontSize: 35,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0, 45, 0, 0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
+        body: Stack(
+          children: [
+            BackgroundContainer(),
+            Center(
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
                     children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              24, 0, 45, 0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              TextFormField(
-                                controller: emailController,
-                                obscureText: false,
-                                decoration: InputDecoration(
-                                  labelText: 'Email Address',
-                                  hintText: 'Your email...',
-                                  hintStyle: const TextStyle(
-                                    fontFamily: 'Outfit',
-                                    color: Color(0x9AFFFFFF),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color(0xD1FBE288),
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: HexColor('#FFFFFF'),
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: HexColor('#FFFFFF'),
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: HexColor('#4B39EF'),
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  filled: true,
-                                  fillColor:
-                                      const Color.fromARGB(126, 103, 138, 207),
-                                  prefixIcon: const Icon(
-                                    Icons.email_outlined,
-                                    color: Color(0xFF0F1370),
-                                  ),
-                                ),
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.normal,
-                                  color: HexColor('#101470'),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Column(
+                          children: [
+                            //inicio pega
+                            TextFormField(
+                              controller: emailController,
+                              obscureText: false,
+                              decoration: InputDecoration(
+                                labelText: 'Correo Electronico',
+                                labelStyle: const TextStyle(
+                                    fontSize: 15,
+                                    color: Color.fromARGB(181, 0, 0, 255)),
+                                hintText: 'Tu correo...',
+                                hintStyle: const TextStyle(
                                   fontFamily: 'Outfit',
+                                  color: Color(0x9AFFFFFF),
                                 ),
-                                keyboardType: TextInputType.emailAddress,
-                              ),
-                              Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0, 20, 0, 0),
-                                child: TextFormField(
-                                  controller: passwordController,
-                                  obscureText: true,
-                                  decoration: InputDecoration(
-                                    labelText: 'Password',
-                                    hintText: 'Enter your password here...',
-                                    hintStyle: const TextStyle(
-                                      fontFamily: 'Outfit',
-                                      color: Color(0x9AFFFFFF),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0xD1FBE288),
-                                        width: 1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0xFF678ACF),
-                                        width: 1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0xFF678ACF),
-                                        width: 1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0xD1FBE288),
-                                        width: 1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    filled: true,
-                                    fillColor: const Color.fromARGB(
-                                        126, 103, 138, 207),
-                                    prefixIcon: const Icon(
-                                      Icons.lock_outline,
-                                      color: Color(0xFF0F1370),
-                                    ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Color(0xD1FBE288),
+                                    width: 1,
                                   ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: HexColor('#FFFFFF'),
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: HexColor('#FFFFFF'),
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: HexColor('#4B39EF'),
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                filled: true,
+                                fillColor:
+                                    const Color.fromARGB(126, 103, 138, 207),
+                                prefixIcon: const Icon(
+                                  Icons.email_outlined,
+                                  color: Color(0xFF0F1370),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0, 250, 0, 0),
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    await _signInWithEmailAndPassword(context);
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal,
+                                color: HexColor('#101470'),
+                                fontFamily: 'Outfit',
+                              ),
+                              keyboardType: TextInputType.emailAddress,
+                              //validacion
+                              validator: (Value) {
+                                bool emailValid = RegExp(
+                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                    .hasMatch(Value!);
+
+                                if (Value.isEmpty) {
+                                  return "Ingrese su Correo Electrónico";
+                                } else if (!emailValid) {
+                                  return "Ingrese un correo de electrónico valido";
+                                }
+                                return null;
+                              },
+                              // fin validacion
+                            ),
+                            //pegado
+                            const SizedBox(height: 30),
+                            TextFormField(
+                              controller: passwordController,
+                              obscureText: !showPassword, // true,
+                              decoration: InputDecoration(
+                                // el beta de la clave oculta
+                                suffix: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      showPassword = !showPassword;
+                                    });
                                   },
-                                  style: ElevatedButton.styleFrom(
-                                    padding:
-                                        const EdgeInsetsDirectional.fromSTEB(
-                                            65, 25, 65, 25),
-                                    backgroundColor: HexColor('#F29757DB'),
-                                    textStyle: const TextStyle(
-                                      fontFamily: 'Outfit',
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    elevation: 3,
+                                  child: Icon(showPassword
+                                      ? Icons.visibility
+                                      : Icons.visibility_off),
+                                ),
+                                //fin del beta
+                                labelText: 'Contraseña',
+                                labelStyle: const TextStyle(
+                                    fontSize: 15,
+                                    color: Color.fromARGB(181, 0, 0, 255)),
+                                hintText: 'Ingrese su Contraseña aqui...',
+                                hintStyle: const TextStyle(
+                                  fontFamily: 'Outfit',
+                                  color: Color(0x9AFFFFFF),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Color(0xD1FBE288),
+                                    width: 1,
                                   ),
-                                  child: const Text(
-                                    'Continuar',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Color(0xFF0F1370),
-                                      fontSize: 22,
-                                      fontFamily: 'Inria Sans',
-                                      fontWeight: FontWeight.w700,
-                                      height: 0.86,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Color(0xFF678ACF),
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Color(0xFF678ACF),
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Color(0xD1FBE288),
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                filled: true,
+                                fillColor:
+                                    const Color.fromARGB(126, 103, 138, 207),
+                                prefixIcon: const Icon(
+                                  Icons.lock_outline,
+                                  color: Color(0xFF0F1370),
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "Ingrese la contraseña";
+                                } else if (passwordController.text.length < 6) {
+                                  return "La contraseña debe ser mayor a 6 ";
+                                }
+                              },
+                            ),
+                            const SizedBox(height: 180),
+                            ElevatedButton(
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  // La validación del formulario pasó, continúa con el inicio de sesión
+                                  setState(() {
+                                    print("Proceso de carga");
+                                  });
+                                  try {
+                                    await _signInWithEmailAndPassword(context);
+                                    emailController
+                                        .clear(); //OJO YO CREO QUE ESTO NI EL PASSWORD HACEN FALTA
+                                    passwordController.clear();
+                                  } catch (e) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content:
+                                            Text("Error inicio de sesion: $e"),
+                                      ),
+                                    );
+                                  }
+                                }
+                              },
+                              style: ButtonStyle(
+                                minimumSize: MaterialStateProperty.all(
+                                    const Size(325, 72)),
+                                padding: MaterialStateProperty.all(
+                                    const EdgeInsetsDirectional.fromSTEB(
+                                        24, 0, 24, 0)),
+                                backgroundColor: MaterialStateProperty.all(
+                                    const Color.fromARGB(255, 235, 133, 55)
+                                    // Color(0xFFF19756),
                                     ),
+                                textStyle:
+                                    MaterialStateProperty.all(const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                )),
+                                elevation: MaterialStateProperty.all(3),
+                                shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18),
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
+                              child: const Text(
+                                'Iniciar Sesión',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color(0xFF0F1370),
+                                  fontSize: 20,
+                                  fontFamily: 'Inria Sans',
+                                  fontWeight: FontWeight.w700,
+                                  height: 0.95,
+                                ),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  "Aun no tienes Cuenta?",
+                                  style: TextStyle(
+                                    fontFamily: 'Outfit',
+                                    color: Color.fromARGB(249, 0, 0, 0),
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                TextButton(
+                                    onPressed: () {},
+                                    child: const Text(
+                                      "Registrate",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Color(0xFF0F1370),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )),
+                              ],
+                            )
+                          ],
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
+                ), //aqui se agrega el form
+              ),
             ),
-          ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class BackgroundContainer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Color.fromARGB(160, 103, 138, 207),
+            Color.fromARGB(230, 238, 154, 94),
+            Color.fromARGB(238, 228, 119, 41),
+            Color(0xD1FBE288),
+          ],
+          stops: [0.19, 0.25, 0.8, 0.9],
+          begin: AlignmentDirectional(-1.0, 1.0),
+          end: AlignmentDirectional(1.0, -1.0),
         ),
       ),
     );

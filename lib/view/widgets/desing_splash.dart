@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login_v1/utils/global.colors.dart';
+import 'package:hexcolor/hexcolor.dart';
 //import 'package:google_fonts/google_fonts.dart';
 //import 'package:provider/provider.dart';
 //import 'dart:async';
@@ -24,15 +25,14 @@ class DesingSplashContainer extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    GlobalColors.grayColor,
-                    GlobalColors.naranjaClaritoColor,
-                    GlobalColors.narajanOscuroColor,
-                    //Color(0xFFF29757),
-                    GlobalColors.amarilloColor
+                    Color.fromARGB(160, 103, 138, 207),
+                    HexColor('#ee8133'),
+                    Color.fromARGB(240, 230, 154, 100),
+                    Color(0xD1FBE288),
                   ],
-                  stops: const [0, 0, 1, 1],
-                  begin: const AlignmentDirectional(-0.34, 1),
-                  end: const AlignmentDirectional(0.34, -1),
+                  stops: const [0.19, 0.25, 0.8, 0.9],
+                  begin: const AlignmentDirectional(-1.0, 1.0),
+                  end: const AlignmentDirectional(1.0, -1.0),
                 ),
                 borderRadius: BorderRadius.circular(0),
                 shape: BoxShape.rectangle,
