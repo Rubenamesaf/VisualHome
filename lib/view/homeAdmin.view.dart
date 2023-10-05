@@ -7,6 +7,7 @@ import 'agregarVivienda.dart';
 import 'viviendaEsecificaAdmin.dart';
 import 'widgets/admin_principal.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:login_v1/utils/global.colors.dart';
 
 class HomeAdminPage extends StatefulWidget {
   final String userEmail;
@@ -78,13 +79,6 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle customTextStyle = const TextStyle(
-      color: Color(0xFF0F1370),
-      fontSize: 15,
-      fontFamily: 'Inria Sans',
-      fontWeight: FontWeight.w500,
-      height: 0.95,
-    );
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: const Color.fromARGB(219, 233, 100, 6),

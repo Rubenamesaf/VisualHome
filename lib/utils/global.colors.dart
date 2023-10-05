@@ -18,3 +18,11 @@ class GlobalColors {
   static const azulColor = Color(0xFF678ACF);
   static const logoazulColor = Color(0xFF0F1370);
 }
+
+const TextStyle customTextStyle = TextStyle(
+  color: Color(0xFF0F1370),
+  fontSize: 15,
+  fontFamily: 'Inria Sans',
+  fontWeight: FontWeight.w500,
+  height: 0.95,
+);
