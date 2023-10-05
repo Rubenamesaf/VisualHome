@@ -1,7 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'dart:convert' as convert;
+//import 'package:firebase_database/firebase_database.dart';
+//import 'dart:convert' as convert;
 //import 'package:login_v1/viviendas_model.dart';
 
 class realtime_db extends StatefulWidget {

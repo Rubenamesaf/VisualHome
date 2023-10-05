@@ -48,6 +48,7 @@ dependencies:
   provider: ^6.0.5
   flutter_animate: 4.1.1+1
   awesome_dialog: ^3.1.0
+  curved_navigation_bar: ^1.0.3
   flutter_cache_manager: 3.3.0
   font_awesome_flutter: 10.1.0
   flutter_svg: 

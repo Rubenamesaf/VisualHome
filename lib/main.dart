@@ -1,15 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:login_v1/realtime_db.dart';
-import 'package:login_v1/view/agregarVivienda.dart';
+//import 'package:login_v1/realtime_db.dart';
+//import 'package:login_v1/view/agregarVivienda.dart';
 import 'package:login_v1/view/homeAdmin.view.dart';
-import 'package:login_v1/view/login.view.dart';
+//import 'package:login_v1/view/login.view.dart';
 //import 'package:login_v1/view/homeUser.view.dart';
 //import 'package:login_v1/view/sistemaEspecificoAdmin.dart';
 import 'package:login_v1/view/splash.view.dart';
-import 'package:login_v1/view/viviendaEsecificaAdmin.dart';
-import 'package:login_v1/view/widgets/admin_principal.dart';
+//import 'package:login_v1/view/viviendaEsecificaAdmin.dart';
+//import 'package:login_v1/view/widgets/admin_principal.dart';
 //import 'package:login_v1/view/widgets/admin_principal.dart';
 
 void main() async {
@@ -31,7 +31,8 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        home: SplashView() // se pone esto -- SplashView(),
+        home: HomeAdminPage(
+            userEmail: "admin@gmail.com") // se pone esto -- SplashView(),
         );
   }
 }

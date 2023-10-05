@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+//import 'package:get/get.dart';
+//import 'package:get/get_core/src/get_main.dart';
 import 'package:login_v1/utils/global.colors.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
 import 'dart:math';

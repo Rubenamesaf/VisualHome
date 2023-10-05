@@ -1,10 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:login_v1/view/splash.view.dart';
 import 'agregarVivienda.dart';
 import 'viviendaEsecificaAdmin.dart';
 import 'widgets/admin_principal.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 class HomeAdminPage extends StatefulWidget {
   final String userEmail;
@@ -76,8 +78,69 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
 
   @override
   Widget build(BuildContext context) {
+    final TextStyle customTextStyle = const TextStyle(
+      color: Color(0xFF0F1370),
+      fontSize: 15,
+      fontFamily: 'Inria Sans',
+      fontWeight: FontWeight.w500,
+      height: 0.95,
+    );
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      bottomNavigationBar: CurvedNavigationBar(
+        backgroundColor: const Color.fromARGB(219, 233, 100, 6),
+        color: const Color.fromARGB(255, 252, 176, 122),
+        animationDuration: const Duration(milliseconds: 300),
+        items: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.add_home_work, color: Color(0xFF0F1370)),
+              Text(
+                'Agregar Vivienda',
+                style: customTextStyle,
+              ),
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.account_circle_sharp, color: Color(0xFF0F1370)),
+              Text(
+                'Perfil',
+                style: customTextStyle,
+              ),
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.logout, color: Color(0xFF0F1370)),
+              Text(
+                'Cerrar Sesión',
+                style: customTextStyle,
+              ),
+            ],
+          ),
+        ],
+        onTap: (index) {
+          if (index == 0) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) =>
+                    AgregarVivienda(userEmail: widget.userEmail),
+              ),
+            );
+          }
+          if (index == 2) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const SplashView(),
+              ),
+            );
+          }
+        },
+      ),
+      backgroundColor: const Color.fromARGB(240, 252, 227, 210),
       body: Center(
         child: Stack(
           children: [
@@ -124,7 +187,7 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
               top: 180, // Ajusta la posición según sea necesario
               child: Container(
                 width: 285, // Ajusta el ancho de acuerdo a tu diseño
-                height: 350, // Ajusta la altura según sea necesario
+                height: 470, // Ajusta la altura según sea necesario
                 child: ListView.builder(
                   itemCount: viviendas.length,
                   itemBuilder: (context, index) {
@@ -133,38 +196,6 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
                 ),
               ),
             ),
-            // TEXTO AGREGAR VIVIENDA
-            const Positioned(
-              left: 50,
-              top: 600,
-              child: Text(
-                'AGREGAR VIVIENDA',
-                style: TextStyle(
-                  color: Color(0xFF0F1370),
-                  fontSize: 22,
-                  fontFamily: 'Inria Sans',
-                  fontWeight: FontWeight.w700,
-                  height: 0.86,
-                ),
-              ),
-            ),
-            Positioned(
-              left: 274,
-              top: 570,
-              child: IconButton(
-                icon: const Icon(
-                  Icons.add_circle_outline,
-                  color: Color(0xFF0F1370),
-                ),
-                iconSize: 50,
-                onPressed: () {
-                  print('IconButton pressed ...');
-                  Get.to(() => AgregarVivienda(userEmail: widget.userEmail),
-                      arguments: cantidadViviendas);
-                },
-              ),
-            ),
-            // FIN TEXTO AGREGAR VIVIENDA
           ],
         ),
       ),
@@ -185,7 +216,7 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
         margin: const EdgeInsets.symmetric(vertical: 8.0),
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          color: Color(0xbaf19756), // Color de fondo azul
+          color: const Color(0xbaf19756), // Color de fondo azul
           borderRadius: BorderRadius.circular(30), // Esquinas redondeadas
         ),
         child: Align(

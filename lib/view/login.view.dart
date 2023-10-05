@@ -403,10 +403,10 @@ class BackgroundContainer extends StatelessWidget {
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Color.fromARGB(160, 103, 138, 207),
-            Color.fromARGB(230, 238, 154, 94),
-            Color.fromARGB(238, 228, 119, 41),
-            Color(0xD1FBE288),
+            Color.fromARGB(159, 124, 153, 211),
+            Color.fromARGB(230, 231, 177, 138),
+            Color.fromARGB(235, 233, 126, 49),
+            Color.fromARGB(209, 248, 220, 117),
           ],
           stops: [0.19, 0.25, 0.8, 0.9],
           begin: AlignmentDirectional(-1.0, 1.0),
