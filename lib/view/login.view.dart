@@ -1,10 +1,13 @@
+//import 'dart:html';
+
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:get/get.dart';
+//import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
-import 'widgets/admin_principal.dart';
+//import 'widgets/admin_principal.dart';
 
 import 'homeAdmin.view.dart';
 import 'homeUser.view.dart';
@@ -21,6 +24,8 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool showPassword = false; // este es para que la clave se oculte
+  bool signInSuccess =
+      false; // variable para rastrear el exito del inicio de sesion
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -63,11 +68,18 @@ class _LoginViewState extends State<LoginView> {
           );
         }
       }
+      // si el inicio de sesion es exitoso
+      setState(() {
+        signInSuccess = true;
+      });
       // Aquí puedes manejar la navegación a la siguiente pantalla después del inicio de sesión exitoso.
     } catch (e) {
       // Aquí puedes manejar los errores de inicio de sesión.
       _logger.i("Un mensaje de información");
       _logger.e("Error en el inicio de sesión: $e");
+      setState(() {
+        signInSuccess = false;
+      });
     }
   }
 
@@ -141,6 +153,7 @@ class _LoginViewState extends State<LoginView> {
                         child: Column(
                           children: [
                             //inicio pega
+                            const SizedBox(height: 60),
                             TextFormField(
                               controller: emailController,
                               obscureText: false,
@@ -213,7 +226,7 @@ class _LoginViewState extends State<LoginView> {
                               // fin validacion
                             ),
                             //pegado
-                            const SizedBox(height: 30),
+                            const SizedBox(height: 40),
                             TextFormField(
                               controller: passwordController,
                               obscureText: !showPassword, // true,
@@ -287,22 +300,25 @@ class _LoginViewState extends State<LoginView> {
                             ElevatedButton(
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
-                                  // La validación del formulario pasó, continúa con el inicio de sesión
-                                  setState(() {
-                                    print("Proceso de carga");
-                                  });
-                                  try {
-                                    await _signInWithEmailAndPassword(context);
+                                  await _signInWithEmailAndPassword(context);
+
+                                  if (!signInSuccess) {
+                                    // Si la autenticación no es válida, muestra el AwesomeDialog de advertencia
+                                    AwesomeDialog(
+                                      context: context,
+                                      dialogType: DialogType.error,
+                                      animType: AnimType.topSlide,
+                                      showCloseIcon: true,
+                                      title: "Error",
+                                      desc:
+                                          "Credenciales de inicio de sesión inválidas.",
+                                      btnCancelOnPress: () {},
+                                      btnOkOnPress: () {},
+                                    ).show();
+                                  } else {
                                     emailController
                                         .clear(); //OJO YO CREO QUE ESTO NI EL PASSWORD HACEN FALTA
                                     passwordController.clear();
-                                  } catch (e) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content:
-                                            Text("Error inicio de sesion: $e"),
-                                      ),
-                                    );
                                   }
                                 }
                               },
@@ -352,7 +368,9 @@ class _LoginViewState extends State<LoginView> {
                                   ),
                                 ),
                                 TextButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      showWarningDialog(context);
+                                    },
                                     child: const Text(
                                       "Registrate",
                                       style: TextStyle(
@@ -397,4 +415,17 @@ class BackgroundContainer extends StatelessWidget {
       ),
     );
   }
+}
+
+void showWarningDialog(BuildContext context) {
+  AwesomeDialog(
+    context: context,
+    dialogType: DialogType.warning,
+    animType: AnimType.topSlide,
+    showCloseIcon: true,
+    title: "Advertencia",
+    desc: "Solo los administradores pueden registrar cuentas",
+    btnCancelOnPress: () {},
+    btnOkOnPress: () {},
+  ).show();
 }
