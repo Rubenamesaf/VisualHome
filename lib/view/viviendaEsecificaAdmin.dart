@@ -20,13 +20,6 @@ import 'package:login_v1/view/editHomeAdmin.dart';
 import 'package:login_v1/view/sistemaEspecificoAdmin.dart';
 import 'dart:convert'; // Importar la librería para decodificar JSON
 
-class Sistema {
-  final String nombre;
-  final bool estado;
-
-  Sistema(this.nombre, this.estado);
-}
-
 class ViviendaEspecificaAdmin extends StatefulWidget {
   final String userEmail;
   ViviendaEspecificaAdmin({required this.userEmail, Key? key})
@@ -185,38 +178,38 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
                 ),
               ),
             ),
-            const Positioned(
-              left: 50,
-              top: 600,
-              child: Text(
-                'EDITAR VIVIENDA',
-                style: TextStyle(
-                  color: Color(0xFF0F1370),
-                  fontSize: 22,
-                  fontFamily: 'Inria Sans',
-                  fontWeight: FontWeight.w700,
-                  height: 0.86,
-                ),
-              ),
-            ),
             Positioned(
-              left: 274,
-              top: 570,
-              child: IconButton(
-                icon: const Icon(
-                  Icons.add_circle_outline,
-                  color: Color(0xFF0F1370),
-                ),
-                iconSize: 50,
+              left: 90,
+              top: 585,
+              child: ElevatedButton.icon(
                 onPressed: () {
                   final arguments = {
                     'viviendaName': viviendaName,
-                    'sistemasList': sistemasList
+                    'sistemasList': sistemasList,
                   };
-                  print('IconButton pressed ...');
+                  print('Botón presionado ...');
                   Get.to(() => EditarVivienda(userEmail: widget.userEmail),
                       arguments: arguments);
                 },
+                style: ElevatedButton.styleFrom(
+                  primary: Color.fromARGB(255, 18, 145, 24), // Fondo azul
+                  onPrimary: Colors.white, // Texto en blanco
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                icon: Icon(
+                  Icons.add_circle_outline,
+                  color: Colors.white, // Icono en blanco
+                ),
+                label: Text(
+                  'EDITAR VIVIENDA',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'Inria Sans',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
           ],

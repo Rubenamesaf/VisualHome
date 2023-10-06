@@ -134,34 +134,34 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
               ),
             ),
             // TEXTO AGREGAR VIVIENDA
-            const Positioned(
-              left: 50,
-              top: 600,
-              child: Text(
-                'AGREGAR VIVIENDA',
-                style: TextStyle(
-                  color: Color(0xFF0F1370),
-                  fontSize: 22,
-                  fontFamily: 'Inria Sans',
-                  fontWeight: FontWeight.w700,
-                  height: 0.86,
-                ),
-              ),
-            ),
             Positioned(
-              left: 274,
-              top: 570,
-              child: IconButton(
-                icon: const Icon(
-                  Icons.add_circle_outline,
-                  color: Color(0xFF0F1370),
-                ),
-                iconSize: 50,
+              left: 80,
+              top: 585,
+              child: ElevatedButton.icon(
                 onPressed: () {
-                  print('IconButton pressed ...');
+                  print('Botón presionado ...');
                   Get.to(() => AgregarVivienda(userEmail: widget.userEmail),
                       arguments: cantidadViviendas);
                 },
+                style: ElevatedButton.styleFrom(
+                  primary: Color.fromARGB(255, 18, 145, 24), // Fondo azul
+                  onPrimary: Colors.white, // Texto en blanco
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                icon: Icon(
+                  Icons.add_circle_outline,
+                  color: Colors.white, // Icono en blanco
+                ),
+                label: Text(
+                  'AGREGAR VIVIENDA',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'Inria Sans',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
             // FIN TEXTO AGREGAR VIVIENDA
