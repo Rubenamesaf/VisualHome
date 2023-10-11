@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+//import 'package:get/get.dart';
 import 'package:login_v1/utils/global.colors.dart';
-import 'package:login_v1/view/sistemaEspecificoAdmin.dart';
+//import 'package:login_v1/view/sistemaEspecificoAdmin.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
-import 'package:login_v1/models/vivienda_model.dart';
+//import 'package:login_v1/models/vivienda_model.dart';
 
 class editHomeAdmin extends StatelessWidget {
   editHomeAdmin({Key? key}) : super(key: key);

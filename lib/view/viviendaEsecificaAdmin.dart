@@ -1,26 +1,26 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
+//import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'dart:ui';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:login_v1/historial_model%20copy.dart';
-import 'package:login_v1/models/vivienda_model.dart';
+//import 'package:get/get_core/src/get_main.dart';
+//import 'dart:ui';
+//import 'package:google_fonts/google_fonts.dart';
+//import 'package:login_v1/historial_model%20copy.dart';
+//import 'package:login_v1/models/vivienda_model.dart';
 import 'package:login_v1/utils/global.colors.dart';
-import 'package:login_v1/utils/botongenerico.dart';
+//import 'package:login_v1/utils/botongenerico.dart';
 import 'package:login_v1/view/editarVivienda.dart';
 import 'package:login_v1/view/splash.view.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
-import 'package:login_v1/view/editHomeAdmin.dart';
+//import 'package:login_v1/view/editHomeAdmin.dart';
 import 'package:login_v1/view/sistemaEspecificoAdmin.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:login_v1/view/editHomeAdmin.dart';
-import 'package:login_v1/view/sistemaEspecificoAdmin.dart';
-import 'dart:convert'; // Importar la librería para decodificar JSON
+//import 'package:firebase_database/firebase_database.dart';
+//import 'package:flutter/material.dart';
+//import 'package:get/get.dart';
+//import 'package:login_v1/view/editHomeAdmin.dart';
+//import 'package:login_v1/view/sistemaEspecificoAdmin.dart';
+//import 'dart:convert'; // Importar la librería para decodificar JSON
 
 class ViviendaEspecificaAdmin extends StatefulWidget {
   final String userEmail;

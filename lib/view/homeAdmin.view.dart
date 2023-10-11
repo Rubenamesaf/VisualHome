@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -198,29 +198,10 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
               top: 585,
               child: ElevatedButton.icon(
                 onPressed: () {
-                  print('Botón presionado ...');
+                  print('IconButton pressed ...');
                   Get.to(() => AgregarVivienda(userEmail: widget.userEmail),
                       arguments: cantidadViviendas);
                 },
-                style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 18, 145, 24), // Fondo azul
-                  onPrimary: Colors.white, // Texto en blanco
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                ),
-                icon: Icon(
-                  Icons.add_circle_outline,
-                  color: Colors.white, // Icono en blanco
-                ),
-                label: Text(
-                  'AGREGAR VIVIENDA',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'Inria Sans',
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
               ),
             ),*/
             // FIN TEXTO AGREGAR VIVIENDA
@@ -244,7 +225,7 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
         margin: const EdgeInsets.symmetric(vertical: 8.0),
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          color: Color(0xbaf19756), // Color de fondo azul
+          color: const Color(0xbaf19756), // Color de fondo azul
           borderRadius: BorderRadius.circular(30), // Esquinas redondeadas
         ),
         child: Align(

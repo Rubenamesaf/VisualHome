@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+//import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:login_v1/utils/global.colors.dart';
-import 'package:login_v1/view/homeAdmin.view.dart';
+//import 'package:login_v1/utils/global.colors.dart';
+//import 'package:login_v1/view/homeAdmin.view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:login_v1/view/editHomeAdmin.dart';
+//import 'package:login_v1/view/editHomeAdmin.dart';
 
 class AdminPrincipal extends StatelessWidget {
   String administratorName;
@@ -48,7 +49,7 @@ class AdminPrincipal extends StatelessWidget {
                     width: 393,
                     height: 88,
                     decoration: BoxDecoration(
-                      color: HexColor('#FFFFFF'),
+                      color: Colors.amber, //HexColor('#FFFFFF'),
                       border: Border.all(width: 0.05),
                     ),
                   ),
@@ -148,8 +149,9 @@ class AdminPrincipal extends StatelessWidget {
               ),*/
             ],
           ),
-        ),
+        )
       ],
     );
+    // cambio loco
   }
 }

@@ -10,8 +10,8 @@ import 'package:login_v1/view/sistemaEspecificoAdmin.dart';
 //import 'package:login_v1/view/homeUser.view.dart';
 //import 'package:login_v1/view/sistemaEspecificoAdmin.dart';
 import 'package:login_v1/view/splash.view.dart';
-import 'package:login_v1/view/viviendaEsecificaAdmin.dart';
-import 'package:login_v1/view/widgets/admin_principal.dart';
+//import 'package:login_v1/view/viviendaEsecificaAdmin.dart';
+//import 'package:login_v1/view/widgets/admin_principal.dart';
 //import 'package:login_v1/view/widgets/admin_principal.dart';
 
 void main() async {
