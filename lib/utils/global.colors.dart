@@ -11,10 +11,18 @@ class GlobalColors {
   static HexColor naranjaFUERTE = HexColor('#ee8133');
   static HexColor naranjaColor = HexColor('#ED9A5E');
   static HexColor narajanOscuroColor =
-      HexColor('#ED9A5E'); // esta wea es morada OJITO***
+      HexColor('#ED9A5E'); // esta wea era morada OJITO***
   static const amarilloColor = Color(0xD1FBE288);
   static const naranjaClaritoColor = Color(0xF2FEC49A);
   static HexColor moradoColor = HexColor('#4B39EF');
   static const azulColor = Color(0xFF678ACF);
   static const logoazulColor = Color(0xFF0F1370);
 }
+
+const TextStyle customTextStyle = TextStyle(
+  color: Color(0xFF0F1370),
+  fontSize: 15,
+  fontFamily: 'Inria Sans',
+  fontWeight: FontWeight.w500,
+  height: 0.95,
+);

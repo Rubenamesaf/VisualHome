@@ -1,3 +1,4 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
@@ -10,6 +11,7 @@ import 'package:login_v1/models/vivienda_model.dart';
 import 'package:login_v1/utils/global.colors.dart';
 import 'package:login_v1/utils/botongenerico.dart';
 import 'package:login_v1/view/editarVivienda.dart';
+import 'package:login_v1/view/splash.view.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
 import 'package:login_v1/view/editHomeAdmin.dart';
 import 'package:login_v1/view/sistemaEspecificoAdmin.dart';
@@ -73,7 +75,6 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
           }
         });
         print(sistemasList);
-        setState(() {});
       }
     });
   }
@@ -104,6 +105,63 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: CurvedNavigationBar(
+        backgroundColor: const Color.fromARGB(219, 233, 100, 6),
+        color: const Color.fromARGB(255, 252, 176, 122),
+        animationDuration: const Duration(milliseconds: 300),
+        index: 1,
+        items: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.add_home_work, color: Color(0xFF0F1370)),
+              Text(
+                'Agregar Vivienda',
+                style: customTextStyle,
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.account_circle_sharp, color: Color(0xFF0F1370)),
+              Text(
+                'Perfil',
+                style: customTextStyle,
+              ),
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.logout, color: Color(0xFF0F1370)),
+              Text(
+                'Cerrar Sesión',
+                style: customTextStyle,
+              ),
+            ],
+          ),
+        ],
+        onTap: (index) {
+          if (index == 0) {
+            final arguments = {
+              'viviendaName': viviendaName,
+              'sistemasList': sistemasList,
+            };
+            print('Botón presionado ...');
+            Get.to(() => EditarVivienda(userEmail: widget.userEmail),
+                arguments: arguments);
+          }
+          if (index == 2) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const SplashView(),
+              ),
+            );
+          }
+        },
+      ),
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: Center(
         child: Stack(

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
@@ -6,9 +5,6 @@ import 'package:login_v1/utils/global.colors.dart';
 import 'package:login_v1/view/viviendaEsecificaAdmin.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
 import 'dart:math';
-
-//["BotonPanico","Perimetro","TelefonoFijo","RuidoAlto","DisparoAlarma"
-//,"Incendio","Despertador","ActivacionAlarma","Acceso","Timbre"]
 
 class Sistema {
   final String nombre;
@@ -65,7 +61,6 @@ class _EditarViviendaState extends State<EditarVivienda> {
     sistemasList = Get.arguments['sistemasList'];
     _setupDatabaseListener();
 
-    // Initialize sistemasSeleccionados here
     sistemasSeleccionados =
         sistemasList.map((sistema) => sistema.nombre).toList();
 
@@ -81,15 +76,11 @@ class _EditarViviendaState extends State<EditarVivienda> {
     _dbref.child("$viviendaName").onValue.listen((event) {
       final dynamic data = event.snapshot.value;
 
-      // Verificar si los datos son nulos o no existen
       if (data == null) {
         return;
       }
 
-      // Acceder a los valores directamente
-      // Verificar si el widget está montado antes de llamar a setState
       if (mounted) {
-        // Acceder a los valores directamente
         setState(() {
           nombre = data['Usuario']['Nombre'];
           email = data['Usuario']['Email'];
@@ -104,8 +95,6 @@ class _EditarViviendaState extends State<EditarVivienda> {
       }
     });
   }
-
-  var contador;
 
   @override
   Widget build(BuildContext context) {
@@ -150,270 +139,7 @@ class _EditarViviendaState extends State<EditarVivienda> {
                     ),
                   ),
                 ),
-                Positioned(
-                  left: 10,
-                  right: 10,
-                  top: 200,
-                  child: Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        TextFormField(
-                          controller: nombreController,
-                          obscureText: false,
-                          decoration: InputDecoration(
-                            labelText: nombre,
-                            hintText: nombre,
-                            hintStyle: TextStyle(
-                              fontFamily: 'Outfit',
-                              color: Color(0x9AFFFFFF),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: GlobalColors.amarilloColor,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: GlobalColors.blancoColor,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: GlobalColors.blancoColor,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: GlobalColors.moradoColor,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            filled: true,
-                            fillColor: Color.fromARGB(126, 103, 138, 207),
-                            prefixIcon: Icon(
-                              Icons.abc,
-                              color: GlobalColors.logoazulColor,
-                            ),
-                          ),
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
-                            color: GlobalColors.textColor,
-                            fontFamily: 'Outfit',
-                          ),
-                          keyboardType: TextInputType.name,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 10,
-                  right: 10,
-                  top: 270,
-                  child: Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        TextFormField(
-                          controller: emailController,
-                          obscureText: false,
-                          decoration: InputDecoration(
-                            labelText: email,
-                            hintText: email,
-                            hintStyle: TextStyle(
-                              fontFamily: 'Outfit',
-                              color: Color(0x9AFFFFFF),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: GlobalColors.amarilloColor,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: GlobalColors.blancoColor,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: GlobalColors.blancoColor,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: GlobalColors.moradoColor,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            filled: true,
-                            fillColor: Color.fromARGB(126, 103, 138, 207),
-                            prefixIcon: Icon(
-                              Icons.email_outlined,
-                              color: GlobalColors.logoazulColor,
-                            ),
-                          ),
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
-                            color: GlobalColors.textColor,
-                            fontFamily: 'Outfit',
-                          ),
-                          keyboardType: TextInputType.emailAddress,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 10,
-                  right: 10,
-                  top: 340,
-                  child: Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        TextFormField(
-                          controller: passwordController,
-                          obscureText: false,
-                          decoration: InputDecoration(
-                            labelText: clave.toString(),
-                            hintText: clave.toString(),
-                            hintStyle: TextStyle(
-                              fontFamily: 'Outfit',
-                              color: Color(0x9AFFFFFF),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: GlobalColors.amarilloColor,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: GlobalColors.blancoColor,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: GlobalColors.blancoColor,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: GlobalColors.moradoColor,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            filled: true,
-                            fillColor: Color.fromARGB(126, 103, 138, 207),
-                            prefixIcon: Icon(
-                              Icons.password,
-                              color: GlobalColors.logoazulColor,
-                            ),
-                          ),
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
-                            color: GlobalColors.textColor,
-                            fontFamily: 'Outfit',
-                          ),
-                          keyboardType: TextInputType.visiblePassword,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 10,
-                  right: 10,
-                  top: 410,
-                  child: Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        TextFormField(
-                          controller: direccionController,
-                          obscureText: false,
-                          decoration: InputDecoration(
-                            labelText: direccion,
-                            hintText: direccion,
-                            hintStyle: TextStyle(
-                              fontFamily: 'Outfit',
-                              color: Color(0x9AFFFFFF),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: GlobalColors.amarilloColor,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: GlobalColors.blancoColor,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: GlobalColors.blancoColor,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: GlobalColors.moradoColor,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            filled: true,
-                            fillColor: Color(0x7D678ACF),
-                            prefixIcon: Icon(
-                              Icons.home,
-                              color: Color(0xFF0F1370),
-                            ),
-                          ),
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
-                            color: GlobalColors.textColor,
-                            fontFamily: 'Outfit',
-                          ),
-                          keyboardType: TextInputType.streetAddress,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                _buildTextFormFields(),
                 Positioned(
                   left: 40,
                   top: 595,
@@ -426,7 +152,6 @@ class _EditarViviendaState extends State<EditarVivienda> {
                   width: 310,
                   child: _crearBotonGuardar(),
                 ),
-                // Botón "Agregar Sistemas"
                 Positioned(
                   left: 40,
                   top: 490,
@@ -443,6 +168,64 @@ class _EditarViviendaState extends State<EditarVivienda> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildTextFormFields() {
+    return Positioned(
+      left: 10,
+      right: 10,
+      top: 200,
+      child: Padding(
+        padding: const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            _buildTextFormField(
+              controller: nombreController,
+              labelText: nombre.isNotEmpty ? nombre : 'Nombre',
+              keyboardType: TextInputType.name,
+            ),
+            _buildTextFormField(
+              controller: emailController,
+              labelText: email.isNotEmpty ? email : 'Email',
+              keyboardType: TextInputType.emailAddress,
+            ),
+            _buildTextFormField(
+              controller: passwordController,
+              labelText: clave.toString().isNotEmpty ? clave : 'Clave',
+              keyboardType: TextInputType.visiblePassword,
+            ),
+            _buildTextFormField(
+              controller: direccionController,
+              labelText: direccion.isNotEmpty ? direccion : 'Direccion',
+              keyboardType: TextInputType.streetAddress,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextFormField({
+    required TextEditingController controller,
+    required String labelText,
+    required TextInputType keyboardType,
+  }) {
+    return TextFormField(
+      controller: controller,
+      obscureText: false,
+      decoration: InputDecoration(
+        labelText: labelText,
+        hintText: labelText,
+      ),
+      style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.normal,
+        color: GlobalColors.textColor,
+        fontFamily: 'Outfit',
+      ),
+      keyboardType: keyboardType,
     );
   }
 
@@ -507,27 +290,27 @@ class _EditarViviendaState extends State<EditarVivienda> {
   }
 
   Future<void> _mostrarDialogoSistemas(BuildContext context) async {
-    // Crear una instancia del widget de diálogo de sistemas
+    // Verificar si el widget está montado antes de mostrar el diálogo
+    if (mounted) {
+      // Crear una instancia del widget de diálogo de sistemas
+      sistemasDialog = sistemasDialog;
 
-    // Mostrar el diálogo y obtener los sistemas seleccionados
-    sistemasSeleccionados = await showDialog<List<String>>(
-          context: context,
-          builder: (BuildContext context) {
-            final sistemasDialog = _SistemasDialog(
-              sistemas: sistemas,
-              sistemasSeleccionados: sistemasSeleccionados,
-            );
-            return sistemasDialog;
-          },
-        ) ??
-        [];
+      // Mostrar el diálogo y obtener los sistemas seleccionados
+      sistemasSeleccionados = await showDialog<List<String>>(
+            context: context,
+            builder: (BuildContext context) {
+              return sistemasDialog;
+            },
+          ) ??
+          [];
 
-    // Aquí puedes utilizar sistemasSeleccionados como lo necesites
-    if (sistemasSeleccionados != null) {
-      setState(() {
-        this.sistemasSeleccionados = sistemasSeleccionados;
-      });
-      print('Sistemas seleccionados: $sistemasSeleccionados');
+      // Aquí puedes utilizar sistemasSeleccionados como lo necesites
+      if (sistemasSeleccionados != null) {
+        setState(() {
+          this.sistemasSeleccionados = sistemasSeleccionados;
+        });
+        print('Sistemas seleccionados: $sistemasSeleccionados');
+      }
     }
   }
 

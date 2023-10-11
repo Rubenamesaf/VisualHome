@@ -1,3 +1,4 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
@@ -58,6 +59,51 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: CurvedNavigationBar(
+        backgroundColor: const Color.fromARGB(219, 233, 100, 6),
+        color: const Color.fromARGB(255, 252, 176, 122),
+        animationDuration: const Duration(milliseconds: 300),
+        items: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.account_circle_sharp, color: Color(0xFF0F1370)),
+              Text(
+                'Perfil',
+                style: customTextStyle,
+              ),
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.logout, color: Color(0xFF0F1370)),
+              Text(
+                'Cerrar Sesión',
+                style: customTextStyle,
+              ),
+            ],
+          ),
+        ],
+        /*
+        onTap: (index) {
+          if (index == 0) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const SplashView(),
+              ),
+            );
+          }
+          if (index == 2) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const SplashView(),
+              ),
+            );
+          }
+        },
+        */
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(

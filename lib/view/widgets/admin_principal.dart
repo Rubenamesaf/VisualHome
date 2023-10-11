@@ -11,17 +11,13 @@ class AdminPrincipal extends StatelessWidget {
 
   AdminPrincipal({required this.administratorName, Key? key}) : super(key: key);
 
-  // final List<Vivienda> viviendas;
-  // final Function(String) agregarVivienda;
-
-  // const AdminPrincipal(this.viviendas, this.agregarVivienda);
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
           //width: 392.7,
-          height: 759,
+          height: 708,
           clipBehavior: Clip.antiAlias,
           decoration:
               const BoxDecoration(color: Color.fromARGB(240, 252, 227, 210)),
@@ -42,7 +38,8 @@ class AdminPrincipal extends StatelessWidget {
                   ),
                 ),
               ),
-              Positioned(
+              //FoNDO BLANCO DE LA PAGINA  CAMBIO 1
+              /*Positioned(
                 left: 0,
                 top: 698,
                 child: Opacity(
@@ -56,7 +53,7 @@ class AdminPrincipal extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
+              ),*/
               const Positioned(
                 left: 24,
                 top: 46,
@@ -76,8 +73,9 @@ class AdminPrincipal extends StatelessWidget {
                   ),
                 ),
               ),
+              // CIRCULO NARANJA DE ABAJO C. 2
               // aqui va VIVIENDAS
-              Positioned(
+              /*Positioned(
                 left: 152,
                 top: 655,
                 child: Container(
@@ -88,8 +86,8 @@ class AdminPrincipal extends StatelessWidget {
                     shape: OvalBorder(),
                   ),
                 ),
-              ),
-              Positioned(
+              ),*/
+              /*Positioned(
                 left: 172,
                 top: 676,
                 child: Container(
@@ -102,7 +100,7 @@ class AdminPrincipal extends StatelessWidget {
                     height: 40,
                   ),
                 ),
-              ),
+              ),*/
               Positioned(
                 left: 200,
                 top: 65,
@@ -122,7 +120,7 @@ class AdminPrincipal extends StatelessWidget {
                   ),
                 ),
               ),
-              Positioned(
+              /*Positioned(
                 left: 331,
                 top: 4,
                 child: Container(
@@ -147,7 +145,7 @@ class AdminPrincipal extends StatelessWidget {
                     ],
                   ),
                 ),
-              ),
+              ),*/
             ],
           ),
         ),
