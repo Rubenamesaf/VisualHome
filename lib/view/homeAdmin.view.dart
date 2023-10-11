@@ -1,13 +1,14 @@
 //import 'package:firebase_auth/firebase_auth.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:login_v1/view/splash.view.dart';
+
 import '../utils/global.colors.dart';
 import 'agregarVivienda.dart';
 import 'viviendaEsecificaAdmin.dart';
 import 'widgets/admin_principal.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 class HomeAdminPage extends StatefulWidget {
   final String userEmail;
@@ -122,8 +123,7 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
           if (index == 0) {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) =>
-                    AgregarVivienda(userEmail: widget.userEmail),
+                builder: (context) => AgregarVivienda(userEmail: widget.userEmail),
               ),
             );
           }
@@ -245,8 +245,6 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
 }
 
 class GlobalColors {
-  static const azulColor =
-      Color(0xFF0000FF); // Cambia este color según tus preferencias
-  static const naranjaClaritoColor =
-      Color(0xFFFFD700); // Cambia este color según tus preferencias
+  static const azulColor = Color(0xFF0000FF); // Cambia este color según tus preferencias
+  static const naranjaClaritoColor = Color(0xFFFFD700); // Cambia este color según tus preferencias
 }
