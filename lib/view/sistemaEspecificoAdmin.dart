@@ -1,13 +1,11 @@
+import 'dart:convert' as convert;
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:ui';
-import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:login_v1/historial_model.dart';
-import 'package:login_v1/view/widgets/admin_principal.dart';
-import '../realtime_db.dart';
 
 class SistemaEspecificoAdmin extends StatefulWidget {
   final String userEmail;
@@ -34,8 +32,7 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
   @override
   void initState() {
     super.initState();
-    final Map<String, dynamic>? arguments =
-        Get.arguments as Map<String, dynamic>?;
+    final Map<String, dynamic>? arguments = Get.arguments as Map<String, dynamic>?;
     if (arguments != null) {
       viviendaName = arguments['viviendaName'];
       sistema = arguments['sistemaName'];
@@ -105,19 +102,14 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
 
   List<HistorialModel> filtrarRegistrosPorFechaYSistema() {
     if (fechaInicio == null || fechaFin == null) {
-      return registros
-          .where((registro) =>
-              registro.sistema == sistema && registro.vivienda == viviendaName)
-          .toList();
+      return registros.where((registro) => registro.sistema == sistema && registro.vivienda == viviendaName).toList();
       print(registros);
     }
 
     return registros.where((registro) {
       // Formatea la cadena de fecha al formato esperado (ejemplo: "September 8, 2023 at 08:03PM")
-      String formattedDate =
-          registro.marcaTemporal.replaceAll(" at ", " "); // Elimina "at"
-      DateTime marcaTemporal =
-          DateFormat("MMMM d, yyyy h:mma").parse(formattedDate);
+      String formattedDate = registro.marcaTemporal.replaceAll(" at ", " "); // Elimina "at"
+      DateTime marcaTemporal = DateFormat("MMMM d, yyyy h:mma").parse(formattedDate);
 
       return marcaTemporal.isAfter(fechaInicio!) &&
           marcaTemporal.isBefore(fechaFin!) &&
@@ -136,30 +128,43 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
         home: Scaffold(
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
           body: Center(
-            child: Stack(
+            child: Column(
               children: [
-                AdminPrincipal(administratorName: widget.userEmail),
-                Positioned(
-                  left: 110,
-                  top: 135,
-                  child: SizedBox(
-                    width: 200,
-                    height: 38,
-                    child: Text(
-                      '$viviendaName',
-                      style: TextStyle(
-                        color: Color(0xFF0F1370),
-                        fontSize: 25,
-                        fontFamily: 'Inria Sans',
-                        fontWeight: FontWeight.w700,
-                        height: 0.76,
-                      ),
+                //AdminPrincipal(administratorName: widget.userEmail),
+                SizedBox(
+                  width: 200,
+                  height: 38,
+                  child: Text(
+                    '$viviendaName',
+                    style: TextStyle(
+                      color: Color(0xFF0F1370),
+                      fontSize: 25,
+                      fontFamily: 'Inria Sans',
+                      fontWeight: FontWeight.w700,
+                      height: 0.76,
                     ),
                   ),
                 ),
+                // Positioned(
+                //   left: 110,
+                //   top: 135,
+                //   child: SizedBox(
+                //     width: 200,
+                //     height: 38,
+                //     child: Text(
+                //       '$viviendaName',
+                //       style: TextStyle(
+                //         color: Color(0xFF0F1370),
+                //         fontSize: 25,
+                //         fontFamily: 'Inria Sans',
+                //         fontWeight: FontWeight.w700,
+                //         height: 0.76,
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 Container(
-                  padding: EdgeInsets.fromLTRB(
-                      29 * fem, 43.82 * fem, 31 * fem, 104 * fem),
+                  padding: EdgeInsets.fromLTRB(29 * fem, 43.82 * fem, 31 * fem, 104 * fem),
                   width: double.infinity,
                   child: Stack(
                     children: [
@@ -167,65 +172,99 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            margin: EdgeInsets.fromLTRB(
-                                0 * fem, 0 * fem, 0 * fem, 19 * fem),
+                            margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 19 * fem),
                             width: double.infinity,
                             height: 200 * fem,
-                            child: Stack(
+                            child: Column(
                               children: [
-                                Positioned(
-                                  left: 0 * fem,
-                                  top: 135 * fem,
-                                  child: Container(
-                                    padding: EdgeInsets.fromLTRB(29.71 * fem,
-                                        20.71 * fem, 29.71 * fem, 18.29 * fem),
-                                    width: 333 * fem,
-                                    height: 58 * fem,
-                                    decoration: BoxDecoration(
-                                      color: Color(0xe5adbace),
-                                      borderRadius:
-                                          BorderRadius.circular(100 * fem),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          '$sistema',
-                                          style: TextStyle(
-                                            fontFamily: 'Inria Sans',
-                                            fontSize: 22 * ffem,
-                                            fontWeight: FontWeight.w700,
-                                            height: 0.8636363636 * ffem / fem,
-                                            color: Color(0xff0f1370),
-                                          ),
+                                Container(
+                                  padding: EdgeInsets.fromLTRB(29.71 * fem, 20.71 * fem, 29.71 * fem, 18.29 * fem),
+                                  width: 333 * fem,
+                                  height: 58 * fem,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xe5adbace),
+                                    borderRadius: BorderRadius.circular(100 * fem),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        '$sistema',
+                                        style: TextStyle(
+                                          fontFamily: 'Inria Sans',
+                                          fontSize: 22 * ffem,
+                                          fontWeight: FontWeight.w700,
+                                          height: 0.8636363636 * ffem / fem,
+                                          color: Color(0xff0f1370),
                                         ),
-                                        Switch(
-                                          value: estado,
-                                          onChanged: toggleSwitch,
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                      Switch(
+                                        value: estado,
+                                        onChanged: toggleSwitch,
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                Positioned(
-                                  left: 248 * fem,
-                                  top: 2 * fem,
-                                  child: Align(
-                                    child: SizedBox(
-                                      width: 71 * fem,
-                                      height: 59 * fem,
-                                    ),
+
+                                // Positioned(
+                                //   left: 0 * fem,
+                                //   top: 135 * fem,
+                                //   child: Container(
+                                //     padding: EdgeInsets.fromLTRB(29.71 * fem,
+                                //         20.71 * fem, 29.71 * fem, 18.29 * fem),
+                                //     width: 333 * fem,
+                                //     height: 58 * fem,
+                                //     decoration: BoxDecoration(
+                                //       color: Color(0xe5adbace),
+                                //       borderRadius:
+                                //           BorderRadius.circular(100 * fem),
+                                //     ),
+                                //     child: Row(
+                                //       mainAxisAlignment:
+                                //           MainAxisAlignment.spaceBetween,
+                                //       children: [
+                                //         Text(
+                                //           '$sistema',
+                                //           style: TextStyle(
+                                //             fontFamily: 'Inria Sans',
+                                //             fontSize: 22 * ffem,
+                                //             fontWeight: FontWeight.w700,
+                                //             height: 0.8636363636 * ffem / fem,
+                                //             color: Color(0xff0f1370),
+                                //           ),
+                                //         ),
+                                //         Switch(
+                                //           value: estado,
+                                //           onChanged: toggleSwitch,
+                                //         ),
+                                //       ],
+                                //     ),
+                                //   ),
+                                // ),
+
+                                Align(
+                                  child: SizedBox(
+                                    width: 71 * fem,
+                                    height: 59 * fem,
                                   ),
                                 ),
+
+                                // Positioned(
+                                //   left: 248 * fem,
+                                //   top: 2 * fem,
+                                //   child: Align(
+                                //     child: SizedBox(
+                                //       width: 71 * fem,
+                                //       height: 59 * fem,
+                                //     ),
+                                //   ),
+                                // ),
                               ],
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.fromLTRB(
-                                4 * fem, 0 * fem, 0 * fem, 20 * fem),
-                            padding: EdgeInsets.fromLTRB(
-                                0 * fem, 5 * fem, 0 * fem, 0 * fem),
+                            margin: EdgeInsets.fromLTRB(4 * fem, 0 * fem, 0 * fem, 20 * fem),
+                            padding: EdgeInsets.fromLTRB(0 * fem, 5 * fem, 0 * fem, 0 * fem),
                             width: 329 * fem,
                             height: 330 * fem,
                             decoration: BoxDecoration(
@@ -235,8 +274,7 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                             child: Column(
                               children: [
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [
                                     Text(
                                       'Filtrar',
@@ -250,11 +288,9 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                                     ),
                                     ElevatedButton(
                                       onPressed: () async {
-                                        final selectedDate =
-                                            await showDatePicker(
+                                        final selectedDate = await showDatePicker(
                                           context: context,
-                                          initialDate:
-                                              fechaInicio ?? DateTime.now(),
+                                          initialDate: fechaInicio ?? DateTime.now(),
                                           firstDate: DateTime(2020),
                                           lastDate: DateTime.now(),
                                         );
@@ -268,11 +304,9 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                                     ),
                                     ElevatedButton(
                                       onPressed: () async {
-                                        final selectedDate =
-                                            await showDatePicker(
+                                        final selectedDate = await showDatePicker(
                                           context: context,
-                                          initialDate:
-                                              fechaFin ?? DateTime.now(),
+                                          initialDate: fechaFin ?? DateTime.now(),
                                           firstDate: DateTime(2020),
                                           lastDate: DateTime.now(),
                                         );
@@ -286,66 +320,69 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                                     ),
                                   ],
                                 ),
-                                Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Text(
-                                        fechaInicio != null
-                                            ? 'Desde: ${DateFormat('dd/MM/yyyy').format(fechaInicio!)}'
-                                            : 'Desde: N/S',
-                                        style: TextStyle(
-                                          fontFamily: 'Inria Sans',
-                                          fontSize: 16,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      Text(
-                                        fechaFin != null
-                                            ? 'Hasta: ${DateFormat('dd/MM/yyyy').format(fechaFin!)}'
-                                            : 'Hasta: N/S',
-                                        style: TextStyle(
-                                          fontFamily: 'Inria Sans',
-                                          fontSize: 16,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ]),
-                                Positioned(
-                                  left: 110,
-                                  top: 200,
-                                  child: Container(
-                                    width: 325,
-                                    decoration: const ShapeDecoration(
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                      shape: RoundedRectangleBorder(
-                                        side: BorderSide(
-                                          width: 1.50,
-                                          strokeAlign:
-                                              BorderSide.strokeAlignCenter,
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                        ),
+                                Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                                  Text(
+                                    fechaInicio != null
+                                        ? 'Desde: ${DateFormat('dd/MM/yyyy').format(fechaInicio!)}'
+                                        : 'Desde: N/S',
+                                    style: TextStyle(
+                                      fontFamily: 'Inria Sans',
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  Text(
+                                    fechaFin != null
+                                        ? 'Hasta: ${DateFormat('dd/MM/yyyy').format(fechaFin!)}'
+                                        : 'Hasta: N/S',
+                                    style: TextStyle(
+                                      fontFamily: 'Inria Sans',
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ]),
+                                Container(
+                                  width: 325,
+                                  decoration: const ShapeDecoration(
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                        width: 1.50,
+                                        strokeAlign: BorderSide.strokeAlignCenter,
+                                        color: Color.fromARGB(255, 0, 0, 0),
                                       ),
                                     ),
                                   ),
                                 ),
+                                // Positioned(
+                                //   left: 110,
+                                //   top: 200,
+                                //   child: Container(
+                                //     width: 325,
+                                //     decoration: const ShapeDecoration(
+                                //       color: Color.fromARGB(255, 0, 0, 0),
+                                //       shape: RoundedRectangleBorder(
+                                //         side: BorderSide(
+                                //           width: 1.50,
+                                //           strokeAlign:
+                                //               BorderSide.strokeAlignCenter,
+                                //           color: Color.fromARGB(255, 0, 0, 0),
+                                //         ),
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
                                 Expanded(
                                   child: ListView.builder(
-                                    itemCount:
-                                        filtrarRegistrosPorFechaYSistema()
-                                            .length,
+                                    itemCount: filtrarRegistrosPorFechaYSistema().length,
                                     itemBuilder: (context, index) {
-                                      final registrosFiltrados =
-                                          filtrarRegistrosPorFechaYSistema();
+                                      final registrosFiltrados = filtrarRegistrosPorFechaYSistema();
                                       return Registro(
-                                        marcaTemporal: registrosFiltrados[index]
-                                            .marcaTemporal,
-                                        sistema:
-                                            registrosFiltrados[index].sistema,
-                                        accion:
-                                            registrosFiltrados[index].accion,
-                                        vivienda:
-                                            registrosFiltrados[index].vivienda,
+                                        marcaTemporal: registrosFiltrados[index].marcaTemporal,
+                                        sistema: registrosFiltrados[index].sistema,
+                                        accion: registrosFiltrados[index].accion,
+                                        vivienda: registrosFiltrados[index].vivienda,
                                       );
                                     },
                                   ),
@@ -354,8 +391,7 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.fromLTRB(
-                                0 * fem, 0 * fem, 34 * fem, 0 * fem),
+                            margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 34 * fem, 0 * fem),
                             child: TextButton(
                               onPressed: () {
                                 //Get.to(() => realtime_db());
@@ -391,11 +427,7 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
 
 class Registro extends StatelessWidget {
   final String marcaTemporal, sistema, accion, vivienda;
-  Registro(
-      {required this.marcaTemporal,
-      required this.sistema,
-      required this.accion,
-      required this.vivienda});
+  Registro({required this.marcaTemporal, required this.sistema, required this.accion, required this.vivienda});
 
   @override
   Widget build(BuildContext context) {
