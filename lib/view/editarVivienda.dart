@@ -1,3 +1,4 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
@@ -99,72 +100,77 @@ class _EditarViviendaState extends State<EditarVivienda> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Center(
-            child: Stack(
-              children: [
-                AdminPrincipal(administratorName: widget.userEmail),
-                Positioned(
-                  left: 40,
-                  top: 135,
-                  child: SizedBox(
-                    width: 600,
-                    height: 380,
-                    child: Text(
-                      'Editar:    $viviendaName',
-                      style: TextStyle(
-                        color: Color(0xFF0F1370),
-                        fontSize: 25,
-                        fontFamily: 'Inria Sans',
-                        fontWeight: FontWeight.w700,
-                        height: 0.9,
-                      ),
+      bottomNavigationBar: CurvedNavigationBar(
+        backgroundColor: const Color.fromARGB(219, 233, 100, 6),
+        color: const Color.fromARGB(255, 252, 176, 122),
+        items: const <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.account_circle_sharp, color: Color(0xFF0F1370)),
+              Text(
+                'Perfil',
+                style: customTextStyle,
+              ),
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.logout, color: Color(0xFF0F1370)),
+              Text(
+                'Cerrar Sesión',
+                style: customTextStyle,
+              ),
+            ],
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              AdminPrincipal(administratorName: widget.userEmail),
+              const SizedBox(
+                height: 30,
+              ),
+              SizedBox(
+                width: 600,
+                child: Center(
+                  child: Text(
+                    'Editar:    $viviendaName',
+                    style: const TextStyle(
+                      color: Color(0xFF0F1370),
+                      fontSize: 25,
+                      fontFamily: 'Inria Sans',
+                      fontWeight: FontWeight.w700,
+                      height: 0.9,
                     ),
                   ),
                 ),
-                Positioned(
-                  left: 40,
-                  top: 160,
-                  child: Container(
-                    width: 270,
-                    decoration: ShapeDecoration(
+              ),
+              Container(
+                width: 270,
+                decoration: const ShapeDecoration(
+                  color: GlobalColors.azulColor,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      width: 1.50,
                       color: GlobalColors.azulColor,
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(
-                          width: 1.50,
-                          color: GlobalColors.azulColor,
-                        ),
-                      ),
                     ),
                   ),
                 ),
-                _buildTextFormFields(),
-                Positioned(
-                  left: 40,
-                  top: 595,
-                  width: 310,
-                  child: _crearBotonDescartar(),
-                ),
-                Positioned(
-                  left: 40,
-                  top: 550,
-                  width: 310,
-                  child: _crearBotonGuardar(),
-                ),
-                Positioned(
-                  left: 40,
-                  top: 490,
-                  width: 310,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      _mostrarDialogoSistemas(context);
-                    },
-                    child: Text('+   EDITAR SISTEMAS'),
-                  ),
-                ),
-              ],
-            ),
+              ),
+              _buildTextFormFields(),
+              _crearBotonDescartar(),
+              _crearBotonGuardar(),
+              ElevatedButton(
+                onPressed: () {
+                  _mostrarDialogoSistemas(context);
+                },
+                child: Text('+   EDITAR SISTEMAS'),
+              ),
+            ],
           ),
         ),
       ),
@@ -172,37 +178,31 @@ class _EditarViviendaState extends State<EditarVivienda> {
   }
 
   Widget _buildTextFormFields() {
-    return Positioned(
-      left: 10,
-      right: 10,
-      top: 200,
-      child: Padding(
-        padding: const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            _buildTextFormField(
-              controller: nombreController,
-              labelText: nombre.isNotEmpty ? nombre : 'Nombre',
-              keyboardType: TextInputType.name,
-            ),
-            _buildTextFormField(
-              controller: emailController,
-              labelText: email.isNotEmpty ? email : 'Email',
-              keyboardType: TextInputType.emailAddress,
-            ),
-            _buildTextFormField(
-              controller: passwordController,
-              labelText: clave.toString().isNotEmpty ? clave : 'Clave',
-              keyboardType: TextInputType.visiblePassword,
-            ),
-            _buildTextFormField(
-              controller: direccionController,
-              labelText: direccion.isNotEmpty ? direccion : 'Direccion',
-              keyboardType: TextInputType.streetAddress,
-            ),
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+      child: Column(
+        children: [
+          _buildTextFormField(
+            controller: nombreController,
+            labelText: nombre.isNotEmpty ? nombre : 'Nombre',
+            keyboardType: TextInputType.name,
+          ),
+          _buildTextFormField(
+            controller: emailController,
+            labelText: email.isNotEmpty ? email : 'Email',
+            keyboardType: TextInputType.emailAddress,
+          ),
+          _buildTextFormField(
+            controller: passwordController,
+            labelText: clave.toString().isNotEmpty ? clave : 'Clave',
+            keyboardType: TextInputType.visiblePassword,
+          ),
+          _buildTextFormField(
+            controller: direccionController,
+            labelText: direccion.isNotEmpty ? direccion : 'Direccion',
+            keyboardType: TextInputType.streetAddress,
+          ),
+        ],
       ),
     );
   }

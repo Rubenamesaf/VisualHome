@@ -63,7 +63,6 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: const Color.fromARGB(219, 233, 100, 6),
         color: const Color.fromARGB(255, 252, 176, 122),
-        animationDuration: const Duration(milliseconds: 300),
         items: const <Widget>[
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -112,17 +111,17 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                'NUEVA VIVIENDA',
-                style: TextStyle(
-                  color: Color(0xFF0F1370),
-                  fontSize: 17,
-                  fontFamily: 'Inria Sans',
-                  fontWeight: FontWeight.w700,
-                  height: 0.9,
+              const Padding(
+                padding: EdgeInsets.only(top: 8.0),
+                child: Text(
+                  'NUEVA VIVIENDA',
+                  style: TextStyle(
+                    color: Color(0xFF0F1370),
+                    fontSize: 17,
+                    fontFamily: 'Inria Sans',
+                    fontWeight: FontWeight.w700,
+                    height: 0.9,
+                  ),
                 ),
               ),
 

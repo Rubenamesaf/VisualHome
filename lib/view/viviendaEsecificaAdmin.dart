@@ -255,7 +255,8 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => SistemaEspecificoAdmin(
-                                userEmail: widget.userEmail),
+                                userEmail: widget.userEmail,
+                                sistema: sistema.nombre),
                           ),
                         );
                         // Get.to(
