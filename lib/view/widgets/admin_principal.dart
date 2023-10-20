@@ -9,8 +9,27 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class AdminPrincipal extends StatelessWidget {
   String administratorName;
+  String? pageName;
 
-  AdminPrincipal({required this.administratorName, Key? key}) : super(key: key);
+  AdminPrincipal({required this.administratorName, this.pageName, Key? key})
+      : super(key: key);
+
+  Widget showBackButton(BuildContext context) {
+    if (pageName == 'home') {
+      return Container();
+    } else {
+      return Positioned(
+        left: 0,
+        top: 25,
+        child: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          color: const Color(0xFF0F1370),
+          iconSize: 35,
+          onPressed: (() => Navigator.pop(context)),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +37,7 @@ class AdminPrincipal extends StatelessWidget {
       children: [
         Container(
           //width: 392.7,
-          height: 708,
+          height: 90,
           clipBehavior: Clip.antiAlias,
           decoration:
               const BoxDecoration(color: Color.fromARGB(240, 252, 227, 210)),
@@ -30,7 +49,7 @@ class AdminPrincipal extends StatelessWidget {
                 child: Opacity(
                   opacity: 1,
                   child: Container(
-                    width: 393,
+                    width: 400,
                     height: 89.18,
                     decoration: BoxDecoration(
                       color: HexColor('#ED9A5E'),
@@ -56,7 +75,7 @@ class AdminPrincipal extends StatelessWidget {
                 ),
               ),*/
               const Positioned(
-                left: 24,
+                left: 44,
                 top: 46,
                 child: SizedBox(
                   width: 200,
@@ -111,7 +130,7 @@ class AdminPrincipal extends StatelessWidget {
                   child: Text(
                     administratorName, // Utiliza el nombre del usuario aquí
                     textAlign: TextAlign.end,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color(0xFF0F1370),
                       fontSize: 20,
                       fontFamily: 'Inria Sans',
@@ -121,6 +140,7 @@ class AdminPrincipal extends StatelessWidget {
                   ),
                 ),
               ),
+              showBackButton(context),
               /*Positioned(
                 left: 331,
                 top: 4,

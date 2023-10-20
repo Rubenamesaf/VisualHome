@@ -1,5 +1,6 @@
 //import 'package:firebase_auth/firebase_auth.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,7 +20,7 @@ class HomeAdminPage extends StatefulWidget {
 }
 
 class _HomeAdminPageState extends State<HomeAdminPage> {
-  DatabaseReference _dbref = FirebaseDatabase.instance.reference();
+  final DatabaseReference _dbref = FirebaseDatabase.instance.ref();
   List<String> viviendas = [];
   var cantidadViviendas;
   String adminName = "";
@@ -44,6 +45,10 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
         setState(() {});
       }
     });
+  }
+
+  Future<void> _signOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
   }
 
   Future<void> _leerViviendas() async {
@@ -86,7 +91,7 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
         color: const Color.fromARGB(255, 252, 176, 122),
         animationDuration: const Duration(milliseconds: 300),
         index: 1,
-        items: <Widget>[
+        items: const <Widget>[
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -119,15 +124,17 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
             ],
           ),
         ],
-        onTap: (index) {
+        onTap: (index) async {
           if (index == 0) {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => AgregarVivienda(userEmail: widget.userEmail),
+                builder: (context) =>
+                    AgregarVivienda(userEmail: widget.userEmail),
               ),
             );
           }
           if (index == 2) {
+            await _signOut(context);
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => const SplashView(),
@@ -136,11 +143,12 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
           }
         },
       ),
-      backgroundColor: Color.fromARGB(240, 252, 227, 210),
+      backgroundColor: const Color.fromARGB(240, 252, 227, 210),
       body: Center(
         child: Stack(
           children: [
-            AdminPrincipal(administratorName: widget.userEmail),
+            AdminPrincipal(
+                administratorName: widget.userEmail, pageName: 'home'),
             const Positioned(
               left: 134,
               top: 135,
@@ -245,6 +253,8 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
 }
 
 class GlobalColors {
-  static const azulColor = Color(0xFF0000FF); // Cambia este color según tus preferencias
-  static const naranjaClaritoColor = Color(0xFFFFD700); // Cambia este color según tus preferencias
+  static const azulColor =
+      Color(0xFF0000FF); // Cambia este color según tus preferencias
+  static const naranjaClaritoColor =
+      Color(0xFFFFD700); // Cambia este color según tus preferencias
 }

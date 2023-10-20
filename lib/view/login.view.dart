@@ -30,7 +30,7 @@ class _LoginViewState extends State<LoginView> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final Logger _logger = Logger();
-  DatabaseReference _dbref = FirebaseDatabase.instance.reference();
+  final DatabaseReference _dbref = FirebaseDatabase.instance.ref();
 
   Future<void> _signInWithEmailAndPassword(BuildContext context) async {
     try {

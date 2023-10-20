@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
+import 'package:login_v1/main.dart';
 //import 'package:get/get_core/src/get_main.dart';
 //import 'dart:ui';
 //import 'package:google_fonts/google_fonts.dart';
@@ -14,6 +15,7 @@ import 'package:login_v1/view/editarVivienda.dart';
 //import 'package:login_v1/view/editHomeAdmin.dart';
 import 'package:login_v1/view/sistemaEspecificoAdmin.dart';
 import 'package:login_v1/view/splash.view.dart';
+import 'package:login_v1/view/widgets/admin_principal.dart';
 //import 'package:firebase_database/firebase_database.dart';
 //import 'package:flutter/material.dart';
 //import 'package:get/get.dart';
@@ -23,13 +25,15 @@ import 'package:login_v1/view/splash.view.dart';
 
 class ViviendaEspecificaAdmin extends StatefulWidget {
   final String userEmail;
-  ViviendaEspecificaAdmin({required this.userEmail, Key? key}) : super(key: key);
+  ViviendaEspecificaAdmin({required this.userEmail, Key? key})
+      : super(key: key);
   @override
-  _ViviendaEspecificaAdminState createState() => _ViviendaEspecificaAdminState();
+  _ViviendaEspecificaAdminState createState() =>
+      _ViviendaEspecificaAdminState();
 }
 
 class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
-  DatabaseReference _dbref = FirebaseDatabase.instance.reference();
+  final DatabaseReference _dbref = FirebaseDatabase.instance.ref();
   List<Sistema> sistemasList = [];
   String databasejson = "";
   String viviendaName = "";
@@ -77,12 +81,14 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
   }
 
   RichText buildRichText(bool isActive) {
-    final TextStyle defaultStyle = TextStyle(
-      color: Color.fromARGB(255, 255, 0, 0), // Color por defecto para sistemas inactivos
-      fontWeight: FontWeight.normal, // Estilo por defecto para sistemas inactivos
+    const TextStyle defaultStyle = TextStyle(
+      color: Color.fromARGB(
+          255, 255, 0, 0), // Color por defecto para sistemas inactivos
+      fontWeight:
+          FontWeight.normal, // Estilo por defecto para sistemas inactivos
     );
 
-    final TextStyle activeStyle = TextStyle(
+    const TextStyle activeStyle = TextStyle(
       color: Colors.green, // Color verde para sistemas activos
       fontWeight: FontWeight.bold, // Texto en negrita para sistemas activos
     );
@@ -105,7 +111,7 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
         color: const Color.fromARGB(255, 252, 176, 122),
         animationDuration: const Duration(milliseconds: 300),
         index: 1,
-        items: <Widget>[
+        items: const <Widget>[
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -145,7 +151,8 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
               'sistemasList': sistemasList,
             };
             print('Botón presionado ...');
-            Get.to(() => EditarVivienda(userEmail: widget.userEmail), arguments: arguments);
+            Get.to(() => EditarVivienda(userEmail: widget.userEmail),
+                arguments: arguments);
           }
           if (index == 2) {
             Navigator.of(context).push(
@@ -156,17 +163,20 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
           }
         },
       ),
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: Center(
         child: Column(
           children: [
-            //AdminPrincipal(administratorName: widget.userEmail),
+            AdminPrincipal(administratorName: widget.userEmail),
+            const SizedBox(
+              height: 40,
+            ),
             SizedBox(
               width: 200,
               height: 38,
               child: Text(
                 '$viviendaName',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color(0xFF0F1370),
                   fontSize: 25,
                   fontFamily: 'Inria Sans',
@@ -234,7 +244,8 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
                   final arguments = {
                     'viviendaName': viviendaName,
                     'sistemaName': sistema.nombre,
-                    'estado': sistema.estado // Agrega más argumentos si es necesario
+                    'estado':
+                        sistema.estado // Agrega más argumentos si es necesario
                   };
                   return ListTile(
                     title: Text(sistema.nombre),
@@ -243,7 +254,8 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => SistemaEspecificoAdmin(userEmail: widget.userEmail),
+                            builder: (context) => SistemaEspecificoAdmin(
+                                userEmail: widget.userEmail),
                           ),
                         );
                         // Get.to(
@@ -302,7 +314,8 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
                   'sistemasList': sistemasList,
                 };
                 print('Botón presionado ...');
-                Get.to(() => EditarVivienda(userEmail: widget.userEmail), arguments: arguments);
+                Get.to(() => EditarVivienda(userEmail: widget.userEmail),
+                    arguments: arguments);
               },
               style: ElevatedButton.styleFrom(
                 primary: Color.fromARGB(255, 18, 145, 24), // Fondo azul
