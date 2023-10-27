@@ -5,6 +5,9 @@ import 'package:login_v1/utils/global.colors.dart';
 import 'package:login_v1/view/agregarVivienda.dart';
 import 'package:login_v1/view/splash.view.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class AdminPerfilView extends StatefulWidget {
   final String userEmail;
@@ -18,7 +21,43 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
   final TextEditingController nombreController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController direccionController = TextEditingController();
+  //final TextEditingController direccionController = TextEditingController();
+  late DatabaseReference _dbref;
+
+  @override
+  void initState() {
+    super.initState();
+    _dbref = FirebaseDatabase.instance.reference();
+
+    _loadAdminData();
+  }
+
+  Future<void> _loadAdminData() async {
+    try {
+      final user = await FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        final adminSnapshot = await _dbref
+            .child("Administradores")
+            .orderByChild("Email")
+            .equalTo(user.email)
+            .once();
+
+        // Verifica si adminSnapshot.snapshot.value es null antes de acceder a 'values'
+        if (adminSnapshot.snapshot.value != null) {
+          final adminData = (adminSnapshot.snapshot.value as Map).values.first;
+          setState(() {
+            nombreController.text = adminData['Nombre'];
+            emailController.text = adminData['Email'];
+            passwordController.text = adminData['Clave'].toString();
+            // Asumo que también tienes un campo 'Direccion' en tu base de datos
+            //direccionController.text = adminData['Direccion'];
+          });
+        }
+      }
+    } catch (e) {
+      print("Error loading admin data: $e");
+    }
+  }
 
   Future<void> _signOut(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
@@ -78,7 +117,7 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
               keyboardType: TextInputType.visiblePassword,
             ),
           ),
-          Padding(
+          /*Padding(
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: _buildTextFormField(
               controller: direccionController,
@@ -86,7 +125,7 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
               labelText: 'Direccion',
               keyboardType: TextInputType.streetAddress,
             ),
-          ),
+          ),*/
         ],
       ),
     );
