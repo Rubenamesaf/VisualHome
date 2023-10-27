@@ -1,11 +1,15 @@
 import 'dart:math';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 //import 'package:get/get.dart';
 //import 'package:get/get_core/src/get_main.dart';
 import 'package:login_v1/utils/global.colors.dart';
+import 'package:login_v1/view/adminPerfil.view.dart';
+import 'package:login_v1/view/splash.view.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
 
 List<String> sistemas = [
@@ -57,44 +61,39 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
 
   List<String> sistemasSeleccionados = [];
 
+  Future<void> _signOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: const Color.fromARGB(219, 233, 100, 6),
-        color: const Color.fromARGB(255, 252, 176, 122),
-        items: const <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.account_circle_sharp, color: Color(0xFF0F1370)),
-              Text(
-                'Perfil',
-                style: customTextStyle,
-              ),
-            ],
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: HexColor('#ED9A5E'),
+        selectedItemColor: const Color(0xFF0F1370),
+        currentIndex: 0,
+        //  color: const Color.fromARGB(234,154,94),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle_sharp),
+            label: 'Perfil',
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.logout, color: Color(0xFF0F1370)),
-              Text(
-                'Cerrar Sesión',
-                style: customTextStyle,
-              ),
-            ],
+          BottomNavigationBarItem(
+            icon: Icon(Icons.logout),
+            label: 'Cerrar Sesión',
           ),
         ],
-        /*
-        onTap: (index) {
+        onTap: (index) async {
           if (index == 0) {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => const SplashView(),
+                builder: (context) =>
+                    AdminPerfilView(userEmail: widget.userEmail),
               ),
             );
           }
-          if (index == 2) {
+          if (index == 1) {
+            await _signOut(context);
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => const SplashView(),
@@ -102,308 +101,385 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
             );
           }
         },
-        */
       ),
-      body: Column(
-        children: [
-          AdminPrincipal(administratorName: widget.userEmail),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(top: 8.0),
-                child: Text(
-                  'NUEVA VIVIENDA',
-                  style: TextStyle(
-                    color: Color(0xFF0F1370),
-                    fontSize: 17,
-                    fontFamily: 'Inria Sans',
-                    fontWeight: FontWeight.w700,
-                    height: 0.9,
-                  ),
-                ),
-              ),
-
-              Container(
-                width: 200,
-                decoration: const ShapeDecoration(
-                  color: GlobalColors.azulColor,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      width: 1.50,
-                      color: GlobalColors.azulColor,
+      // bottomNavigationBar: CurvedNavigationBar(
+      //   backgroundColor: const Color.fromARGB(219, 233, 100, 6),
+      //   color: const Color.fromARGB(255, 252, 176, 122),
+      //   items: const <Widget>[
+      //     Column(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       children: [
+      //         Icon(Icons.account_circle_sharp, color: Color(0xFF0F1370)),
+      //         Text(
+      //           'Perfil',
+      //           style: customTextStyle,
+      //         ),
+      //       ],
+      //     ),
+      //     Column(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       children: [
+      //         Icon(Icons.logout, color: Color(0xFF0F1370)),
+      //         Text(
+      //           'Cerrar Sesión',
+      //           style: customTextStyle,
+      //         ),
+      //       ],
+      //     ),
+      //   ],
+      //   /*
+      //   onTap: (index) {
+      //     if (index == 0) {
+      //       Navigator.of(context).push(
+      //         MaterialPageRoute(
+      //           builder: (context) => const SplashView(),
+      //         ),
+      //       );
+      //     }
+      //     if (index == 2) {
+      //       Navigator.of(context).push(
+      //         MaterialPageRoute(
+      //           builder: (context) => const SplashView(),
+      //         ),
+      //       );
+      //     }
+      //   },
+      //   */
+      // ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            AdminPrincipal(administratorName: widget.userEmail),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(top: 40.0),
+                  child: Text(
+                    'NUEVA VIVIENDA',
+                    style: TextStyle(
+                      color: Color(0xFF0F1370),
+                      fontSize: 24,
+                      fontFamily: 'Inria Sans',
+                      fontWeight: FontWeight.w700,
+                      height: 0.9,
                     ),
                   ),
                 ),
-              ),
 
-              const SizedBox(
-                height: 25,
-              ),
+                Container(
+                  width: 190,
+                  decoration: const ShapeDecoration(
+                    color: GlobalColors.azulColor,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        width: 1.50,
+                        color: GlobalColors.azulColor,
+                      ),
+                    ),
+                  ),
+                ),
 
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    TextFormField(
-                      controller: nombreController,
-                      obscureText: false,
-                      decoration: InputDecoration(
+                const SizedBox(
+                  height: 25,
+                ),
+
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      _buildTextFormField(
+                        controller: nombreController,
                         labelText: 'Nombre',
-                        hintText: 'Nombre del cliente',
-                        hintStyle: const TextStyle(
-                          fontFamily: 'Outfit',
-                          color: Color(0x9AFFFFFF),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                            color: GlobalColors.amarilloColor,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: GlobalColors.blancoColor,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: GlobalColors.blancoColor,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: GlobalColors.moradoColor,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        filled: true,
-                        fillColor: const Color.fromARGB(126, 103, 138, 207),
-                        prefixIcon: const Icon(
-                          Icons.abc,
-                          color: GlobalColors.logoazulColor,
-                        ),
+                        keyboardType: TextInputType.name,
                       ),
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal,
-                        color: GlobalColors.textColor,
-                        fontFamily: 'Outfit',
-                      ),
-                      keyboardType: TextInputType.name,
-                    ),
-                  ],
+                      // TextFormField(
+                      //   controller: nombreController,
+                      //   obscureText: false,
+                      //   decoration: InputDecoration(
+                      //     labelText: 'Nombre',
+                      //     hintText: 'Nombre del cliente',
+                      //     hintStyle: const TextStyle(
+                      //       fontFamily: 'Outfit',
+                      //       color: Color(0x9AFFFFFF),
+                      //     ),
+                      //     enabledBorder: OutlineInputBorder(
+                      //       borderSide: const BorderSide(
+                      //         color: GlobalColors.amarilloColor,
+                      //         width: 1,
+                      //       ),
+                      //       borderRadius: BorderRadius.circular(8),
+                      //     ),
+                      //     focusedBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(
+                      //         color: GlobalColors.blancoColor,
+                      //         width: 1,
+                      //       ),
+                      //       borderRadius: BorderRadius.circular(8),
+                      //     ),
+                      //     errorBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(
+                      //         color: GlobalColors.blancoColor,
+                      //         width: 1,
+                      //       ),
+                      //       borderRadius: BorderRadius.circular(8),
+                      //     ),
+                      //     focusedErrorBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(
+                      //         color: GlobalColors.moradoColor,
+                      //         width: 1,
+                      //       ),
+                      //       borderRadius: BorderRadius.circular(8),
+                      //     ),
+                      //     filled: true,
+                      //     fillColor: const Color.fromARGB(126, 103, 138, 207),
+                      //     prefixIcon: const Icon(
+                      //       Icons.abc,
+                      //       color: GlobalColors.logoazulColor,
+                      //     ),
+                      //   ),
+                      //   style: TextStyle(
+                      //     fontSize: 16,
+                      //     fontWeight: FontWeight.normal,
+                      //     color: GlobalColors.textColor,
+                      //     fontFamily: 'Outfit',
+                      //   ),
+                      //   keyboardType: TextInputType.name,
+                      // ),
+                    ],
+                  ),
                 ),
-              ),
 
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    TextFormField(
-                      controller: emailController,
-                      obscureText: false,
-                      decoration: InputDecoration(
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(24, 10, 24, 0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      _buildTextFormField(
+                        controller: emailController,
                         labelText: 'Email Address',
-                        hintText: 'Correo del cliente',
-                        hintStyle: const TextStyle(
-                          fontFamily: 'Outfit',
-                          color: Color(0x9AFFFFFF),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                            color: GlobalColors.amarilloColor,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: GlobalColors.blancoColor,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: GlobalColors.blancoColor,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: GlobalColors.moradoColor,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        filled: true,
-                        fillColor: const Color.fromARGB(126, 103, 138, 207),
-                        prefixIcon: const Icon(
-                          Icons.email_outlined,
-                          color: GlobalColors.logoazulColor,
-                        ),
+                        keyboardType: TextInputType.emailAddress,
                       ),
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal,
-                        color: GlobalColors.textColor,
-                        fontFamily: 'Outfit',
-                      ),
-                      keyboardType: TextInputType.emailAddress,
-                    ),
-                  ],
+                      // TextFormField(
+                      //   controller: emailController,
+                      //   obscureText: false,
+                      //   decoration: InputDecoration(
+                      //     labelText: 'Email Address',
+                      //     hintText: 'Correo del cliente',
+                      //     hintStyle: const TextStyle(
+                      //       fontFamily: 'Outfit',
+                      //       color: Color(0x9AFFFFFF),
+                      //     ),
+                      //     enabledBorder: OutlineInputBorder(
+                      //       borderSide: const BorderSide(
+                      //         color: GlobalColors.amarilloColor,
+                      //         width: 1,
+                      //       ),
+                      //       borderRadius: BorderRadius.circular(8),
+                      //     ),
+                      //     focusedBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(
+                      //         color: GlobalColors.blancoColor,
+                      //         width: 1,
+                      //       ),
+                      //       borderRadius: BorderRadius.circular(8),
+                      //     ),
+                      //     errorBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(
+                      //         color: GlobalColors.blancoColor,
+                      //         width: 1,
+                      //       ),
+                      //       borderRadius: BorderRadius.circular(8),
+                      //     ),
+                      //     focusedErrorBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(
+                      //         color: GlobalColors.moradoColor,
+                      //         width: 1,
+                      //       ),
+                      //       borderRadius: BorderRadius.circular(8),
+                      //     ),
+                      //     filled: true,
+                      //     fillColor: const Color.fromARGB(126, 103, 138, 207),
+                      //     prefixIcon: const Icon(
+                      //       Icons.email_outlined,
+                      //       color: GlobalColors.logoazulColor,
+                      //     ),
+                      //   ),
+                      //   style: TextStyle(
+                      //     fontSize: 16,
+                      //     fontWeight: FontWeight.normal,
+                      //     color: GlobalColors.textColor,
+                      //     fontFamily: 'Outfit',
+                      //   ),
+                      //   keyboardType: TextInputType.emailAddress,
+                      // ),
+                    ],
+                  ),
                 ),
-              ),
 
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    TextFormField(
-                      controller: passwordController,
-                      obscureText: false,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        hintText: 'Código de acceso',
-                        hintStyle: TextStyle(
-                          fontFamily: 'Outfit',
-                          color: Color(0x9AFFFFFF),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: GlobalColors.amarilloColor,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: GlobalColors.blancoColor,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: GlobalColors.blancoColor,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: GlobalColors.moradoColor,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        filled: true,
-                        fillColor: Color.fromARGB(126, 103, 138, 207),
-                        prefixIcon: Icon(
-                          Icons.password,
-                          color: GlobalColors.logoazulColor,
-                        ),
-                      ),
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal,
-                        color: GlobalColors.textColor,
-                        fontFamily: 'Outfit',
-                      ),
-                      keyboardType: TextInputType.visiblePassword,
-                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(24, 10, 24, 0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      _buildTextFormField(
+                          controller: passwordController,
+                          labelText: 'Password',
+                          keyboardType: TextInputType.number),
+                      // TextFormField(
+                      //   controller: passwordController,
+                      //   obscureText: false,
+                      //   decoration: InputDecoration(
+                      //     labelText: 'Password',
+                      //     hintText: 'Código de acceso',
+                      //     hintStyle: const TextStyle(
+                      //       fontFamily: 'Outfit',
+                      //       color: Color(0x9AFFFFFF),
+                      //     ),
+                      //     enabledBorder: OutlineInputBorder(
+                      //       borderSide: const BorderSide(
+                      //         color: GlobalColors.amarilloColor,
+                      //         width: 1,
+                      //       ),
+                      //       borderRadius: BorderRadius.circular(8),
+                      //     ),
+                      //     focusedBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(
+                      //         color: GlobalColors.blancoColor,
+                      //         width: 1,
+                      //       ),
+                      //       borderRadius: BorderRadius.circular(8),
+                      //     ),
+                      //     errorBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(
+                      //         color: GlobalColors.blancoColor,
+                      //         width: 1,
+                      //       ),
+                      //       borderRadius: BorderRadius.circular(8),
+                      //     ),
+                      //     focusedErrorBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(
+                      //         color: GlobalColors.moradoColor,
+                      //         width: 1,
+                      //       ),
+                      //       borderRadius: BorderRadius.circular(8),
+                      //     ),
+                      //     filled: true,
+                      //     fillColor: const Color.fromARGB(126, 103, 138, 207),
+                      //     prefixIcon: const Icon(
+                      //       Icons.password,
+                      //       color: GlobalColors.logoazulColor,
+                      //     ),
+                      //   ),
+                      //   style: TextStyle(
+                      //     fontSize: 16,
+                      //     fontWeight: FontWeight.normal,
+                      //     color: GlobalColors.textColor,
+                      //     fontFamily: 'Outfit',
+                      //   ),
+                      //   keyboardType: TextInputType.visiblePassword,
+                      // ),
+                    ],
+                  ),
                 ),
-              ),
 
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    TextFormField(
-                      controller: direccionController,
-                      obscureText: false,
-                      decoration: InputDecoration(
-                        labelText: 'Address',
-                        hintText: 'Dirección de la vivienda',
-                        hintStyle: TextStyle(
-                          fontFamily: 'Outfit',
-                          color: Color(0x9AFFFFFF),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: GlobalColors.amarilloColor,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: GlobalColors.blancoColor,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: GlobalColors.blancoColor,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: GlobalColors.moradoColor,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        filled: true,
-                        fillColor: Color(0x7D678ACF),
-                        prefixIcon: Icon(
-                          Icons.home,
-                          color: Color(0xFF0F1370),
-                        ),
-                      ),
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal,
-                        color: GlobalColors.textColor,
-                        fontFamily: 'Outfit',
-                      ),
-                      keyboardType: TextInputType.streetAddress,
-                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(24, 10, 24, 0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      _buildTextFormField(
+                          controller: direccionController,
+                          labelText: 'Address',
+                          keyboardType: TextInputType.text),
+                      // TextFormField(
+                      //   controller: direccionController,
+                      //   obscureText: false,
+                      //   decoration: InputDecoration(
+                      //     labelText: 'Address',
+                      //     hintText: 'Dirección de la vivienda',
+                      //     hintStyle: TextStyle(
+                      //       fontFamily: 'Outfit',
+                      //       color: Color(0x9AFFFFFF),
+                      //     ),
+                      //     enabledBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(
+                      //         color: GlobalColors.amarilloColor,
+                      //         width: 1,
+                      //       ),
+                      //       borderRadius: BorderRadius.circular(8),
+                      //     ),
+                      //     focusedBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(
+                      //         color: GlobalColors.blancoColor,
+                      //         width: 1,
+                      //       ),
+                      //       borderRadius: BorderRadius.circular(8),
+                      //     ),
+                      //     errorBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(
+                      //         color: GlobalColors.blancoColor,
+                      //         width: 1,
+                      //       ),
+                      //       borderRadius: BorderRadius.circular(8),
+                      //     ),
+                      //     focusedErrorBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(
+                      //         color: GlobalColors.moradoColor,
+                      //         width: 1,
+                      //       ),
+                      //       borderRadius: BorderRadius.circular(8),
+                      //     ),
+                      //     filled: true,
+                      //     fillColor: Color(0x7D678ACF),
+                      //     prefixIcon: Icon(
+                      //       Icons.home,
+                      //       color: Color(0xFF0F1370),
+                      //     ),
+                      //   ),
+                      //   style: TextStyle(
+                      //     fontSize: 16,
+                      //     fontWeight: FontWeight.normal,
+                      //     color: GlobalColors.textColor,
+                      //     fontFamily: 'Outfit',
+                      //   ),
+                      //   keyboardType: TextInputType.streetAddress,
+                      // ),
+                    ],
+                  ),
                 ),
-              ),
 
-              _crearBotonDescartar(),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 10.0, bottom: 5.0, left: 24, right: 24),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(40), // NEW
+                    ),
+                    onPressed: () {
+                      _mostrarDialogoSistemas(context);
+                    },
+                    child: Text('+ AGREGAR SISTEMAS'),
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5.0, horizontal: 24),
+                  child: _crearBotonGuardar(),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5.0, horizontal: 24),
+                  child: _crearBotonDescartar(),
+                ),
 
-              _crearBotonGuardar(),
-
-              // Botón "Agregar Sistemas"
-              ElevatedButton(
-                onPressed: () {
-                  _mostrarDialogoSistemas(context);
-                },
-                child: Text('+   AGREGAR SISTEMAS'),
-              ),
-            ],
-          ),
-        ],
+                // Botón "Agregar Sistemas"
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -411,6 +487,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
   Widget _crearBotonDescartar() {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
+        minimumSize: const Size.fromHeight(40), //
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(0.0),
         ),
@@ -454,6 +531,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
   Widget _crearBotonGuardar() {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
+        minimumSize: const Size.fromHeight(40), //
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(0.0),
         ),
@@ -488,6 +566,28 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
       });
       print('Sistemas seleccionados: $sistemasSeleccionados');
     }
+  }
+
+  Widget _buildTextFormField({
+    required TextEditingController controller,
+    required String labelText,
+    required TextInputType keyboardType,
+  }) {
+    return TextFormField(
+      controller: controller,
+      obscureText: labelText == 'Password' ? true : false,
+      decoration: InputDecoration(
+        labelText: labelText,
+        hintText: labelText,
+      ),
+      style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.normal,
+        color: GlobalColors.textColor,
+        fontFamily: 'Outfit',
+      ),
+      keyboardType: keyboardType,
+    );
   }
 
   void _guardarViviendaEnFirebase() async {

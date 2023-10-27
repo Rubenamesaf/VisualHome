@@ -1,13 +1,17 @@
 import 'dart:convert' as convert;
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:login_v1/historial_model.dart';
 import 'package:login_v1/utils/global.colors.dart';
+import 'package:login_v1/view/agregarVivienda.dart';
+import 'package:login_v1/view/splash.view.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
 
 class SistemaEspecificoAdmin extends StatefulWidget {
@@ -132,35 +136,73 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
     }).toList();
   }
 
+  Future<void> _signOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: const Color.fromARGB(219, 233, 100, 6),
-        color: const Color.fromARGB(255, 252, 176, 122),
-        items: const <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.account_circle_sharp, color: Color(0xFF0F1370)),
-              Text(
-                'Perfil',
-                style: customTextStyle,
-              ),
-            ],
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: HexColor('#ED9A5E'),
+        selectedItemColor: const Color(0xFF0F1370),
+        currentIndex: 0,
+        //  color: const Color.fromARGB(234,154,94),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle_sharp),
+            label: 'Perfil',
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.logout, color: Color(0xFF0F1370)),
-              Text(
-                'Cerrar Sesión',
-                style: customTextStyle,
-              ),
-            ],
+          BottomNavigationBarItem(
+            icon: Icon(Icons.logout),
+            label: 'Cerrar Sesión',
           ),
         ],
+        onTap: (index) async {
+          if (index == 0) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) =>
+                    AgregarVivienda(userEmail: widget.userEmail),
+              ),
+            );
+          }
+          if (index == 2) {
+            await _signOut(context);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const SplashView(),
+              ),
+            );
+          }
+        },
       ),
+      // bottomNavigationBar: CurvedNavigationBar(
+      //   backgroundColor: const Color.fromARGB(219, 233, 100, 6),
+      //   color: const Color.fromARGB(255, 252, 176, 122),
+      //   items: const <Widget>[
+      //     Column(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       children: [
+      //         Icon(Icons.account_circle_sharp, color: Color(0xFF0F1370)),
+      //         Text(
+      //           'Perfil',
+      //           style: customTextStyle,
+      //         ),
+      //       ],
+      //     ),
+      //     Column(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       children: [
+      //         Icon(Icons.logout, color: Color(0xFF0F1370)),
+      //         Text(
+      //           'Cerrar Sesión',
+      //           style: customTextStyle,
+      //         ),
+      //       ],
+      //     ),
+      //   ],
+      // ),
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: Center(
         child: Column(
@@ -185,8 +227,7 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
             //   ),
             // ),
             Container(
-              padding: EdgeInsets.fromLTRB(
-                  29 * fem, 43.82 * fem, 31 * fem, 104 * fem),
+              padding: const EdgeInsets.only(top: 35),
               width: double.infinity,
               child: Stack(
                 children: [
@@ -194,8 +235,6 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        margin: EdgeInsets.fromLTRB(
-                            0 * fem, 0 * fem, 0 * fem, 19 * fem),
                         width: double.infinity,
                         height: 100 * fem,
                         child: Column(
@@ -417,23 +456,19 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                           ],
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(
-                            0 * fem, 0 * fem, 34 * fem, 0 * fem),
-                        child: TextButton(
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 33.0),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size.fromHeight(40), // NEW
+                          ),
                           onPressed: () {
                             //Get.to(() => realtime_db());
-                            print("DEscargando");
+                            print("Descargando");
                           },
-                          child: Text(
+                          child: const Text(
                             'DESCARGAR REPORTE',
-                            style: TextStyle(
-                              fontFamily: 'Inria Sans',
-                              fontSize: 22 * ffem,
-                              fontWeight: FontWeight.w700,
-                              height: 0.8636363636 * ffem / fem,
-                              color: Color(0xff0f1370),
-                            ),
+                            style: TextStyle(fontSize: 18),
                           ),
                         ),
                       ),

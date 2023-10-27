@@ -75,8 +75,8 @@ class AdminPrincipal extends StatelessWidget {
                 ),
               ),*/
               const Positioned(
-                left: 44,
-                top: 46,
+                left: 100,
+                top: 50,
                 child: SizedBox(
                   width: 200,
                   height: 63,
@@ -121,25 +121,6 @@ class AdminPrincipal extends StatelessWidget {
                   ),
                 ),
               ),*/
-              Positioned(
-                left: 200,
-                top: 65,
-                child: SizedBox(
-                  width: 170,
-                  height: 500,
-                  child: Text(
-                    administratorName, // Utiliza el nombre del usuario aquí
-                    textAlign: TextAlign.end,
-                    style: const TextStyle(
-                      color: Color(0xFF0F1370),
-                      fontSize: 20,
-                      fontFamily: 'Inria Sans',
-                      fontWeight: FontWeight.w700,
-                      height: 0.95,
-                    ),
-                  ),
-                ),
-              ),
               showBackButton(context),
               /*Positioned(
                 left: 331,

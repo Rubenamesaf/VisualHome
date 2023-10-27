@@ -1,8 +1,13 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:login_v1/utils/global.colors.dart';
+import 'package:login_v1/view/adminPerfil.view.dart';
+import 'package:login_v1/view/agregarVivienda.dart';
+import 'package:login_v1/view/splash.view.dart';
 import 'package:login_v1/view/viviendaEsecificaAdmin.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
 //import 'dart:math';
@@ -97,35 +102,73 @@ class _EditarViviendaState extends State<EditarVivienda> {
     });
   }
 
+  Future<void> _signOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: const Color.fromARGB(219, 233, 100, 6),
-        color: const Color.fromARGB(255, 252, 176, 122),
-        items: const <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.account_circle_sharp, color: Color(0xFF0F1370)),
-              Text(
-                'Perfil',
-                style: customTextStyle,
-              ),
-            ],
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: HexColor('#ED9A5E'),
+        selectedItemColor: const Color(0xFF0F1370),
+        currentIndex: 0,
+        //  color: const Color.fromARGB(234,154,94),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle_sharp),
+            label: 'Perfil',
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.logout, color: Color(0xFF0F1370)),
-              Text(
-                'Cerrar Sesión',
-                style: customTextStyle,
-              ),
-            ],
+          BottomNavigationBarItem(
+            icon: Icon(Icons.logout),
+            label: 'Cerrar Sesión',
           ),
         ],
+        onTap: (index) async {
+          if (index == 0) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) =>
+                    AdminPerfilView(userEmail: widget.userEmail),
+              ),
+            );
+          }
+          if (index == 1) {
+            await _signOut(context);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const SplashView(),
+              ),
+            );
+          }
+        },
       ),
+      // bottomNavigationBar: CurvedNavigationBar(
+      //   backgroundColor: const Color.fromARGB(219, 233, 100, 6),
+      //   color: const Color.fromARGB(255, 252, 176, 122),
+      //   items: const <Widget>[
+      //     Column(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       children: [
+      //         Icon(Icons.account_circle_sharp, color: Color(0xFF0F1370)),
+      //         Text(
+      //           'Perfil',
+      //           style: customTextStyle,
+      //         ),
+      //       ],
+      //     ),
+      //     Column(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       children: [
+      //         Icon(Icons.logout, color: Color(0xFF0F1370)),
+      //         Text(
+      //           'Cerrar Sesión',
+      //           style: customTextStyle,
+      //         ),
+      //       ],
+      //     ),
+      //   ],
+      // ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -162,13 +205,28 @@ class _EditarViviendaState extends State<EditarVivienda> {
                 ),
               ),
               _buildTextFormFields(),
-              _crearBotonDescartar(),
-              _crearBotonGuardar(),
-              ElevatedButton(
-                onPressed: () {
-                  _mostrarDialogoSistemas(context);
-                },
-                child: Text('+   EDITAR SISTEMAS'),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 15.0, bottom: 5.0, left: 24, right: 24),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(40), // NEW
+                  ),
+                  onPressed: () {
+                    _mostrarDialogoSistemas(context);
+                  },
+                  child: Text('+   EDITAR SISTEMAS'),
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5.0, horizontal: 24),
+                child: _crearBotonGuardar(),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5.0, horizontal: 24),
+                child: _crearBotonDescartar(),
               ),
             ],
           ),
@@ -182,25 +240,37 @@ class _EditarViviendaState extends State<EditarVivienda> {
       padding: const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
       child: Column(
         children: [
-          _buildTextFormField(
-            controller: nombreController,
-            labelText: nombre.isNotEmpty ? nombre : 'Nombre',
-            keyboardType: TextInputType.name,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            child: _buildTextFormField(
+              controller: nombreController,
+              labelText: nombre.isNotEmpty ? nombre : 'Nombre',
+              keyboardType: TextInputType.name,
+            ),
           ),
-          _buildTextFormField(
-            controller: emailController,
-            labelText: email.isNotEmpty ? email : 'Email',
-            keyboardType: TextInputType.emailAddress,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            child: _buildTextFormField(
+              controller: emailController,
+              labelText: email.isNotEmpty ? email : 'Email',
+              keyboardType: TextInputType.emailAddress,
+            ),
           ),
-          _buildTextFormField(
-            controller: passwordController,
-            labelText: clave.toString().isNotEmpty ? clave : 'Clave',
-            keyboardType: TextInputType.visiblePassword,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            child: _buildTextFormField(
+              controller: passwordController,
+              labelText: clave.toString().isNotEmpty ? clave : 'Clave',
+              keyboardType: TextInputType.visiblePassword,
+            ),
           ),
-          _buildTextFormField(
-            controller: direccionController,
-            labelText: direccion.isNotEmpty ? direccion : 'Direccion',
-            keyboardType: TextInputType.streetAddress,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            child: _buildTextFormField(
+              controller: direccionController,
+              labelText: direccion.isNotEmpty ? direccion : 'Direccion',
+              keyboardType: TextInputType.streetAddress,
+            ),
           ),
         ],
       ),
@@ -232,6 +302,7 @@ class _EditarViviendaState extends State<EditarVivienda> {
   Widget _crearBotonDescartar() {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
+        minimumSize: const Size.fromHeight(40),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(0.0),
         ),
@@ -274,6 +345,7 @@ class _EditarViviendaState extends State<EditarVivienda> {
   Widget _crearBotonGuardar() {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
+        minimumSize: const Size.fromHeight(40),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(0.0),
         ),

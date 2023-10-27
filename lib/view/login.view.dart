@@ -4,6 +4,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_svg/svg.dart';
 //import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
@@ -75,8 +76,6 @@ class _LoginViewState extends State<LoginView> {
       // Aquí puedes manejar la navegación a la siguiente pantalla después del inicio de sesión exitoso.
     } catch (e) {
       // Aquí puedes manejar los errores de inicio de sesión.
-      _logger.i("Un mensaje de información");
-      _logger.e("Error en el inicio de sesión: $e");
       setState(() {
         signInSuccess = false;
       });
@@ -120,25 +119,6 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          flexibleSpace: Container(
-            width: double.infinity,
-            height: 89.18,
-            decoration: BoxDecoration(
-              color: const Color(0xFFF19756),
-              border: Border.all(width: 0.50),
-            ),
-            alignment: Alignment.center,
-            child: const Text(
-              'VisualHome',
-              style: TextStyle(
-                color: Color(0xFF0F1370),
-                fontSize: 35,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
         body: Stack(
           children: [
             BackgroundContainer(),
@@ -148,6 +128,14 @@ class _LoginViewState extends State<LoginView> {
                   key: _formKey,
                   child: Column(
                     children: [
+                      SizedBox(
+                        width: 500,
+                        height: 100,
+                        child: SvgPicture.asset(
+                          'assets/images/VisualHome.svg',
+                          fit: BoxFit.fitWidth,
+                        ),
+                      ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         child: Column(
@@ -296,7 +284,9 @@ class _LoginViewState extends State<LoginView> {
                                 }
                               },
                             ),
-                            const SizedBox(height: 180),
+                            const SizedBox(
+                              height: 50,
+                            ),
                             ElevatedButton(
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
@@ -355,32 +345,6 @@ class _LoginViewState extends State<LoginView> {
                                 ),
                               ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text(
-                                  "Aun no tienes Cuenta?",
-                                  style: TextStyle(
-                                    fontFamily: 'Outfit',
-                                    color: Color.fromARGB(249, 0, 0, 0),
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                TextButton(
-                                    onPressed: () {
-                                      showWarningDialog(context);
-                                    },
-                                    child: const Text(
-                                      "Registrate",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: Color(0xFF0F1370),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    )),
-                              ],
-                            )
                           ],
                         ),
                       ),

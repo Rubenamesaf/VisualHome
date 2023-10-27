@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:login_v1/view/adminPerfil.view.dart';
 import 'package:login_v1/view/splash.view.dart';
 
 import '../utils/global.colors.dart';
@@ -29,7 +31,7 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
   @override
   void initState() {
     super.initState();
-
+    viviendas.clear();
     // Leer las viviendas de la base de datos
     _leerViviendas();
 
@@ -86,42 +88,23 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: const Color.fromARGB(219, 233, 100, 6),
-        color: const Color.fromARGB(255, 252, 176, 122),
-        animationDuration: const Duration(milliseconds: 300),
-        index: 1,
-        items: const <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.add_home_work, color: Color(0xFF0F1370)),
-              Text(
-                'Agregar Vivienda',
-                style: customTextStyle,
-                textAlign: TextAlign.center,
-              ),
-            ],
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: HexColor('#ED9A5E'),
+        selectedItemColor: const Color(0xFF0F1370),
+        currentIndex: 1,
+        //  color: const Color.fromARGB(234,154,94),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_home_work),
+            label: 'Agregar Vivienda',
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.account_circle_sharp, color: Color(0xFF0F1370)),
-              Text(
-                'Perfil',
-                style: customTextStyle,
-              ),
-            ],
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle_sharp),
+            label: 'Perfil',
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.logout, color: Color(0xFF0F1370)),
-              Text(
-                'Cerrar Sesión',
-                style: customTextStyle,
-              ),
-            ],
+          BottomNavigationBarItem(
+            icon: Icon(Icons.logout),
+            label: 'Cerrar Sesión',
           ),
         ],
         onTap: (index) async {
@@ -133,7 +116,16 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
               ),
             );
           }
+          if (index == 1) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) =>
+                    AdminPerfilView(userEmail: widget.userEmail),
+              ),
+            );
+          }
           if (index == 2) {
+            viviendas.clear();
             await _signOut(context);
             Navigator.of(context).push(
               MaterialPageRoute(
@@ -143,6 +135,63 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
           }
         },
       ),
+      // bottomNavigationBar: CurvedNavigationBar(
+      //   backgroundColor: const Color.fromARGB(219, 233, 100, 6),
+      //   color: const Color.fromARGB(255, 252, 176, 122),
+      //   animationDuration: const Duration(milliseconds: 300),
+      //   index: 1,
+      //   items: const <Widget>[
+      //     Column(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       children: [
+      //         Icon(Icons.add_home_work, color: Color(0xFF0F1370)),
+      //         Text(
+      //           'Agregar Vivienda',
+      //           style: customTextStyle,
+      //           textAlign: TextAlign.center,
+      //         ),
+      //       ],
+      //     ),
+      //     Column(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       children: [
+      //         Icon(Icons.account_circle_sharp, color: Color(0xFF0F1370)),
+      //         Text(
+      //           'Perfil',
+      //           style: customTextStyle,
+      //         ),
+      //       ],
+      //     ),
+      //     Column(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       children: [
+      //         Icon(Icons.logout, color: Color(0xFF0F1370)),
+      //         Text(
+      //           'Cerrar Sesión',
+      //           style: customTextStyle,
+      //         ),
+      //       ],
+      //     ),
+      //   ],
+      //   onTap: (index) async {
+      //     if (index == 0) {
+      //       Navigator.of(context).push(
+      //         MaterialPageRoute(
+      //           builder: (context) =>
+      //               AgregarVivienda(userEmail: widget.userEmail),
+      //         ),
+      //       );
+      //     }
+      //     if (index == 2) {
+      //       await _signOut(context);
+      //       Navigator.of(context).push(
+      //         MaterialPageRoute(
+      //           builder: (context) => const SplashView(),
+      //         ),
+      //       );
+      //     }
+      //   },
+      // ),
       backgroundColor: const Color.fromARGB(240, 252, 227, 210),
       body: Center(
         child: Stack(

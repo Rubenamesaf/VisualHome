@@ -1,0 +1,191 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:login_v1/utils/global.colors.dart';
+import 'package:login_v1/view/agregarVivienda.dart';
+import 'package:login_v1/view/splash.view.dart';
+import 'package:login_v1/view/widgets/admin_principal.dart';
+
+class AdminPerfilView extends StatefulWidget {
+  final String userEmail;
+  const AdminPerfilView({required this.userEmail, Key? key}) : super(key: key);
+
+  @override
+  State<AdminPerfilView> createState() => _AdminPerfilViewState();
+}
+
+class _AdminPerfilViewState extends State<AdminPerfilView> {
+  final TextEditingController nombreController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController direccionController = TextEditingController();
+
+  Future<void> _signOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+  }
+
+  Widget _buildTextFormField({
+    required TextEditingController controller,
+    required String labelText,
+    required TextInputType keyboardType,
+  }) {
+    return TextFormField(
+      controller: controller,
+      obscureText: false,
+      decoration: InputDecoration(
+        labelText: labelText,
+        hintText: labelText,
+      ),
+      style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.normal,
+        color: GlobalColors.textColor,
+        fontFamily: 'Outfit',
+      ),
+      keyboardType: keyboardType,
+    );
+  }
+
+  Widget _buildTextFormFields() {
+    return Padding(
+      padding: const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            child: _buildTextFormField(
+              controller: nombreController,
+              //labelText: nombre.isNotEmpty ? nombre : 'Nombre',
+              labelText: 'Nombre',
+              keyboardType: TextInputType.name,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            child: _buildTextFormField(
+              controller: emailController,
+              //labelText: email.isNotEmpty ? email : 'Email',
+              labelText: 'Email',
+              keyboardType: TextInputType.emailAddress,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            child: _buildTextFormField(
+              controller: passwordController,
+              // labelText: clave.toString().isNotEmpty ? clave : 'Clave',
+              labelText: 'Clave',
+              keyboardType: TextInputType.visiblePassword,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            child: _buildTextFormField(
+              controller: direccionController,
+              // labelText: direccion.isNotEmpty ? direccion : 'Direccion',
+              labelText: 'Direccion',
+              keyboardType: TextInputType.streetAddress,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _crearBotonGuardar() {
+    return ElevatedButton.icon(
+      style: ElevatedButton.styleFrom(
+        minimumSize: const Size.fromHeight(40), //
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(0.0),
+        ),
+        backgroundColor: Color.fromARGB(209, 15, 179, 0),
+        foregroundColor: Color.fromARGB(255, 255, 255, 255),
+      ),
+      onPressed: () {
+        // _guardarViviendaEnFirebase();
+        Navigator.of(context).pop();
+      },
+      label: Text('GUARDAR'),
+      icon: Icon(Icons.save),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: HexColor('#ED9A5E'),
+          selectedItemColor: const Color(0xFF0F1370),
+          currentIndex: 1,
+          //  color: const Color.fromARGB(234,154,94),
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.add_home_work),
+              label: 'Agregar Vivienda',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.logout),
+              label: 'Cerrar Sesión',
+            ),
+          ],
+          onTap: (index) async {
+            if (index == 0) {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) =>
+                      AgregarVivienda(userEmail: widget.userEmail),
+                ),
+              );
+            }
+            if (index == 1) {
+              await _signOut(context);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const SplashView(),
+                ),
+              );
+            }
+          },
+        ),
+        body: SingleChildScrollView(
+          child: Center(
+              child: Column(
+            children: [
+              AdminPrincipal(administratorName: widget.userEmail),
+              const Padding(
+                padding: EdgeInsets.only(top: 40.0),
+                child: Text(
+                  'Perfil',
+                  style: TextStyle(
+                    color: Color(0xFF0F1370),
+                    fontSize: 24,
+                    fontFamily: 'Inria Sans',
+                    fontWeight: FontWeight.w700,
+                    height: 0.9,
+                  ),
+                ),
+              ),
+              Container(
+                width: 60,
+                decoration: const ShapeDecoration(
+                  color: GlobalColors.azulColor,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      width: 1.50,
+                      color: GlobalColors.azulColor,
+                    ),
+                  ),
+                ),
+              ),
+              _buildTextFormFields(),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5.0, horizontal: 24),
+                child: _crearBotonGuardar(),
+              ),
+            ],
+          )),
+        ));
+  }
+}
