@@ -51,7 +51,7 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
   void _setupDatabaseListener() {
     _dbref.child("$viviendaName").onValue.listen((event) {
       final dataSnapshot = event.snapshot;
-      if (dataSnapshot.value != null) {
+      if (dataSnapshot.value != null && mounted) {
         print("Datos actualizados - " + dataSnapshot.value.toString());
         setState(() {
           databasejson = dataSnapshot.value.toString();
@@ -293,17 +293,18 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
                     subtitle: buildRichText(sistema.estado),
                     trailing: ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).push(
+                        /*Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => SistemaEspecificoAdmin(
                                 userEmail: widget.userEmail,
-                                sistema: sistema.nombre),
+                                sistema: sistema.nombre)
                           ),
-                        );
-                        // Get.to(
-                        //     () => SistemaEspecificoAdmin(
-                        //         userEmail: widget.userEmail),
-                        //     arguments: arguments);
+                        );*/
+                        Get.to(
+                            () => SistemaEspecificoAdmin(
+                                sistema: sistema.nombre,
+                                userEmail: widget.userEmail),
+                            arguments: arguments);
                       },
                       child: Text('Editar'),
                     ),

@@ -2,14 +2,17 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:login_v1/view/homeAdmin.view.dart';
+import 'package:login_v1/view/splash.view.dart';
 //import 'package:login_v1/view/viviendaEsecificaAdmin.dart';
 //import 'package:login_v1/view/widgets/admin_principal.dart';
 //import 'package:login_v1/view/widgets/admin_principal.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Asegura que los widgets esten inicializados
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Asegura que los widgets esten inicializados
 
-  FirebaseApp firebaseApp = await Firebase.initializeApp(); // Inicializa Firebase2
+  FirebaseApp firebaseApp =
+      await Firebase.initializeApp(); // Inicializa Firebase2
 
   runApp(const App());
 }

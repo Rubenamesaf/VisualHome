@@ -99,7 +99,8 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
 
   _updateValue() {
     try {
-      _dbref.child("$viviendaName").update({"$widget.sistema": estadoBinario});
+      var sistem = widget.sistema;
+      _dbref.child("$viviendaName").update({"$sistem": estadoBinario});
     } catch (e) {
       print("Error al actualizar el valor en Firebase: $e");
     }
