@@ -1,5 +1,6 @@
 import 'dart:convert' as convert;
-
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -56,7 +57,7 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
   getHistorialFromSheet() async {
     try {
       var url = Uri.parse(
-          "https://script.google.com/macros/s/AKfycbxQtdC-1mo9kgNQcQrzVHeCkz5y9ar1CrUUTo7alEMVASVzGKhgqPIkEm8kB5ExQBmJ0w/exec");
+          "https://script.google.com/macros/s/AKfycbxx7A2ALz1liRPDHG0EMtD5IAS7PROdURmW7hvRh8nRV-j3CLfBbKpoLVNNyX_qxjER/exec");
 
       var raw = await http.get(url);
 
@@ -64,16 +65,17 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
 
       jsonRegistro.forEach((elemento) {
         var marcaTemporal = elemento['marca_temporal'];
+        var proveedor = elemento['proveedor'];
         var vivienda = elemento['vivienda'];
         var sistema = elemento['sistema'];
         var accion = elemento['accion'];
 
         HistorialModel historialModel = HistorialModel(
-          accion: accion,
-          marcaTemporal: marcaTemporal,
-          sistema: sistema,
-          vivienda: vivienda,
-        );
+            accion: accion,
+            marcaTemporal: marcaTemporal,
+            sistema: sistema,
+            vivienda: vivienda,
+            proveedor: proveedor);
 
         if (mounted) {
           setState(() {
@@ -81,6 +83,7 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
           });
         }
       });
+      print(registros);
     } catch (e) {
       print("Error al obtener historial: $e");
     }
@@ -118,7 +121,8 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
       return registros
           .where((registro) =>
               registro.sistema == widget.sistema &&
-              registro.vivienda == viviendaName)
+              _quitarEspacios(registro.vivienda) ==
+                  _quitarEspacios(viviendaName))
           .toList();
       print(registros);
     }
@@ -133,12 +137,52 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
       return marcaTemporal.isAfter(fechaInicio!) &&
           marcaTemporal.isBefore(fechaFin!) &&
           registro.sistema == widget.sistema &&
-          registro.vivienda == viviendaName;
+          _quitarEspacios(registro.vivienda) == _quitarEspacios(viviendaName);
     }).toList();
+  }
+
+  String _quitarEspacios(String texto) {
+    return texto.replaceAll(" ", "");
   }
 
   Future<void> _signOut(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
+  }
+
+  Future<void> _descargarReporte() async {
+    try {
+      // Filtra los registros que se están mostrando en pantalla
+      List<HistorialModel> registrosFiltrados =
+          filtrarRegistrosPorFechaYSistema();
+
+      // Verifica si hay registros para descargar
+      if (registrosFiltrados.isEmpty) {
+        print("No hay registros para descargar");
+        return;
+      }
+
+      // Crea el contenido del archivo CSV o TXT
+      String contenido = "Marca Temporal,Proveedor,Vivienda,Sistema,Accion\n";
+      for (var registro in registrosFiltrados) {
+        contenido +=
+            "${registro.marcaTemporal},${registro.proveedor},${registro.vivienda},${registro.sistema},${registro.accion}\n";
+      }
+
+      // Obtiene el directorio de documentos del dispositivo
+      Directory documentsDirectory = await getApplicationDocumentsDirectory();
+
+      // Crea el archivo con la fecha actual como nombre
+      String fechaActual = DateFormat("yyyyMMddHHmmss").format(DateTime.now());
+      String filePath = '${documentsDirectory.path}/reporte_$fechaActual.csv';
+
+      // Escribe el contenido en el archivo
+      File file = File(filePath);
+      await file.writeAsString(contenido);
+
+      print("Reporte descargado en: $filePath");
+    } catch (e) {
+      print("Error al descargar el reporte: $e");
+    }
   }
 
   @override
@@ -463,10 +507,7 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size.fromHeight(40), // NEW
                           ),
-                          onPressed: () {
-                            //Get.to(() => realtime_db());
-                            print("Descargando");
-                          },
+                          onPressed: _descargarReporte,
                           child: const Text(
                             'DESCARGAR REPORTE',
                             style: TextStyle(fontSize: 18),
