@@ -204,7 +204,7 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
       //     ),
       //   ],
       // ),
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(240, 252, 227, 210),
       body: Center(
         child: Column(
           children: [
@@ -246,7 +246,7 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                               width: 333 * fem,
                               height: 58 * fem,
                               decoration: BoxDecoration(
-                                color: Color(0xe5adbace),
+                                color: const Color(0xe5adbace),
                                 borderRadius: BorderRadius.circular(100 * fem),
                               ),
                               child: Row(

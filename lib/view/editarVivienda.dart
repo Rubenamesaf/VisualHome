@@ -169,6 +169,7 @@ class _EditarViviendaState extends State<EditarVivienda> {
       //     ),
       //   ],
       // ),
+      backgroundColor: const Color.fromARGB(240, 252, 227, 210),
       body: SingleChildScrollView(
         child: Center(
           child: Column(

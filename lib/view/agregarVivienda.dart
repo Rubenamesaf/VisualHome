@@ -75,6 +75,10 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
         //  color: const Color.fromARGB(234,154,94),
         items: const [
           BottomNavigationBarItem(
+            icon: Icon(Icons.add_home_work),
+            label: 'Agregar Vivienda',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_sharp),
             label: 'Perfil',
           ),
@@ -84,7 +88,8 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
           ),
         ],
         onTap: (index) async {
-          if (index == 0) {
+          if (index == 1) {
+            Navigator.pop(context);
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) =>
@@ -92,8 +97,9 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
               ),
             );
           }
-          if (index == 1) {
+          if (index == 2) {
             await _signOut(context);
+            Navigator.pop(context);
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => const SplashView(),
@@ -102,50 +108,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
           }
         },
       ),
-      // bottomNavigationBar: CurvedNavigationBar(
-      //   backgroundColor: const Color.fromARGB(219, 233, 100, 6),
-      //   color: const Color.fromARGB(255, 252, 176, 122),
-      //   items: const <Widget>[
-      //     Column(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       children: [
-      //         Icon(Icons.account_circle_sharp, color: Color(0xFF0F1370)),
-      //         Text(
-      //           'Perfil',
-      //           style: customTextStyle,
-      //         ),
-      //       ],
-      //     ),
-      //     Column(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       children: [
-      //         Icon(Icons.logout, color: Color(0xFF0F1370)),
-      //         Text(
-      //           'Cerrar Sesión',
-      //           style: customTextStyle,
-      //         ),
-      //       ],
-      //     ),
-      //   ],
-      //   /*
-      //   onTap: (index) {
-      //     if (index == 0) {
-      //       Navigator.of(context).push(
-      //         MaterialPageRoute(
-      //           builder: (context) => const SplashView(),
-      //         ),
-      //       );
-      //     }
-      //     if (index == 2) {
-      //       Navigator.of(context).push(
-      //         MaterialPageRoute(
-      //           builder: (context) => const SplashView(),
-      //         ),
-      //       );
-      //     }
-      //   },
-      //   */
-      // ),
+      backgroundColor: const Color.fromARGB(240, 252, 227, 210),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -167,7 +130,6 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                     ),
                   ),
                 ),
-
                 Container(
                   width: 190,
                   decoration: const ShapeDecoration(
@@ -180,11 +142,9 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                     ),
                   ),
                 ),
-
                 const SizedBox(
                   height: 25,
                 ),
-
                 Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
                   child: Column(
@@ -195,63 +155,9 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                         labelText: 'Nombre',
                         keyboardType: TextInputType.name,
                       ),
-                      // TextFormField(
-                      //   controller: nombreController,
-                      //   obscureText: false,
-                      //   decoration: InputDecoration(
-                      //     labelText: 'Nombre',
-                      //     hintText: 'Nombre del cliente',
-                      //     hintStyle: const TextStyle(
-                      //       fontFamily: 'Outfit',
-                      //       color: Color(0x9AFFFFFF),
-                      //     ),
-                      //     enabledBorder: OutlineInputBorder(
-                      //       borderSide: const BorderSide(
-                      //         color: GlobalColors.amarilloColor,
-                      //         width: 1,
-                      //       ),
-                      //       borderRadius: BorderRadius.circular(8),
-                      //     ),
-                      //     focusedBorder: OutlineInputBorder(
-                      //       borderSide: BorderSide(
-                      //         color: GlobalColors.blancoColor,
-                      //         width: 1,
-                      //       ),
-                      //       borderRadius: BorderRadius.circular(8),
-                      //     ),
-                      //     errorBorder: OutlineInputBorder(
-                      //       borderSide: BorderSide(
-                      //         color: GlobalColors.blancoColor,
-                      //         width: 1,
-                      //       ),
-                      //       borderRadius: BorderRadius.circular(8),
-                      //     ),
-                      //     focusedErrorBorder: OutlineInputBorder(
-                      //       borderSide: BorderSide(
-                      //         color: GlobalColors.moradoColor,
-                      //         width: 1,
-                      //       ),
-                      //       borderRadius: BorderRadius.circular(8),
-                      //     ),
-                      //     filled: true,
-                      //     fillColor: const Color.fromARGB(126, 103, 138, 207),
-                      //     prefixIcon: const Icon(
-                      //       Icons.abc,
-                      //       color: GlobalColors.logoazulColor,
-                      //     ),
-                      //   ),
-                      //   style: TextStyle(
-                      //     fontSize: 16,
-                      //     fontWeight: FontWeight.normal,
-                      //     color: GlobalColors.textColor,
-                      //     fontFamily: 'Outfit',
-                      //   ),
-                      //   keyboardType: TextInputType.name,
-                      // ),
                     ],
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(24, 10, 24, 0),
                   child: Column(
@@ -262,63 +168,9 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                         labelText: 'Email Address',
                         keyboardType: TextInputType.emailAddress,
                       ),
-                      // TextFormField(
-                      //   controller: emailController,
-                      //   obscureText: false,
-                      //   decoration: InputDecoration(
-                      //     labelText: 'Email Address',
-                      //     hintText: 'Correo del cliente',
-                      //     hintStyle: const TextStyle(
-                      //       fontFamily: 'Outfit',
-                      //       color: Color(0x9AFFFFFF),
-                      //     ),
-                      //     enabledBorder: OutlineInputBorder(
-                      //       borderSide: const BorderSide(
-                      //         color: GlobalColors.amarilloColor,
-                      //         width: 1,
-                      //       ),
-                      //       borderRadius: BorderRadius.circular(8),
-                      //     ),
-                      //     focusedBorder: OutlineInputBorder(
-                      //       borderSide: BorderSide(
-                      //         color: GlobalColors.blancoColor,
-                      //         width: 1,
-                      //       ),
-                      //       borderRadius: BorderRadius.circular(8),
-                      //     ),
-                      //     errorBorder: OutlineInputBorder(
-                      //       borderSide: BorderSide(
-                      //         color: GlobalColors.blancoColor,
-                      //         width: 1,
-                      //       ),
-                      //       borderRadius: BorderRadius.circular(8),
-                      //     ),
-                      //     focusedErrorBorder: OutlineInputBorder(
-                      //       borderSide: BorderSide(
-                      //         color: GlobalColors.moradoColor,
-                      //         width: 1,
-                      //       ),
-                      //       borderRadius: BorderRadius.circular(8),
-                      //     ),
-                      //     filled: true,
-                      //     fillColor: const Color.fromARGB(126, 103, 138, 207),
-                      //     prefixIcon: const Icon(
-                      //       Icons.email_outlined,
-                      //       color: GlobalColors.logoazulColor,
-                      //     ),
-                      //   ),
-                      //   style: TextStyle(
-                      //     fontSize: 16,
-                      //     fontWeight: FontWeight.normal,
-                      //     color: GlobalColors.textColor,
-                      //     fontFamily: 'Outfit',
-                      //   ),
-                      //   keyboardType: TextInputType.emailAddress,
-                      // ),
                     ],
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(24, 10, 24, 0),
                   child: Column(
@@ -328,63 +180,9 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                           controller: passwordController,
                           labelText: 'Password',
                           keyboardType: TextInputType.number),
-                      // TextFormField(
-                      //   controller: passwordController,
-                      //   obscureText: false,
-                      //   decoration: InputDecoration(
-                      //     labelText: 'Password',
-                      //     hintText: 'Código de acceso',
-                      //     hintStyle: const TextStyle(
-                      //       fontFamily: 'Outfit',
-                      //       color: Color(0x9AFFFFFF),
-                      //     ),
-                      //     enabledBorder: OutlineInputBorder(
-                      //       borderSide: const BorderSide(
-                      //         color: GlobalColors.amarilloColor,
-                      //         width: 1,
-                      //       ),
-                      //       borderRadius: BorderRadius.circular(8),
-                      //     ),
-                      //     focusedBorder: OutlineInputBorder(
-                      //       borderSide: BorderSide(
-                      //         color: GlobalColors.blancoColor,
-                      //         width: 1,
-                      //       ),
-                      //       borderRadius: BorderRadius.circular(8),
-                      //     ),
-                      //     errorBorder: OutlineInputBorder(
-                      //       borderSide: BorderSide(
-                      //         color: GlobalColors.blancoColor,
-                      //         width: 1,
-                      //       ),
-                      //       borderRadius: BorderRadius.circular(8),
-                      //     ),
-                      //     focusedErrorBorder: OutlineInputBorder(
-                      //       borderSide: BorderSide(
-                      //         color: GlobalColors.moradoColor,
-                      //         width: 1,
-                      //       ),
-                      //       borderRadius: BorderRadius.circular(8),
-                      //     ),
-                      //     filled: true,
-                      //     fillColor: const Color.fromARGB(126, 103, 138, 207),
-                      //     prefixIcon: const Icon(
-                      //       Icons.password,
-                      //       color: GlobalColors.logoazulColor,
-                      //     ),
-                      //   ),
-                      //   style: TextStyle(
-                      //     fontSize: 16,
-                      //     fontWeight: FontWeight.normal,
-                      //     color: GlobalColors.textColor,
-                      //     fontFamily: 'Outfit',
-                      //   ),
-                      //   keyboardType: TextInputType.visiblePassword,
-                      // ),
                     ],
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(24, 10, 24, 0),
                   child: Column(
@@ -394,63 +192,9 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                           controller: direccionController,
                           labelText: 'Address',
                           keyboardType: TextInputType.text),
-                      // TextFormField(
-                      //   controller: direccionController,
-                      //   obscureText: false,
-                      //   decoration: InputDecoration(
-                      //     labelText: 'Address',
-                      //     hintText: 'Dirección de la vivienda',
-                      //     hintStyle: TextStyle(
-                      //       fontFamily: 'Outfit',
-                      //       color: Color(0x9AFFFFFF),
-                      //     ),
-                      //     enabledBorder: OutlineInputBorder(
-                      //       borderSide: BorderSide(
-                      //         color: GlobalColors.amarilloColor,
-                      //         width: 1,
-                      //       ),
-                      //       borderRadius: BorderRadius.circular(8),
-                      //     ),
-                      //     focusedBorder: OutlineInputBorder(
-                      //       borderSide: BorderSide(
-                      //         color: GlobalColors.blancoColor,
-                      //         width: 1,
-                      //       ),
-                      //       borderRadius: BorderRadius.circular(8),
-                      //     ),
-                      //     errorBorder: OutlineInputBorder(
-                      //       borderSide: BorderSide(
-                      //         color: GlobalColors.blancoColor,
-                      //         width: 1,
-                      //       ),
-                      //       borderRadius: BorderRadius.circular(8),
-                      //     ),
-                      //     focusedErrorBorder: OutlineInputBorder(
-                      //       borderSide: BorderSide(
-                      //         color: GlobalColors.moradoColor,
-                      //         width: 1,
-                      //       ),
-                      //       borderRadius: BorderRadius.circular(8),
-                      //     ),
-                      //     filled: true,
-                      //     fillColor: Color(0x7D678ACF),
-                      //     prefixIcon: Icon(
-                      //       Icons.home,
-                      //       color: Color(0xFF0F1370),
-                      //     ),
-                      //   ),
-                      //   style: TextStyle(
-                      //     fontSize: 16,
-                      //     fontWeight: FontWeight.normal,
-                      //     color: GlobalColors.textColor,
-                      //     fontFamily: 'Outfit',
-                      //   ),
-                      //   keyboardType: TextInputType.streetAddress,
-                      // ),
                     ],
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.only(
                       top: 10.0, bottom: 5.0, left: 24, right: 24),
@@ -474,8 +218,6 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                       const EdgeInsets.symmetric(vertical: 5.0, horizontal: 24),
                   child: _crearBotonDescartar(),
                 ),
-
-                // Botón "Agregar Sistemas"
               ],
             ),
           ],

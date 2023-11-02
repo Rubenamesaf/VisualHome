@@ -204,7 +204,7 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
       //     }
       //   },
       // ),
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(240, 252, 227, 210),
       body: Center(
         child: Column(
           children: [

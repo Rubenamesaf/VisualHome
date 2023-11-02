@@ -164,12 +164,17 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
               label: 'Agregar Vivienda',
             ),
             BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle_sharp),
+              label: 'Perfil',
+            ),
+            BottomNavigationBarItem(
               icon: Icon(Icons.logout),
               label: 'Cerrar Sesión',
             ),
           ],
           onTap: (index) async {
             if (index == 0) {
+              Navigator.pop(context);
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) =>
@@ -177,8 +182,9 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
                 ),
               );
             }
-            if (index == 1) {
+            if (index == 2) {
               await _signOut(context);
+              Navigator.pop(context);
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => const SplashView(),
@@ -187,6 +193,7 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
             }
           },
         ),
+        backgroundColor: const Color.fromARGB(240, 252, 227, 210),
         body: SingleChildScrollView(
           child: Center(
               child: Column(

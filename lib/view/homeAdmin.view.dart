@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:login_v1/view/adminPerfil.view.dart';
 import 'package:login_v1/view/splash.view.dart';
+import 'package:login_v1/view/usuario/homeUser.view.dart';
 
 import '../utils/global.colors.dart';
 import 'agregarVivienda.dart';
@@ -88,6 +89,15 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: (() {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => HomeUserPage(userEmail: widget.userEmail),
+            ),
+          );
+        }),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: HexColor('#ED9A5E'),
         selectedItemColor: const Color(0xFF0F1370),
