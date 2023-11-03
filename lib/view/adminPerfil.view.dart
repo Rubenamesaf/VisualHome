@@ -33,7 +33,7 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
   @override
   void initState() {
     super.initState();
-    _dbref = FirebaseDatabase.instance.reference();
+    _dbref = FirebaseDatabase.instance.ref();
 
     _loadAdminData();
   }
@@ -177,10 +177,10 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
     }
 
     final viviendaData = <String, dynamic>{
-      'Usuario': {
+      admin: {
         'Nombre': clienteName,
         'Email': correo,
-        'Password': password,
+        'Clave': password,
         // Agrega más campos de usuario si es necesario
       },
     };
@@ -191,7 +191,7 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
           .orderByChild("Email")
           .equalTo(correo);
 
-      await _dbref.child("Administradores/" + admin).set(viviendaData);
+      await _dbref.child("Administradores").set(viviendaData);
       // La vivienda se ha guardado en Firebase
       print('Perfil guardado en Firebase');
       print(viviendaData);

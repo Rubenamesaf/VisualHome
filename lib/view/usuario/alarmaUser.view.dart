@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:login_v1/utils/global.colors.dart';
+import 'package:login_v1/view/usuario/monitoreoSistemaUser.view.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
 import 'package:login_v1/view/widgets/registroAlarma.dart';
 
@@ -46,13 +47,13 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
             // );
           }
           if (index == 2) {
-            // viviendas.clear();
-            // await _signOut(context);
-            // Navigator.of(context).push(
-            //   MaterialPageRoute(
-            //     builder: (context) => const SplashView(),
-            //   ),
-            // );
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => MonitoreoSistemaUser(
+                  userEmail: widget.userEmail,
+                ),
+              ),
+            );
           }
         },
       ),

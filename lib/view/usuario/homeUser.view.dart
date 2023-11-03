@@ -1,6 +1,8 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:login_v1/utils/global.colors.dart';
+import 'package:login_v1/view/editAdminInfo.dart';
 import 'package:login_v1/view/usuario/alarmaUser.view.dart';
 import 'package:login_v1/view/usuario/monitoreoSistemaUser.view.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
@@ -16,10 +18,37 @@ class HomeUserPage extends StatefulWidget {
 
 class _HomeUserPageState extends State<HomeUserPage> {
   bool switchAlarm = false;
+  String vivienda = "";
+  late DatabaseReference _dbref;
+
+  @override
+  void initState() {
+    super.initState();
+    _dbref = FirebaseDatabase.instance.ref();
+    _getViviendas();
+  }
+
+  Future<void> _getViviendas() async {
+    final userSnapshot = await _dbref.child("").once();
+
+    if (userSnapshot.snapshot.value != null) {
+      final dynamic data = userSnapshot.snapshot.value;
+      data.forEach((key, value) {
+        if (key is String && key != "Administradores") {
+          if (value["Usuario"]["Email"] == widget.userEmail) {
+            vivienda = key;
+          }
+        }
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _getViviendas(),
+      ),
       backgroundColor: const Color.fromARGB(240, 252, 227, 210),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: HexColor('#ED9A5E'),
@@ -60,8 +89,8 @@ class _HomeUserPageState extends State<HomeUserPage> {
           if (index == 2) {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) =>
-                    MonitoreoSistemaUser(userEmail: widget.userEmail),
+                builder: (context) => MonitoreoSistemaUser(
+                    userEmail: widget.userEmail, vivienda: vivienda),
               ),
             );
           }
@@ -80,64 +109,16 @@ class _HomeUserPageState extends State<HomeUserPage> {
                 height: 150,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Color.fromARGB(255, 255, 238, 223),
+                  color: Colors.red,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Column(
-                      children: [
-                        const SizedBox(
-                          height: 35,
-                        ),
-                        Transform.scale(
-                          scale: 2.5,
-                          child: Switch(
-                              value: switchAlarm,
-                              onChanged: (_) {
-                                setState(() {
-                                  switchAlarm = _;
-                                });
-                              }),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        const Text(
-                          "Alarma",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ],
+                child: GestureDetector(
+                  onTap: (() {}),
+                  child: const Center(
+                    child: Text(
+                      "EMERGENCIA",
+                      style: TextStyle(fontSize: 40, color: Colors.white),
                     ),
-                    Column(
-                      children: [
-                        const SizedBox(
-                          height: 25,
-                        ),
-                        Container(
-                          height: 70,
-                          width: 70,
-                          color: Colors.grey,
-                          child: Container(
-                            margin: const EdgeInsets.all(8.0),
-                            child: ClipOval(
-                              child: Container(
-                                color: Colors.red,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        const Text(
-                          "Emergencia",
-                          style: TextStyle(fontSize: 20),
-                        )
-                      ],
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),

@@ -1,18 +1,68 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:login_v1/utils/global.colors.dart';
+import 'package:login_v1/view/editAdminInfo.dart';
+import 'package:login_v1/view/usuario/alarmaUser.view.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
 import 'package:login_v1/view/widgets/sistemaUsuario.dart';
 
 class MonitoreoSistemaUser extends StatefulWidget {
   final String userEmail;
-  const MonitoreoSistemaUser({required this.userEmail, super.key});
+  final String? vivienda;
+  const MonitoreoSistemaUser(
+      {required this.userEmail, this.vivienda, super.key});
 
   @override
   State<MonitoreoSistemaUser> createState() => _MonitoreoSistemaUserState();
 }
 
 class _MonitoreoSistemaUserState extends State<MonitoreoSistemaUser> {
+  final DatabaseReference _dbref = FirebaseDatabase.instance.ref();
+  String databasejson = "";
+  List<Sistema> sistemasList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _setupDatabaseListener();
+  }
+
+  void _setupDatabaseListener() {
+    _dbref.child(widget.vivienda ?? "").onValue.listen((event) {
+      final dataSnapshot = event.snapshot;
+      if (dataSnapshot.value != null && mounted) {
+        print("Datos actualizados - " + dataSnapshot.value.toString());
+        setState(() {
+          databasejson = dataSnapshot.value.toString();
+
+          // Eliminar los corchetes iniciales y finales
+          databasejson = databasejson.substring(1, databasejson.length - 1);
+
+          // Dividir la cadena en pares clave-valor
+          final keyValuePairs = databasejson.split(', ');
+
+          // Limpiar la lista actual antes de agregar los nuevos sistemas
+          sistemasList.clear();
+
+          // Recorrer los pares clave-valor y agregarlos a sistemasList
+          for (var pair in keyValuePairs) {
+            final parts = pair.split(': ');
+            final nombre = parts[0].trim(); // Eliminar espacios en blanco
+
+            if (nombre != "Usuario") {
+              final estado = int.tryParse(parts[1].trim());
+              if (estado != null) {
+                sistemasList.add(Sistema(nombre, estado == 1));
+              }
+            }
+          }
+        });
+        print(sistemasList);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,20 +87,19 @@ class _MonitoreoSistemaUserState extends State<MonitoreoSistemaUser> {
           ),
         ],
         onTap: (index) async {
+          if (index == 0) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) =>
+                    AlarmaUserPage(userEmail: widget.userEmail),
+              ),
+            );
+          }
           if (index == 1) {
             // Navigator.of(context).push(
             //   MaterialPageRoute(
             //     builder: (context) =>
             //         AdminPerfilView(userEmail: widget.userEmail),
-            //   ),
-            // );
-          }
-          if (index == 2) {
-            // viviendas.clear();
-            // await _signOut(context);
-            // Navigator.of(context).push(
-            //   MaterialPageRoute(
-            //     builder: (context) => const SplashView(),
             //   ),
             // );
           }
@@ -61,15 +110,15 @@ class _MonitoreoSistemaUserState extends State<MonitoreoSistemaUser> {
           children: [
             AdminPrincipal(
                 administratorName: widget.userEmail, pageName: 'monitoreo'),
-            const Positioned(
-              left: 134,
+            Positioned(
+              left: 120,
               top: 135,
               child: SizedBox(
-                width: 132,
+                width: 200,
                 height: 38,
                 child: Text(
-                  'Alarmas',
-                  style: TextStyle(
+                  widget.vivienda ?? "",
+                  style: const TextStyle(
                     color: Color(0xFF0F1370),
                     fontSize: 25,
                     fontFamily: 'Inria Sans',
@@ -80,10 +129,10 @@ class _MonitoreoSistemaUserState extends State<MonitoreoSistemaUser> {
               ),
             ),
             Positioned(
-              left: 128,
+              left: 113,
               top: 160,
               child: Container(
-                width: 134,
+                width: 180,
                 decoration: const ShapeDecoration(
                   color: GlobalColors.azulColor,
                   shape: RoundedRectangleBorder(
@@ -98,20 +147,32 @@ class _MonitoreoSistemaUserState extends State<MonitoreoSistemaUser> {
             ),
             Positioned(
               left: 55,
-              top: 170, // Ajusta la posición según sea necesario
-              child: SizedBox(
-                width: 285, // Ajusta el ancho de acuerdo a tu diseño
-                height: 480, // Ajusta la altura según sea necesario
-                child: ListView(
-                  children: [
-                    SistemaUsuario(nombreSistema: "BotonPanico", activo: true),
-                    SistemaUsuario(nombreSistema: "BotonPanico", activo: true),
-                    SistemaUsuario(nombreSistema: "BotonPanico", activo: true),
-                    SistemaUsuario(nombreSistema: "BotonPanico", activo: true),
-                    SistemaUsuario(nombreSistema: "BotonPanico", activo: true),
-                  ],
+              top: 170,
+              child: Container(
+                width: 285,
+                height: 500,
+                child: ListView.builder(
+                  itemCount: sistemasList.length,
+                  itemBuilder: (context, index) {
+                    final sistema = sistemasList[index];
+                    return SistemaUsuario(
+                        nombreSistema: sistema.nombre, activo: sistema.estado);
+                  },
                 ),
               ),
+              // child: SizedBox(
+              //   width: 285, // Ajusta el ancho de acuerdo a tu diseño
+              //   height: 480, // Ajusta la altura según sea necesario
+              //   child: ListView(
+              //     children: [
+              //       SistemaUsuario(nombreSistema: "BotonPanico", activo: true),
+              //       SistemaUsuario(nombreSistema: "BotonPanico", activo: true),
+              //       SistemaUsuario(nombreSistema: "BotonPanico", activo: true),
+              //       SistemaUsuario(nombreSistema: "BotonPanico", activo: true),
+              //       SistemaUsuario(nombreSistema: "BotonPanico", activo: true),
+              //     ],
+              //   ),
+              // ),
             ),
             // TEXTO AGREGAR VIVIENDA
             /*Positioned(

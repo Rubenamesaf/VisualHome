@@ -8,10 +8,10 @@ import 'package:flutter_svg/svg.dart';
 //import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
+import 'package:login_v1/view/usuario/homeUser.view.dart';
 //import 'widgets/admin_principal.dart';
 
 import 'homeAdmin.view.dart';
-import 'homeUser.view.dart';
 
 class LoginView extends StatefulWidget {
   LoginView({Key? key}) : super(key: key);

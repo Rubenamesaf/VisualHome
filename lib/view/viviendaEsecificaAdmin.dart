@@ -116,9 +116,13 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: HexColor('#ED9A5E'),
         selectedItemColor: const Color(0xFF0F1370),
-        currentIndex: 0,
+        currentIndex: 1,
         //  color: const Color.fromARGB(234,154,94),
         items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_home_work),
+            label: 'Agregar Vivienda',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_sharp),
             label: 'Perfil',
