@@ -26,7 +26,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeAdminPage(userEmail: 'ruben@gmail.com'),
+      home: SplashView(),
       //SplashView(), // se pone esto -- SplashView(),
     );
   }
