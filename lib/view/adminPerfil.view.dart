@@ -154,14 +154,14 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
         foregroundColor: Color.fromARGB(255, 255, 255, 255),
       ),
       onPressed: () {
-        _guardarViviendaEnFirebase();
+        _guardarPerfilEnFirebase();
       },
       label: Text('GUARDAR'),
       icon: Icon(Icons.save),
     );
   }
 
-  void _guardarViviendaEnFirebase() async {
+  void _guardarPerfilEnFirebase() async {
     var clienteName = nombreController.text;
     var correo = emailController.text;
     var password = passwordController.text;
@@ -176,7 +176,7 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
       password = clave;
     }
 
-    final viviendaData = <String, dynamic>{
+    final adminData = <String, dynamic>{
       admin: {
         'Nombre': clienteName,
         'Email': correo,
@@ -186,15 +186,10 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
     };
 
     try {
-      final adminSnapshot = await _dbref
-          .child("Administradores")
-          .orderByChild("Email")
-          .equalTo(correo);
-
-      await _dbref.child("Administradores").set(viviendaData);
+      await _dbref.child("Administradores").set(adminData);
       // La vivienda se ha guardado en Firebase
       print('Perfil guardado en Firebase');
-      print(viviendaData);
+      print(adminData);
       // Puedes redirigir a otra pantalla o realizar otras acciones aquí
       showDialog(
         context: context,
@@ -216,92 +211,93 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
       );
     } catch (e) {
       // Manejar errores si es necesario
-      print('Error al guardar la vivienda en Firebase: $e');
+      print('Error al guardar el perfil en Firebase: $e');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: HexColor('#ED9A5E'),
-          selectedItemColor: const Color(0xFF0F1370),
-          currentIndex: 1,
-          //  color: const Color.fromARGB(234,154,94),
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.add_home_work),
-              label: 'Agregar Vivienda',
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: HexColor('#ED9A5E'),
+        selectedItemColor: const Color(0xFF0F1370),
+        currentIndex: 1,
+        //  color: const Color.fromARGB(234,154,94),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_home_work),
+            label: 'Agregar Vivienda',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle_sharp),
+            label: 'Perfil',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.logout),
+            label: 'Cerrar Sesión',
+          ),
+        ],
+        onTap: (index) async {
+          if (index == 0) {
+            Navigator.pop(context);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) =>
+                    AgregarVivienda(userEmail: widget.userEmail),
+              ),
+            );
+          }
+          if (index == 2) {
+            await _signOut(context);
+            Navigator.pop(context);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const SplashView(),
+              ),
+            );
+          }
+        },
+      ),
+      backgroundColor: const Color.fromARGB(240, 252, 227, 210),
+      body: SingleChildScrollView(
+        child: Center(
+            child: Column(
+          children: [
+            AdminPrincipal(administratorName: widget.userEmail),
+            const Padding(
+              padding: EdgeInsets.only(top: 40.0),
+              child: Text(
+                'Perfil',
+                style: TextStyle(
+                  color: Color(0xFF0F1370),
+                  fontSize: 24,
+                  fontFamily: 'Inria Sans',
+                  fontWeight: FontWeight.w700,
+                  height: 0.9,
+                ),
+              ),
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle_sharp),
-              label: 'Perfil',
+            Container(
+              width: 60,
+              decoration: const ShapeDecoration(
+                color: GlobalColors.azulColor,
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                    width: 1.50,
+                    color: GlobalColors.azulColor,
+                  ),
+                ),
+              ),
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.logout),
-              label: 'Cerrar Sesión',
+            _buildTextFormFields(),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 5.0, horizontal: 24),
+              child: _crearBotonGuardar(),
             ),
           ],
-          onTap: (index) async {
-            if (index == 0) {
-              Navigator.pop(context);
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) =>
-                      AgregarVivienda(userEmail: widget.userEmail),
-                ),
-              );
-            }
-            if (index == 2) {
-              await _signOut(context);
-              Navigator.pop(context);
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const SplashView(),
-                ),
-              );
-            }
-          },
-        ),
-        backgroundColor: const Color.fromARGB(240, 252, 227, 210),
-        body: SingleChildScrollView(
-          child: Center(
-              child: Column(
-            children: [
-              AdminPrincipal(administratorName: widget.userEmail),
-              const Padding(
-                padding: EdgeInsets.only(top: 40.0),
-                child: Text(
-                  'Perfil',
-                  style: TextStyle(
-                    color: Color(0xFF0F1370),
-                    fontSize: 24,
-                    fontFamily: 'Inria Sans',
-                    fontWeight: FontWeight.w700,
-                    height: 0.9,
-                  ),
-                ),
-              ),
-              Container(
-                width: 60,
-                decoration: const ShapeDecoration(
-                  color: GlobalColors.azulColor,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      width: 1.50,
-                      color: GlobalColors.azulColor,
-                    ),
-                  ),
-                ),
-              ),
-              _buildTextFormFields(),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 5.0, horizontal: 24),
-                child: _crearBotonGuardar(),
-              ),
-            ],
-          )),
-        ));
+        )),
+      ),
+    );
   }
 }

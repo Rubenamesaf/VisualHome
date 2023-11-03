@@ -89,15 +89,6 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: (() {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => HomeUserPage(userEmail: widget.userEmail),
-            ),
-          );
-        }),
-      ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: HexColor('#ED9A5E'),
         selectedItemColor: const Color(0xFF0F1370),

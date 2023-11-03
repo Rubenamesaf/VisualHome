@@ -51,24 +51,5 @@ class SistemaUsuario extends StatelessWidget {
         ),
       ],
     );
-    // return Card(
-    //   child: Container(
-    //     padding: const EdgeInsets.symmetric(horizontal: 10.0),
-    //     color: const Color(0xe5adbace),
-    //     height: 60,
-    //     child: Row(
-    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //       children: [
-    //         Flexible(
-    //           child: Text(
-    //             nombreSistema,
-    //             style: const TextStyle(fontSize: 16, color: Color(0xFF0F1370)),
-    //           ),
-    //         ),
-    //         mostrarStatus(),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }

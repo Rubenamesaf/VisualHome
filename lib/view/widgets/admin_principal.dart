@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 //import 'package:get/get.dart';
@@ -14,6 +15,10 @@ class AdminPrincipal extends StatelessWidget {
   AdminPrincipal({required this.administratorName, this.pageName, Key? key})
       : super(key: key);
 
+  Future<void> _signOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+  }
+
   Widget showBackButton(BuildContext context) {
     if (pageName == 'home') {
       return Container();
@@ -26,6 +31,26 @@ class AdminPrincipal extends StatelessWidget {
           color: const Color(0xFF0F1370),
           iconSize: 35,
           onPressed: (() => Navigator.pop(context)),
+        ),
+      );
+    }
+  }
+
+  Widget showLogoutButton(BuildContext context) {
+    if (pageName != 'home') {
+      return Container();
+    } else {
+      return Positioned(
+        left: 335,
+        top: 25,
+        child: IconButton(
+          icon: const Icon(Icons.logout),
+          color: const Color(0xFF0F1370),
+          iconSize: 35,
+          onPressed: (() {
+            _signOut(context);
+            Navigator.pop(context);
+          }),
         ),
       );
     }
@@ -122,6 +147,7 @@ class AdminPrincipal extends StatelessWidget {
                 ),
               ),*/
               showBackButton(context),
+              showLogoutButton(context),
               /*Positioned(
                 left: 331,
                 top: 4,

@@ -7,7 +7,9 @@ import 'package:login_v1/view/widgets/registroAlarma.dart';
 
 class AlarmaUserPage extends StatefulWidget {
   final String userEmail;
-  const AlarmaUserPage({required this.userEmail, super.key});
+  final String vivienda;
+  const AlarmaUserPage(
+      {required this.userEmail, required this.vivienda, super.key});
 
   @override
   State<AlarmaUserPage> createState() => _AlarmaUserPageState();
@@ -47,10 +49,12 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
             // );
           }
           if (index == 2) {
+            Navigator.pop(context);
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => MonitoreoSistemaUser(
                   userEmail: widget.userEmail,
+                  vivienda: widget.vivienda,
                 ),
               ),
             );

@@ -266,7 +266,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
           },
         );
       },
-      label: Text('CANCLAR'),
+      label: Text('CANCELAR'),
       icon: Icon(Icons.cancel),
     );
   }

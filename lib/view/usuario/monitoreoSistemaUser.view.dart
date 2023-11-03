@@ -9,9 +9,9 @@ import 'package:login_v1/view/widgets/sistemaUsuario.dart';
 
 class MonitoreoSistemaUser extends StatefulWidget {
   final String userEmail;
-  final String? vivienda;
+  final String vivienda;
   const MonitoreoSistemaUser(
-      {required this.userEmail, this.vivienda, super.key});
+      {required this.userEmail, required this.vivienda, super.key});
 
   @override
   State<MonitoreoSistemaUser> createState() => _MonitoreoSistemaUserState();
@@ -29,7 +29,7 @@ class _MonitoreoSistemaUserState extends State<MonitoreoSistemaUser> {
   }
 
   void _setupDatabaseListener() {
-    _dbref.child(widget.vivienda ?? "").onValue.listen((event) {
+    _dbref.child(widget.vivienda).onValue.listen((event) {
       final dataSnapshot = event.snapshot;
       if (dataSnapshot.value != null && mounted) {
         print("Datos actualizados - " + dataSnapshot.value.toString());
@@ -58,7 +58,6 @@ class _MonitoreoSistemaUserState extends State<MonitoreoSistemaUser> {
             }
           }
         });
-        print(sistemasList);
       }
     });
   }
@@ -88,10 +87,13 @@ class _MonitoreoSistemaUserState extends State<MonitoreoSistemaUser> {
         ],
         onTap: (index) async {
           if (index == 0) {
+            Navigator.pop(context);
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) =>
-                    AlarmaUserPage(userEmail: widget.userEmail),
+                builder: (context) => AlarmaUserPage(
+                  userEmail: widget.userEmail,
+                  vivienda: widget.vivienda,
+                ),
               ),
             );
           }
@@ -117,7 +119,7 @@ class _MonitoreoSistemaUserState extends State<MonitoreoSistemaUser> {
                 width: 200,
                 height: 38,
                 child: Text(
-                  widget.vivienda ?? "",
+                  widget.vivienda,
                   style: const TextStyle(
                     color: Color(0xFF0F1370),
                     fontSize: 25,
@@ -148,7 +150,7 @@ class _MonitoreoSistemaUserState extends State<MonitoreoSistemaUser> {
             Positioned(
               left: 55,
               top: 170,
-              child: Container(
+              child: SizedBox(
                 width: 285,
                 height: 500,
                 child: ListView.builder(
@@ -160,33 +162,7 @@ class _MonitoreoSistemaUserState extends State<MonitoreoSistemaUser> {
                   },
                 ),
               ),
-              // child: SizedBox(
-              //   width: 285, // Ajusta el ancho de acuerdo a tu diseño
-              //   height: 480, // Ajusta la altura según sea necesario
-              //   child: ListView(
-              //     children: [
-              //       SistemaUsuario(nombreSistema: "BotonPanico", activo: true),
-              //       SistemaUsuario(nombreSistema: "BotonPanico", activo: true),
-              //       SistemaUsuario(nombreSistema: "BotonPanico", activo: true),
-              //       SistemaUsuario(nombreSistema: "BotonPanico", activo: true),
-              //       SistemaUsuario(nombreSistema: "BotonPanico", activo: true),
-              //     ],
-              //   ),
-              // ),
             ),
-            // TEXTO AGREGAR VIVIENDA
-            /*Positioned(
-              left: 80,
-              top: 585,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  print('IconButton pressed ...');
-                  Get.to(() => AgregarVivienda(userEmail: widget.userEmail),
-                      arguments: cantidadViviendas);
-                },
-              ),
-            ),*/
-            // FIN TEXTO AGREGAR VIVIENDA
           ],
         ),
       ),
