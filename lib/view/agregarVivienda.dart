@@ -4,6 +4,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
 //import 'package:get/get.dart';
 //import 'package:get/get_core/src/get_main.dart';
@@ -282,7 +283,6 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
       ),
       onPressed: () {
         _guardarViviendaEnFirebase();
-        Navigator.of(context).pop();
       },
       label: Text('GUARDAR'),
       icon: Icon(Icons.save),
@@ -366,6 +366,27 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
       return; // Sale de la función si los campos están vacíos
     }
 
+    if (password.length != 6) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Contraseña muy corta'),
+            content: Text('Por favor, poner una clave de 6 digitos.'),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Cierra el cuadro informativo
+                },
+                child: Text('Aceptar'),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
     final viviendaData = <String, dynamic>{
       'Usuario': {
         'Nombre': clienteName,
@@ -379,8 +400,12 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
     for (String sistema in sistemasSeleccionados) {
       viviendaData[sistema] = 0;
     }
-
     try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
       await _dbref.child(viviendaCode).set(viviendaData);
       // La vivienda se ha guardado en Firebase
       print('Vivienda guardada en Firebase');
@@ -407,7 +432,30 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
       );
     } catch (e) {
       // Manejar errores si es necesario
-      print('Error al guardar la vivienda en Firebase: $e');
+      if (e is FirebaseAuthException) {
+        if (e.code == 'email-already-in-use') {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Este correo ya existe'),
+                content:
+                    Text('Este correo ya esta registrado en una vivienda.'),
+                actions: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context)
+                          .pop(); // Cierra el cuadro informativo
+                      // Puedes agregar aquí cualquier acción adicional
+                    },
+                    child: Text('Aceptar'),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      }
     }
   }
 }

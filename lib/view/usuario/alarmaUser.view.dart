@@ -66,7 +66,7 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
             AdminPrincipal(
                 administratorName: widget.userEmail, pageName: 'alarma'),
             const Positioned(
-              left: 134,
+              left: 150,
               top: 135,
               child: SizedBox(
                 width: 132,
@@ -84,7 +84,7 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
               ),
             ),
             Positioned(
-              left: 128,
+              left: 129,
               top: 160,
               child: Container(
                 width: 134,
