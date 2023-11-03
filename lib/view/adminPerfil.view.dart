@@ -24,6 +24,12 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
   //final TextEditingController direccionController = TextEditingController();
   late DatabaseReference _dbref;
 
+  var nombre = '';
+  var email = '';
+  var direccion = '';
+  var clave = '';
+  var admin = '';
+
   @override
   void initState() {
     super.initState();
@@ -44,6 +50,12 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
 
         // Verifica si adminSnapshot.snapshot.value es null antes de acceder a 'values'
         if (adminSnapshot.snapshot.value != null) {
+          final dynamic data = adminSnapshot.snapshot.value;
+
+          data.forEach((key, value) {
+            admin = key;
+          });
+
           final adminData = (adminSnapshot.snapshot.value as Map).values.first;
           setState(() {
             nombreController.text = adminData['Nombre'];
@@ -142,12 +154,70 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
         foregroundColor: Color.fromARGB(255, 255, 255, 255),
       ),
       onPressed: () {
-        // _guardarViviendaEnFirebase();
-        Navigator.of(context).pop();
+        _guardarViviendaEnFirebase();
       },
       label: Text('GUARDAR'),
       icon: Icon(Icons.save),
     );
+  }
+
+  void _guardarViviendaEnFirebase() async {
+    var clienteName = nombreController.text;
+    var correo = emailController.text;
+    var password = passwordController.text;
+
+    if (clienteName == "") {
+      clienteName = nombre;
+    }
+    if (correo == "") {
+      correo = email;
+    }
+    if (password == "") {
+      password = clave;
+    }
+
+    final viviendaData = <String, dynamic>{
+      'Usuario': {
+        'Nombre': clienteName,
+        'Email': correo,
+        'Password': password,
+        // Agrega más campos de usuario si es necesario
+      },
+    };
+
+    try {
+      final adminSnapshot = await _dbref
+          .child("Administradores")
+          .orderByChild("Email")
+          .equalTo(correo);
+
+      await _dbref.child("Administradores/" + admin).set(viviendaData);
+      // La vivienda se ha guardado en Firebase
+      print('Perfil guardado en Firebase');
+      print(viviendaData);
+      // Puedes redirigir a otra pantalla o realizar otras acciones aquí
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Perfil Editado Exitosamente'),
+            content: Text('El perfil se ha editado exitosamente.'),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Cierra el cuadro informativo
+                  // Puedes agregar aquí cualquier acción adicional
+                },
+                child: Text('Aceptar'),
+              ),
+            ],
+          );
+        },
+      );
+    } catch (e) {
+      // Manejar errores si es necesario
+      print('Error al guardar la vivienda en Firebase: $e');
+    }
   }
 
   @override

@@ -37,6 +37,22 @@ class DesingSplashContainer extends StatelessWidget {
         child: Stack(
           children: [
             Align(
+              child: SvgPicture.asset('assets/images/VisualHome.svg'),
+            ),
+            Align(
+              alignment: const AlignmentDirectional(0, 0.2),
+              child: Text(
+                'Look, feel and read your home',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: 'Inria Sans',
+                    color: GlobalColors.blancoColor,
+                    fontWeight: FontWeight.w400,
+                    height: 0.95),
+              ),
+            ),
+            Align(
               alignment: const AlignmentDirectional(0, 0.5),
               child: ElevatedButton(
                 onPressed: () {
@@ -71,22 +87,6 @@ class DesingSplashContainer extends StatelessWidget {
                     height: 0.95,
                   ),
                 ),
-              ),
-            ),
-            Align(
-              child: SvgPicture.asset('assets/images/VisualHome.svg'),
-            ),
-            Align(
-              alignment: const AlignmentDirectional(0, 0.2),
-              child: Text(
-                'Look, feel and read your home',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: 'Inria Sans',
-                    color: GlobalColors.blancoColor,
-                    fontWeight: FontWeight.w400,
-                    height: 0.95),
               ),
             ),
           ],
