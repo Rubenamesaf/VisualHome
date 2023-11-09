@@ -10,6 +10,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:login_v1/view/usuario/homeUser.view.dart';
 //import 'widgets/admin_principal.dart';
+import 'package:flutter/gestures.dart';
 
 import 'homeAdmin.view.dart';
 
@@ -79,6 +80,38 @@ class _LoginViewState extends State<LoginView> {
       setState(() {
         signInSuccess = false;
       });
+    }
+  }
+
+  Future<void> _resetPassword(BuildContext context) async {
+    try {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: emailController.text);
+      // Muestra un diálogo de éxito o redirige a una pantalla de éxito
+      // Puedes agregar un AwesomeDialog o usar Navigator para navegar a otra pantalla.
+      // Por ejemplo:
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.success,
+        animType: AnimType.topSlide,
+        showCloseIcon: true,
+        title: "Éxito",
+        desc:
+            "Se ha enviado un correo electrónico para restablecer tu contraseña.",
+        btnOkOnPress: () {},
+      ).show();
+    } catch (e) {
+      // Maneja los errores aquí
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.error,
+        animType: AnimType.topSlide,
+        showCloseIcon: true,
+        title: "Error",
+        desc:
+            "Hubo un problema al enviar el correo electrónico. Inténtalo de nuevo más tarde. \n\n Asegurate de ingresar un correo electrónico válido",
+        btnOkOnPress: () {},
+      ).show();
     }
   }
 
@@ -345,12 +378,51 @@ class _LoginViewState extends State<LoginView> {
                                 ),
                               ),
                             ),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  top:
+                                      20), // Ajusta el valor según sea necesario
+                              child: Center(
+                                child: RichText(
+                                  text: TextSpan(
+                                    text: '¿Olvidaste tu contraseña?\n    ',
+                                    style: TextStyle(
+                                      color: Color(0xFF0F1370),
+                                      fontSize: 20,
+                                      fontFamily: 'Inria Sans',
+                                      fontWeight: FontWeight.w700,
+                                      height: 0.95,
+                                    ),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: 'Restaurar contraseña',
+                                        style: TextStyle(
+                                          color: const Color.fromARGB(
+                                              255, 33, 72, 243),
+                                          fontSize: 20,
+                                          fontFamily: 'Inria Sans',
+                                          fontWeight: FontWeight.w700,
+                                          height: 0.95,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            // Agrega la lógica para restaurar la contraseña aquí
+                                            _resetPassword(context);
+                                          },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
                           ],
                         ),
                       ),
                     ],
                   ),
-                ), //aqui se agrega el form
+                ),
+                //aqui se agrega el form
               ),
             ),
           ],

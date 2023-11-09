@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:login_v1/api/firebase_api.dart';
 import 'package:login_v1/view/homeAdmin.view.dart';
 import 'package:login_v1/view/splash.view.dart';
 //import 'package:login_v1/view/viviendaEsecificaAdmin.dart';
@@ -13,6 +14,8 @@ void main() async {
 
   FirebaseApp firebaseApp =
       await Firebase.initializeApp(); // Inicializa Firebase2
+
+  await FirebaseApi().initNotifications();
 
   runApp(const App());
 }
