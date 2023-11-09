@@ -153,14 +153,34 @@ class _MonitoreoSistemaUserState extends State<MonitoreoSistemaUser> {
               child: SizedBox(
                 width: 285,
                 height: 500,
-                child: ListView.builder(
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
+                  ),
                   itemCount: sistemasList.length,
                   itemBuilder: (context, index) {
                     final sistema = sistemasList[index];
                     return SistemaUsuario(
-                        nombreSistema: sistema.nombre, activo: sistema.estado);
+                      nombreSistema: sistema.nombre,
+                      activo: sistema.estado,
+                      icon: const Icon(
+                        Icons.abc,
+                        size: 40,
+                        color: Colors.white,
+                      ),
+                    );
                   },
                 ),
+                // child: ListView.builder(
+                //   itemCount: sistemasList.length,
+                //   itemBuilder: (context, index) {
+                //     final sistema = sistemasList[index];
+                //     return SistemaUsuario(
+                //         nombreSistema: sistema.nombre, activo: sistema.estado);
+                //   },
+                // ),
               ),
             ),
           ],

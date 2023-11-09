@@ -40,7 +40,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController direccionController = TextEditingController();
-  DatabaseReference _dbref = FirebaseDatabase.instance.reference();
+  DatabaseReference _dbref = FirebaseDatabase.instance.ref();
 
   var contador = 3;
   List<String> viviendas = [];
@@ -48,6 +48,15 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    nombreController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    direccionController.dispose();
+    super.dispose();
   }
 
   String generarCodigoAleatorio() {

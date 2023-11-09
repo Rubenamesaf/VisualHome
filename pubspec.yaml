@@ -45,17 +45,12 @@ dependencies:
   hexcolor: ^3.0.0
   intl: ^0.17.0
   logger: ^2.0.1
-  provider: ^6.0.5
   path_provider: ^2.0.7
+  provider: ^6.0.5
   url_launcher: ^6.0.4
+  firebase_messaging: ^14.7.3
 
 dev_dependencies:
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter

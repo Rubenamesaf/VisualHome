@@ -64,8 +64,8 @@ class DesingSplashContainer extends StatelessWidget {
                   minimumSize: MaterialStateProperty.all(const Size(325, 72)),
                   padding: MaterialStateProperty.all(
                       const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0)),
-                  backgroundColor:
-                      MaterialStateProperty.all(GlobalColors.naranjaFUERTE),
+                  backgroundColor: MaterialStateProperty.all(
+                      const Color.fromARGB(240, 230, 154, 100)),
                   textStyle: MaterialStateProperty.all(const TextStyle(
                     fontWeight: FontWeight.w600,
                   )),

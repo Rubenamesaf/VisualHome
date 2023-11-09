@@ -70,7 +70,7 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: HexColor('#ED9A5E'),
         selectedItemColor: const Color(0xFF0F1370),
-        currentIndex: 1,
+        currentIndex: 2,
         //  color: const Color.fromARGB(234,154,94),
         items: const [
           BottomNavigationBarItem(
@@ -78,12 +78,12 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
             label: 'Alarmas',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_sharp),
-            label: 'Perfil',
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Monitoreo',
+            icon: Icon(Icons.account_circle_rounded),
+            label: 'Perfil',
           ),
         ],
         onTap: (index) async {
@@ -96,14 +96,8 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
               ),
             );
           }
-          if (index == 2) {
+          if (index == 1) {
             Navigator.pop(context);
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => MonitoreoSistemaUser(
-                    userEmail: widget.userEmail, vivienda: widget.vivienda),
-              ),
-            );
           }
         },
       ),

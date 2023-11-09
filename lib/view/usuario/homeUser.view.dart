@@ -9,20 +9,21 @@ import 'package:login_v1/view/usuario/monitoreoSistemaUser.view.dart';
 import 'package:login_v1/view/usuario/userPerfil.view.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
 import 'package:login_v1/view/widgets/notificacionSensor.dart';
+import 'package:login_v1/view/widgets/sistemaUsuario.dart';
 //import 'package:url_launcher/url_launcher.dart';
 
-Map<String, String> notificacionSistemas = {
-  'Timbre': 'Tocaron el timbre',
-  'RuidoAlto': 'Hubo un ruido alto',
-  'Incendio': 'Se esta quemando algo',
-  'DisparoAlarma': 'Se disparo la alarma',
-  'BotonPanico': 'Presionaste el boton de panico',
-  'TelefonoFijo': 'Esta sonando el telefono',
-  'Despertador': 'Sono el despertador',
-  'Perimetro': 'Hubo movimiento en el perimetro',
-  'Acceso': 'Alguien accedio a una habitacion',
-  'ActivacionAlarma': 'Se activo una alarma',
-  'PresenciaPuerta': 'Hay alguien en la puerta'
+Map<String, IconData> sistemasIcons = {
+  'Timbre': Icons.doorbell,
+  'RuidoAlto': Icons.speaker,
+  'Incendio': Icons.fire_truck,
+  'DisparoAlarma': Icons.alarm,
+  'BotonPanico': Icons.emergency,
+  'TelefonoFijo': Icons.phone_sharp,
+  'Despertador': Icons.lock_clock,
+  'Perimetro': Icons.square,
+  'Acceso': Icons.door_back_door,
+  'ActivacionAlarma': Icons.alarm_off,
+  'PresenciaPuerta': Icons.door_front_door,
 };
 
 class HomeUserPage extends StatefulWidget {
@@ -35,7 +36,7 @@ class HomeUserPage extends StatefulWidget {
 
 class _HomeUserPageState extends State<HomeUserPage> {
   bool switchAlarm = false;
-  List<String> notificaciones = [];
+  List<Sistema> sistemasList = [];
   String vivienda = "";
   String databasejson = "";
   late DatabaseReference _dbref;
@@ -85,26 +86,29 @@ class _HomeUserPageState extends State<HomeUserPage> {
         setState(() {
           databasejson = dataSnapshot.value.toString();
 
+          // Eliminar los corchetes iniciales y finales
           databasejson = databasejson.substring(1, databasejson.length - 1);
 
+          // Dividir la cadena en pares clave-valor
           final keyValuePairs = databasejson.split(', ');
 
-          keyValuePairs.sort();
+          // Limpiar la lista actual antes de agregar los nuevos sistemas
+          sistemasList.clear();
 
-          notificaciones.clear();
-
+          // Recorrer los pares clave-valor y agregarlos a sistemasList
           for (var pair in keyValuePairs) {
             final parts = pair.split(': ');
-            final nombre = parts[0].trim();
+            final nombre = parts[0].trim(); // Eliminar espacios en blanco
 
-            if (nombre != "Usuario") {
+            if (nombre != "Usuario" &&
+                nombre != "Alarmas" &&
+                nombre != "Hours") {
               final estado = int.tryParse(parts[1].trim());
-              if (estado != null && estado == 1) {
-                notificaciones.insert(0, notificacionSistemas[nombre]!);
+              if (estado != null) {
+                sistemasList.add(Sistema(nombre, estado == 1));
               }
             }
           }
-          print(notificaciones);
         });
       }
     });
@@ -125,12 +129,12 @@ class _HomeUserPageState extends State<HomeUserPage> {
             label: 'Alarmas',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_sharp),
-            label: 'Perfil',
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Monitoreo',
+            icon: Icon(Icons.account_circle_rounded),
+            label: 'Perfil',
           ),
         ],
         onTap: (index) async {
@@ -142,21 +146,13 @@ class _HomeUserPageState extends State<HomeUserPage> {
               ),
             );
           }
-          if (index == 1) {
+          if (index == 2) {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => UserPerfilPage(
                   userEmail: widget.userEmail,
                   vivienda: vivienda,
                 ),
-              ),
-            );
-          }
-          if (index == 2) {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => MonitoreoSistemaUser(
-                    userEmail: widget.userEmail, vivienda: vivienda),
               ),
             );
           }
@@ -168,66 +164,79 @@ class _HomeUserPageState extends State<HomeUserPage> {
             AdminPrincipal(
                 administratorName: widget.userEmail, pageName: 'home'),
             Positioned(
-              left: 47,
-              top: 135,
-              child: Container(
-                width: 300,
-                height: 150,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.red,
-                ),
-                child: GestureDetector(
-                  onTap: (() {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text('ALERTA'),
-                          content: Text('HUMO / GAS'),
-                          actions: [
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.red),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('Llamar Emergencias'),
-                            ),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.grey),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('Detener'),
-                            ),
-                          ],
-                        );
-                      },
+              left: 55,
+              top: 100, // Ajusta la posición según sea necesario
+              child: SizedBox(
+                width: 285, // Ajusta el ancho de acuerdo a tu diseño
+                height: 470, // Ajusta la altura según sea necesario
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
+                  ),
+                  itemCount: sistemasList.length,
+                  itemBuilder: (context, index) {
+                    final sistema = sistemasList[index];
+                    return SistemaUsuario(
+                      nombreSistema: sistema.nombre,
+                      activo: sistema.estado,
+                      icon: Icon(
+                        sistemasIcons[sistema.nombre],
+                        size: 40,
+                        color: Colors.white,
+                      ),
                     );
-                  }),
+                  },
+                ),
+              ),
+            ),
+            Positioned(
+              left: 47,
+              top: 590,
+              child: GestureDetector(
+                onTap: (() {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('ALERTA'),
+                        content: Text('HUMO / GAS'),
+                        actions: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('Llamar Emergencias'),
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.grey),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('Detener'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }),
+                child: Container(
+                  width: 300,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.red,
+                  ),
                   child: const Center(
                     child: Text(
                       "EMERGENCIA",
                       style: TextStyle(fontSize: 40, color: Colors.white),
                     ),
                   ),
-                ),
-              ),
-            ),
-            Positioned(
-              left: 55,
-              top: 300, // Ajusta la posición según sea necesario
-              child: SizedBox(
-                width: 285, // Ajusta el ancho de acuerdo a tu diseño
-                height: 410, // Ajusta la altura según sea necesario
-                child: ListView.builder(
-                  itemCount: notificaciones.length,
-                  itemBuilder: (context, index) {
-                    final sistema = notificaciones[index];
-                    return NotificacionSensor(textoNotificacion: sistema);
-                  },
                 ),
               ),
             ),

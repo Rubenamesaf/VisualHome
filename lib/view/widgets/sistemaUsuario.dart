@@ -4,52 +4,71 @@ import 'package:hexcolor/hexcolor.dart';
 class SistemaUsuario extends StatelessWidget {
   final String nombreSistema;
   final bool activo;
+  final Icon icon;
   const SistemaUsuario(
-      {required this.nombreSistema, required this.activo, super.key});
+      {required this.nombreSistema,
+      required this.activo,
+      required this.icon,
+      super.key});
 
   Widget mostrarStatus() {
     return activo
         ? Container(
-            padding: const EdgeInsets.all(8.0),
-            color: Colors.green,
-            child: const Text(
-              "Activo",
-              style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
+            width: 100,
+            decoration: BoxDecoration(
+              color: Colors.green,
+              borderRadius: BorderRadius.circular(16.0),
             ),
+            padding: const EdgeInsets.all(8.0),
           )
         : Container(
-            padding: const EdgeInsets.all(8.0),
-            color: Colors.red,
-            child: const Text(
-              "Inactivo",
-              style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
+            width: 100,
+            decoration: BoxDecoration(
+              color: Colors.red,
+              borderRadius: BorderRadius.circular(16.0),
             ),
+            padding: const EdgeInsets.all(8.0),
           );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListTile(
-          title: Text(
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFF0F1370),
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          icon,
+          Text(
             nombreSistema,
-            style: const TextStyle(fontSize: 16, color: Color(0xFF0F1370)),
+            style: const TextStyle(
+              fontSize: 16,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          trailing: mostrarStatus(),
-        ),
-        Divider(
-          color: HexColor('#ED9A5E'),
-          height: 3,
-          thickness: 2,
-        ),
-      ],
+          mostrarStatus(),
+        ],
+      ),
     );
+    // return Column(
+    //   children: [
+    //     ListTile(
+    //       title: Text(
+    //         nombreSistema,
+    //         style: const TextStyle(fontSize: 16, color: Color(0xFF0F1370)),
+    //       ),
+    //       trailing: mostrarStatus(),
+    //     ),
+    //     Divider(
+    //       color: HexColor('#ED9A5E'),
+    //       height: 3,
+    //       thickness: 2,
+    //     ),
+    //   ],
+    // );
   }
 }

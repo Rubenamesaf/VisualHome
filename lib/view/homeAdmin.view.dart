@@ -25,29 +25,15 @@ class HomeAdminPage extends StatefulWidget {
 class _HomeAdminPageState extends State<HomeAdminPage> {
   final DatabaseReference _dbref = FirebaseDatabase.instance.ref();
   List<String> viviendas = [];
-  var cantidadViviendas;
+  dynamic databasejson;
   String adminName = "";
 
-  @override
   @override
   void initState() {
     super.initState();
     viviendas.clear();
-    // Leer las viviendas de la base de datos
     _leerViviendas();
-
-    // Escuchar eventos de la base de datos
-    _dbref.onChildAdded.listen((event) {
-      // Un nuevo hijo (vivienda) se agregó a la base de datos.
-      // Actualiza la lista de viviendas y el estado.
-      final viviendaName = event.snapshot.key;
-
-      // Verificar si viviendaName no es nulo antes de agregarlo a la lista
-      if (viviendaName != null) {
-        viviendas.add(viviendaName);
-        setState(() {});
-      }
-    });
+    //_setupDatabaseListener();
   }
 
   Future<void> _signOut(BuildContext context) async {
@@ -80,8 +66,26 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
               // }
               );
           setState(() {});
-          cantidadViviendas = viviendas.length;
         }
+      }
+    });
+  }
+
+  void _setupDatabaseListener() {
+    _dbref.child("").onValue.listen((event) {
+      final dataSnapshot = event.snapshot;
+      if (dataSnapshot.value != null && mounted) {
+        setState(() {
+          Map<Object?, Object?> values =
+              dataSnapshot.value as Map<Object?, Object?>;
+          viviendas.clear();
+
+          values.forEach((key, value) {
+            if (key != "Administradores") {
+              viviendas.add(key.toString());
+            }
+          });
+        });
       }
     });
   }
@@ -126,13 +130,11 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
             );
           }
           if (index == 2) {
-            viviendas.clear();
+            setState(() {
+              viviendas.clear();
+            });
             await _signOut(context);
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const SplashView(),
-              ),
-            );
+            Navigator.pop(context);
           }
         },
       ),
