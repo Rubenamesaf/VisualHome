@@ -164,9 +164,9 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Confirmar cancelacion'),
+              title: Text('Confirmar descarte'),
               content: Text(
-                  '¿Seguro que deseas cancelar la creación de esta vivienda?'),
+                  '¿Seguro que deseas descartar los cambios en el perfil?'),
               actions: [
                 ElevatedButton(
                   onPressed: () {
@@ -187,7 +187,7 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
           },
         );
       },
-      label: Text('CANCELAR'),
+      label: Text('DESCARTAR'),
       icon: Icon(Icons.cancel),
     );
   }
@@ -204,6 +204,7 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
       ),
       onPressed: () {
         _guardarViviendaEnFirebase();
+        Navigator.of(context).pop(); // Cierra el cuadro de diálogo
       },
       label: Text('GUARDAR'),
       icon: Icon(Icons.save),

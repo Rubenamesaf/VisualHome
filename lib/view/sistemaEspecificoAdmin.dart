@@ -1,5 +1,6 @@
 import 'dart:convert' as convert;
 import 'dart:io';
+import 'package:login_v1/view/adminPerfil.view.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -128,14 +129,15 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
     }
 
     return registros.where((registro) {
-      // Formatea la cadena de fecha al formato esperado (ejemplo: "September 8, 2023 at 08:03PM")
-      String formattedDate =
-          registro.marcaTemporal.replaceAll(" at ", " "); // Elimina "at"
+      String formattedDate = registro.marcaTemporal.replaceAll(" at ", " ");
       DateTime marcaTemporal =
           DateFormat("MMMM d, yyyy h:mma").parse(formattedDate);
 
+      // Suma un día a la fecha fin
+      DateTime fechaFinInclusive = fechaFin!.add(Duration(days: 1));
+
       return marcaTemporal.isAfter(fechaInicio!) &&
-          marcaTemporal.isBefore(fechaFin!) &&
+          marcaTemporal.isBefore(fechaFinInclusive) &&
           registro.sistema == widget.sistema &&
           _quitarEspacios(registro.vivienda) == _quitarEspacios(viviendaName);
     }).toList();
@@ -191,20 +193,25 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: HexColor('#ED9A5E'),
         selectedItemColor: const Color(0xFF0F1370),
-        currentIndex: 0,
+        currentIndex: 2,
         //  color: const Color.fromARGB(234,154,94),
         items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_home_work),
+            label: 'Agregar Vivienda',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_sharp),
             label: 'Perfil',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.logout),
-            label: 'Cerrar Sesión',
-          ),
         ],
         onTap: (index) async {
           if (index == 0) {
+            Navigator.pop(context);
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) =>
@@ -212,11 +219,14 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
               ),
             );
           }
+          if (index == 1) {
+            Navigator.pop(context);
+          }
           if (index == 2) {
-            await _signOut(context);
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => const SplashView(),
+                builder: (context) =>
+                    AdminPerfilView(userEmail: widget.userEmail),
               ),
             );
           }

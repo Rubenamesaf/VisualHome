@@ -177,9 +177,9 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Confirmar cancelacion'),
+              title: Text('Confirmar descarte'),
               content: Text(
-                  '¿Seguro que deseas cancelar la creación de esta vivienda?'),
+                  '¿Seguro que deseas descartar los cambios en el perfil?'),
               actions: [
                 ElevatedButton(
                   onPressed: () {
@@ -200,7 +200,7 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
           },
         );
       },
-      label: Text('CANCELAR'),
+      label: Text('DESCARTAR'),
       icon: Icon(Icons.cancel),
     );
   }

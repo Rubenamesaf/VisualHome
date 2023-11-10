@@ -12,6 +12,7 @@ import 'package:login_v1/main.dart';
 //import 'package:login_v1/historial_model%20copy.dart';
 //import 'package:login_v1/models/vivienda_model.dart';
 import 'package:login_v1/utils/global.colors.dart';
+import 'package:login_v1/view/adminPerfil.view.dart';
 import 'package:login_v1/view/agregarVivienda.dart';
 //import 'package:login_v1/utils/botongenerico.dart';
 import 'package:login_v1/view/editarVivienda.dart';
@@ -118,7 +119,7 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: HexColor('#ED9A5E'),
         selectedItemColor: const Color(0xFF0F1370),
-        currentIndex: 1,
+        currentIndex: 2,
         //  color: const Color.fromARGB(234,154,94),
         items: const [
           BottomNavigationBarItem(
@@ -126,16 +127,17 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
             label: 'Agregar Vivienda',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_sharp),
-            label: 'Perfil',
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.logout),
-            label: 'Cerrar Sesión',
+            icon: Icon(Icons.account_circle_sharp),
+            label: 'Perfil',
           ),
         ],
         onTap: (index) async {
           if (index == 0) {
+            Navigator.pop(context);
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) =>
@@ -143,11 +145,14 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
               ),
             );
           }
+          if (index == 1) {
+            Navigator.pop(context);
+          }
           if (index == 2) {
-            await _signOut(context);
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => const SplashView(),
+                builder: (context) =>
+                    AdminPerfilView(userEmail: widget.userEmail),
               ),
             );
           }
@@ -282,7 +287,7 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
             // ),
             Container(
               width: 285,
-              height: 400,
+              height: 470,
               child: ListView.builder(
                 itemCount: sistemasList.length,
                 itemBuilder: (context, index) {

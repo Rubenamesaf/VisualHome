@@ -16,14 +16,15 @@ Map<String, IconData> sistemasIcons = {
   'Timbre': Icons.doorbell,
   'RuidoAlto': Icons.speaker,
   'Incendio': Icons.fire_truck,
-  'DisparoAlarma': Icons.alarm,
+  'DisparoAlarma': Icons.warning,
   'BotonPanico': Icons.emergency,
   'TelefonoFijo': Icons.phone_sharp,
-  'Despertador': Icons.lock_clock,
-  'Perimetro': Icons.square,
+  'Despertador': Icons.alarm,
+  'Perimetro': Icons.square_outlined,
   'Acceso': Icons.door_back_door,
-  'ActivacionAlarma': Icons.alarm_off,
-  'PresenciaPuerta': Icons.door_front_door,
+  'ActivacionAlarma': Icons.security,
+  'PresenciaPuerta': Icons.person,
+  'BloqueoAcceso': Icons.lock
 };
 
 class HomeUserPage extends StatefulWidget {
