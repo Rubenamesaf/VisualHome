@@ -171,9 +171,9 @@ class _HomeUserPageState extends State<HomeUserPage> {
                 height: 470, // Ajusta la altura según sea necesario
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
                   ),
                   itemCount: sistemasList.length,
                   itemBuilder: (context, index) {
@@ -183,7 +183,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
                       activo: sistema.estado,
                       icon: Icon(
                         sistemasIcons[sistema.nombre],
-                        size: 40,
+                        size: 35,
                         color: Colors.white,
                       ),
                     );
@@ -193,7 +193,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
             ),
             Positioned(
               left: 47,
-              top: 590,
+              top: 630,
               child: GestureDetector(
                 onTap: (() {
                   showDialog(
@@ -226,7 +226,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
                 }),
                 child: Container(
                   width: 300,
-                  height: 100,
+                  height: 75,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.red,

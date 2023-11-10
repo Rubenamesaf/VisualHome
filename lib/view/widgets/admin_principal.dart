@@ -99,23 +99,27 @@ class AdminPrincipal extends StatelessWidget {
                   ),
                 ),
               ),*/
-              const Positioned(
+              Positioned(
                 left: 100,
-                top: 50,
+                top: 21,
                 child: SizedBox(
                   width: 200,
                   height: 63,
-                  child: Text(
-                    'VisualHome',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFF0F1370),
-                      fontSize: 34,
-                      fontFamily: 'Inria Sans',
-                      fontWeight: FontWeight.w700,
-                      height: 0.54,
-                    ),
+                  child: SvgPicture.asset(
+                    'assets/images/VisualHome.svg',
+                    fit: BoxFit.cover,
                   ),
+                  // child: Text(
+                  //   'VisualHome',
+                  //   textAlign: TextAlign.center,
+                  //   style: TextStyle(
+                  //     color: Color(0xFF0F1370),
+                  //     fontSize: 34,
+                  //     fontFamily: 'Inria Sans',
+                  //     fontWeight: FontWeight.w700,
+                  //     height: 0.54,
+                  //   ),
+                  // ),
                 ),
               ),
               // CIRCULO NARANJA DE ABAJO C. 2

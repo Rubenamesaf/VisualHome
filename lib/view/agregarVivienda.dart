@@ -89,30 +89,25 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
             label: 'Agregar Vivienda',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_sharp),
-            label: 'Perfil',
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.logout),
-            label: 'Cerrar Sesión',
+            icon: Icon(Icons.account_circle_sharp),
+            label: 'Perfil',
           ),
         ],
         onTap: (index) async {
           if (index == 1) {
             Navigator.pop(context);
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) =>
-                    AdminPerfilView(userEmail: widget.userEmail),
-              ),
-            );
           }
           if (index == 2) {
             await _signOut(context);
             Navigator.pop(context);
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => const SplashView(),
+                builder: (context) =>
+                    AdminPerfilView(userEmail: widget.userEmail),
               ),
             );
           }

@@ -104,12 +104,12 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
             label: 'Agregar Vivienda',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_sharp),
-            label: 'Perfil',
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.logout),
-            label: 'Cerrar Sesión',
+            icon: Icon(Icons.account_circle_sharp),
+            label: 'Perfil',
           ),
         ],
         onTap: (index) async {
@@ -121,20 +121,13 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
               ),
             );
           }
-          if (index == 1) {
+          if (index == 2) {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) =>
                     AdminPerfilView(userEmail: widget.userEmail),
               ),
             );
-          }
-          if (index == 2) {
-            setState(() {
-              viviendas.clear();
-            });
-            await _signOut(context);
-            Navigator.pop(context);
           }
         },
       ),

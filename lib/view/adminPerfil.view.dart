@@ -161,6 +161,50 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
     );
   }
 
+  Widget _crearBotonDescartar() {
+    return ElevatedButton.icon(
+      style: ElevatedButton.styleFrom(
+        minimumSize: const Size.fromHeight(40), //
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(0.0),
+        ),
+        backgroundColor: Color.fromARGB(209, 255, 0, 0),
+        foregroundColor: Color.fromARGB(255, 255, 255, 255),
+      ),
+      onPressed: () {
+        // Muestra un cuadro de diálogo de confirmación
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Confirmar cancelacion'),
+              content: Text(
+                  '¿Seguro que deseas cancelar la creación de esta vivienda?'),
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Cierra el cuadro de diálogo
+                    Navigator.of(context).pop(); // Regresa a la página anterior
+                  },
+                  child: Text('Sí'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Cierra el cuadro de diálogo
+                    // Puedes agregar aquí cualquier acción adicional
+                  },
+                  child: Text('No'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+      label: Text('CANCELAR'),
+      icon: Icon(Icons.cancel),
+    );
+  }
+
   void _guardarPerfilEnFirebase() async {
     var clienteName = nombreController.text;
     var correo = emailController.text;
@@ -221,7 +265,7 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: HexColor('#ED9A5E'),
         selectedItemColor: const Color(0xFF0F1370),
-        currentIndex: 1,
+        currentIndex: 2,
         //  color: const Color.fromARGB(234,154,94),
         items: const [
           BottomNavigationBarItem(
@@ -229,12 +273,12 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
             label: 'Agregar Vivienda',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_sharp),
-            label: 'Perfil',
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.logout),
-            label: 'Cerrar Sesión',
+            icon: Icon(Icons.account_circle_sharp),
+            label: 'Perfil',
           ),
         ],
         onTap: (index) async {
@@ -247,14 +291,8 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
               ),
             );
           }
-          if (index == 2) {
-            await _signOut(context);
+          if (index == 1) {
             Navigator.pop(context);
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const SplashView(),
-              ),
-            );
           }
         },
       ),
@@ -293,7 +331,12 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
             Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 5.0, horizontal: 24),
-              child: _crearBotonGuardar(),
+              child: Column(
+                children: [
+                  _crearBotonGuardar(),
+                  _crearBotonDescartar(),
+                ],
+              ),
             ),
           ],
         )),

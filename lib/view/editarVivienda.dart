@@ -417,12 +417,12 @@ class _EditarViviendaState extends State<EditarVivienda> {
       },
     };
 
-    for (String sistema in sistemasSeleccionados) {
-      viviendaData[sistema] = 0;
-    }
+    // for (String sistema in sistemasSeleccionados) {
+    //   viviendaData[sistema] = 0;
+    // }
 
     try {
-      await _dbref.child(viviendaCode).set(viviendaData);
+      await _dbref.child(viviendaCode).update(viviendaData);
       // La vivienda se ha guardado en Firebase
       print('Vivienda guardada en Firebase');
       print(viviendaData);
