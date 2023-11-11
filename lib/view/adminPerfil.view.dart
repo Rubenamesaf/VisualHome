@@ -315,7 +315,7 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
                 ),
               ),
             ),
-            Container(
+            /*Container(
               width: 60,
               decoration: const ShapeDecoration(
                 color: GlobalColors.azulColor,
@@ -323,6 +323,25 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
                   side: BorderSide(
                     width: 1.50,
                     color: GlobalColors.azulColor,
+                  ),
+                ),
+              ),
+            ),*/
+            Padding(
+              padding: EdgeInsets.only(
+                  top: 20.0,
+                  left: 25.0,
+                  bottom: 0), // Ajusta el valor izquierdo según sea necesario
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Datos del administrador:',
+                  style: TextStyle(
+                    color: Color(0xFF0F1370),
+                    fontSize: 17,
+                    fontFamily: 'Inria Sans',
+                    fontWeight: FontWeight.w700,
+                    height: 0.9,
                   ),
                 ),
               ),

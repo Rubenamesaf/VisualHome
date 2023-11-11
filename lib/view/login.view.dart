@@ -150,283 +150,281 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Stack(
-          children: [
-            BackgroundContainer(),
-            Center(
-              child: SingleChildScrollView(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        width: 500,
-                        height: 100,
-                        child: SvgPicture.asset(
-                          'assets/images/VisualHome.svg',
-                          fit: BoxFit.fitWidth,
-                        ),
+    return Scaffold(
+      body: Stack(
+        children: [
+          BackgroundContainer(),
+          Center(
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: 500,
+                      height: 100,
+                      child: SvgPicture.asset(
+                        'assets/images/VisualHome.svg',
+                        fit: BoxFit.fitWidth,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: Column(
-                          children: [
-                            //inicio pega
-                            const SizedBox(height: 60),
-                            TextFormField(
-                              controller: emailController,
-                              obscureText: false,
-                              decoration: InputDecoration(
-                                labelText: 'Correo Electronico',
-                                labelStyle: const TextStyle(
-                                    fontSize: 15,
-                                    color: Color.fromARGB(181, 0, 0, 255)),
-                                hintText: 'Tu correo...',
-                                hintStyle: const TextStyle(
-                                  fontFamily: 'Outfit',
-                                  color: Color(0x9AFFFFFF),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: Color(0xD1FBE288),
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: HexColor('#FFFFFF'),
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: HexColor('#FFFFFF'),
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: HexColor('#4B39EF'),
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                filled: true,
-                                fillColor:
-                                    const Color.fromARGB(126, 103, 138, 207),
-                                prefixIcon: const Icon(
-                                  Icons.email_outlined,
-                                  color: Color(0xFF0F1370),
-                                ),
-                              ),
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal,
-                                color: HexColor('#101470'),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Column(
+                        children: [
+                          //inicio pega
+                          const SizedBox(height: 60),
+                          TextFormField(
+                            controller: emailController,
+                            obscureText: false,
+                            decoration: InputDecoration(
+                              labelText: 'Correo Electronico',
+                              labelStyle: const TextStyle(
+                                  fontSize: 15,
+                                  color: Color.fromARGB(181, 0, 0, 255)),
+                              hintText: '',
+                              hintStyle: const TextStyle(
                                 fontFamily: 'Outfit',
+                                color: Color(0x9AFFFFFF),
                               ),
-                              keyboardType: TextInputType.emailAddress,
-                              //validacion
-                              validator: (Value) {
-                                bool emailValid = RegExp(
-                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                    .hasMatch(Value!);
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: Color(0xD1FBE288),
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: HexColor('#FFFFFF'),
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: HexColor('#FFFFFF'),
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: HexColor('#4B39EF'),
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              filled: true,
+                              fillColor:
+                                  const Color.fromARGB(126, 103, 138, 207),
+                              prefixIcon: const Icon(
+                                Icons.email_outlined,
+                                color: Color(0xFF0F1370),
+                              ),
+                            ),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
+                              color: HexColor('#101470'),
+                              fontFamily: 'Outfit',
+                            ),
+                            keyboardType: TextInputType.emailAddress,
+                            //validacion
+                            validator: (Value) {
+                              bool emailValid = RegExp(
+                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(Value!);
 
-                                if (Value.isEmpty) {
-                                  return "Ingrese su Correo Electrónico";
-                                } else if (!emailValid) {
-                                  return "Ingrese un correo de electrónico valido";
-                                }
-                                return null;
-                              },
-                              // fin validacion
-                            ),
-                            //pegado
-                            const SizedBox(height: 40),
-                            TextFormField(
-                              controller: passwordController,
-                              obscureText: !showPassword, // true,
-                              decoration: InputDecoration(
-                                // el beta de la clave oculta
-                                suffix: InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      showPassword = !showPassword;
-                                    });
-                                  },
-                                  child: Icon(showPassword
-                                      ? Icons.visibility
-                                      : Icons.visibility_off),
-                                ),
-                                //fin del beta
-                                labelText: 'Contraseña',
-                                labelStyle: const TextStyle(
-                                    fontSize: 15,
-                                    color: Color.fromARGB(181, 0, 0, 255)),
-                                hintText: 'Ingrese su Contraseña aqui...',
-                                hintStyle: const TextStyle(
-                                  fontFamily: 'Outfit',
-                                  color: Color(0x9AFFFFFF),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: Color(0xD1FBE288),
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: Color(0xFF678ACF),
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: Color(0xFF678ACF),
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: Color(0xD1FBE288),
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                filled: true,
-                                fillColor:
-                                    const Color.fromARGB(126, 103, 138, 207),
-                                prefixIcon: const Icon(
-                                  Icons.lock_outline,
-                                  color: Color(0xFF0F1370),
-                                ),
+                              if (Value.isEmpty) {
+                                return "Ingrese su correo electrónico";
+                              } else if (!emailValid) {
+                                return "Ingrese un correo de electrónico valido";
+                              }
+                              return null;
+                            },
+                            // fin validacion
+                          ),
+                          //pegado
+                          const SizedBox(height: 40),
+                          TextFormField(
+                            controller: passwordController,
+                            obscureText: !showPassword, // true,
+                            decoration: InputDecoration(
+                              // el beta de la clave oculta
+                              suffix: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    showPassword = !showPassword;
+                                  });
+                                },
+                                child: Icon(showPassword
+                                    ? Icons.visibility
+                                    : Icons.visibility_off),
                               ),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "Ingrese la contraseña";
-                                } else if (passwordController.text.length < 6) {
-                                  return "La contraseña debe ser mayor a 6 ";
-                                }
-                              },
+                              //fin del beta
+                              labelText: 'Código PIN',
+                              labelStyle: const TextStyle(
+                                  fontSize: 15,
+                                  color: Color.fromARGB(181, 0, 0, 255)),
+                              hintText: '',
+                              hintStyle: const TextStyle(
+                                fontFamily: 'Outfit',
+                                color: Color(0x9AFFFFFF),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: Color(0xD1FBE288),
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: Color(0xFF678ACF),
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: Color(0xFF678ACF),
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: Color(0xD1FBE288),
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              filled: true,
+                              fillColor:
+                                  const Color.fromARGB(126, 103, 138, 207),
+                              prefixIcon: const Icon(
+                                Icons.lock_outline,
+                                color: Color(0xFF0F1370),
+                              ),
                             ),
-                            const SizedBox(
-                              height: 50,
-                            ),
-                            ElevatedButton(
-                              onPressed: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  await _signInWithEmailAndPassword(context);
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Ingrese su código de acceso";
+                              } else if (passwordController.text.length < 6) {
+                                return "Su código debe contener 6 números";
+                              }
+                            },
+                          ),
+                          const SizedBox(
+                            height: 50,
+                          ),
+                          ElevatedButton(
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                await _signInWithEmailAndPassword(context);
 
-                                  if (!signInSuccess) {
-                                    // Si la autenticación no es válida, muestra el AwesomeDialog de advertencia
-                                    AwesomeDialog(
-                                      context: context,
-                                      dialogType: DialogType.error,
-                                      animType: AnimType.topSlide,
-                                      showCloseIcon: true,
-                                      title: "Error",
-                                      desc:
-                                          "Credenciales de inicio de sesión inválidas.",
-                                      btnCancelOnPress: () {},
-                                      btnOkOnPress: () {},
-                                    ).show();
-                                  } else {
-                                    emailController
-                                        .clear(); //OJO YO CREO QUE ESTO NI EL PASSWORD HACEN FALTA
-                                    passwordController.clear();
-                                  }
+                                if (!signInSuccess) {
+                                  // Si la autenticación no es válida, muestra el AwesomeDialog de advertencia
+                                  AwesomeDialog(
+                                    context: context,
+                                    dialogType: DialogType.error,
+                                    animType: AnimType.topSlide,
+                                    showCloseIcon: true,
+                                    title: "Error",
+                                    desc:
+                                        "Credenciales de inicio de sesión inválidas.",
+                                    btnCancelOnPress: () {},
+                                    btnOkOnPress: () {},
+                                  ).show();
+                                } else {
+                                  emailController
+                                      .clear(); //OJO YO CREO QUE ESTO NI EL PASSWORD HACEN FALTA
+                                  passwordController.clear();
                                 }
-                              },
-                              style: ButtonStyle(
-                                minimumSize: MaterialStateProperty.all(
-                                    const Size(325, 72)),
-                                padding: MaterialStateProperty.all(
-                                    const EdgeInsetsDirectional.fromSTEB(
-                                        24, 0, 24, 0)),
-                                backgroundColor: MaterialStateProperty.all(
-                                    const Color.fromARGB(255, 235, 133, 55)
-                                    // Color(0xFFF19756),
-                                    ),
-                                textStyle:
-                                    MaterialStateProperty.all(const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                )),
-                                elevation: MaterialStateProperty.all(3),
-                                shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18),
+                              }
+                            },
+                            style: ButtonStyle(
+                              minimumSize: MaterialStateProperty.all(
+                                  const Size(200, 50)),
+                              padding: MaterialStateProperty.all(
+                                  const EdgeInsetsDirectional.fromSTEB(
+                                      24, 0, 24, 0)),
+                              backgroundColor: MaterialStateProperty.all(
+                                  const Color.fromARGB(255, 235, 133, 55)
+                                  // Color(0xFFF19756),
                                   ),
-                                ),
-                              ),
-                              child: const Text(
-                                'Iniciar Sesión',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Color(0xFF0F1370),
-                                  fontSize: 20,
-                                  fontFamily: 'Inria Sans',
-                                  fontWeight: FontWeight.w700,
-                                  height: 0.95,
+                              textStyle:
+                                  MaterialStateProperty.all(const TextStyle(
+                                fontWeight: FontWeight.w600,
+                              )),
+                              elevation: MaterialStateProperty.all(3),
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18),
                                 ),
                               ),
                             ),
-                            Container(
-                              margin: const EdgeInsets.only(
-                                  top:
-                                      20), // Ajusta el valor según sea necesario
-                              child: Center(
-                                child: RichText(
-                                  text: TextSpan(
-                                    text: '¿Olvidaste tu contraseña?\n    ',
-                                    style: TextStyle(
-                                      color: Color(0xFF0F1370),
-                                      fontSize: 20,
-                                      fontFamily: 'Inria Sans',
-                                      fontWeight: FontWeight.w700,
-                                      height: 0.95,
-                                    ),
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: 'Restaurar contraseña',
-                                        style: TextStyle(
-                                          color: const Color.fromARGB(
-                                              255, 33, 72, 243),
-                                          fontSize: 20,
-                                          fontFamily: 'Inria Sans',
-                                          fontWeight: FontWeight.w700,
-                                          height: 0.95,
-                                          decoration: TextDecoration.underline,
-                                        ),
-                                        recognizer: TapGestureRecognizer()
-                                          ..onTap = () {
-                                            // Agrega la lógica para restaurar la contraseña aquí
-                                            _resetPassword(context);
-                                          },
+                            child: const Text(
+                              'Iniciar Sesión',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color(0xFF0F1370),
+                                fontSize: 20,
+                                fontFamily: 'Inria Sans',
+                                fontWeight: FontWeight.w700,
+                                height: 0.95,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(
+                                top: 40), // Ajusta el valor según sea necesario
+                            child: Center(
+                              child: RichText(
+                                text: TextSpan(
+                                  text:
+                                      '¿Olvidaste tu código PIN?\n    \n     ',
+                                  style: TextStyle(
+                                    color: Color(0xFF0F1370),
+                                    fontSize: 17,
+                                    fontFamily: 'Inria Sans',
+                                    fontWeight: FontWeight.w700,
+                                    height: 0.95,
+                                  ),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: 'Restaurar contraseña',
+                                      style: TextStyle(
+                                        color: const Color.fromARGB(
+                                            255, 33, 72, 243),
+                                        fontSize: 17,
+                                        fontFamily: 'Inria Sans',
+                                        fontWeight: FontWeight.w700,
+                                        height: 0.95,
+                                        decoration: TextDecoration.underline,
                                       ),
-                                    ],
-                                  ),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          // Agrega la lógica para restaurar la contraseña aquí
+                                          _resetPassword(context);
+                                        },
+                                    ),
+                                  ],
                                 ),
                               ),
-                            )
-                          ],
-                        ),
+                            ),
+                          )
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                //aqui se agrega el form
               ),
+              //aqui se agrega el form
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

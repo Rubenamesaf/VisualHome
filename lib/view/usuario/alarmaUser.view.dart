@@ -211,7 +211,7 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
                 ),
               ),
             ),
-            Positioned(
+            /*Positioned(
               left: 129,
               top: 160,
               child: Container(
@@ -227,7 +227,7 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
                   ),
                 ),
               ),
-            ),
+            ),*/
             Positioned(
               left: 25,
               top: 170, // Ajusta la posición según sea necesario

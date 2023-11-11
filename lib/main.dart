@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:login_v1/api/firebase_api.dart';
 import 'package:login_v1/view/homeAdmin.view.dart';
@@ -9,6 +10,8 @@ import 'package:login_v1/view/splash.view.dart';
 //import 'package:login_v1/view/widgets/admin_principal.dart';
 
 void main() async {
+  //SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
   WidgetsFlutterBinding
       .ensureInitialized(); // Asegura que los widgets esten inicializados
 
@@ -16,6 +19,11 @@ void main() async {
       await Firebase.initializeApp(); // Inicializa Firebase2
 
   await FirebaseApi().initNotifications();
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 
   runApp(const App());
 }

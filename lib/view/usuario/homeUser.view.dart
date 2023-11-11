@@ -10,21 +10,20 @@ import 'package:login_v1/view/usuario/userPerfil.view.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
 import 'package:login_v1/view/widgets/notificacionSensor.dart';
 import 'package:login_v1/view/widgets/sistemaUsuario.dart';
-//import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 Map<String, IconData> sistemasIcons = {
   'Timbre': Icons.doorbell,
   'RuidoAlto': Icons.speaker,
-  'Incendio': Icons.fire_truck,
-  'DisparoAlarma': Icons.warning,
+  'Incendio': Icons.fire_extinguisher,
+  'Movimiento': Icons.warning,
   'BotonPanico': Icons.emergency,
   'TelefonoFijo': Icons.phone_sharp,
-  'Despertador': Icons.alarm,
+  'Alarma': Icons.alarm,
   'Perimetro': Icons.square_outlined,
   'Acceso': Icons.door_back_door,
   'ActivacionAlarma': Icons.security,
   'PresenciaPuerta': Icons.person,
-  'BloqueoAcceso': Icons.lock
 };
 
 class HomeUserPage extends StatefulWidget {
@@ -41,6 +40,9 @@ class _HomeUserPageState extends State<HomeUserPage> {
   String vivienda = "";
   String databasejson = "";
   late DatabaseReference _dbref;
+  List<Sistema> sistemasListParaMostrar = [];
+  Color _botonColor = const Color.fromARGB(255, 110, 112, 114);
+  String _estadoAlarma = "           ARMAR\nSistema de seguridad";
 
   @override
   void initState() {
@@ -69,15 +71,45 @@ class _HomeUserPageState extends State<HomeUserPage> {
     _setupDatabaseListener();
   }
 
-  // _makePhoneCall() async {
-  //   const phoneNumber =
-  //       'tel:+1234567890'; // Replace with the phone number you want to call.
-  //   if (await canLaunch(phoneNumber)) {
-  //     await launch(phoneNumber);
-  //   } else {
-  //     throw 'Could not launch $phoneNumber';
-  //   }
-  // }
+  void _activarBotonPanico() {
+    // Actualizar el valor en la base de datos
+    _dbref.child(vivienda).update({"BotonPanico": 1});
+  }
+
+  void _detenerBotonPanico() {
+    // Actualizar el valor en la base de datos
+    _dbref.child(vivienda).update({"BotonPanico": 0});
+  }
+
+  void _toggleActivacionAlarma() {
+    _dbref
+        .child(vivienda)
+        .child("ActivacionAlarma")
+        .once()
+        .then((DatabaseEvent event) {
+      final snapshot = event.snapshot;
+
+      if (snapshot.value != null) {
+        int activacionAlarma = snapshot.value as int;
+
+        // Cambiar el valor y el color del botón
+        setState(() {
+          _botonColor = (activacionAlarma == 0)
+              ? Colors.green
+              : const Color.fromARGB(255, 110, 112, 114);
+
+          _estadoAlarma = (activacionAlarma == 0)
+              ? "        DESARMAR\nSistema de seguridad"
+              : "           ARMAR\nSistema de seguridad";
+        });
+
+        // Actualizar el valor en la base de datos
+        _dbref
+            .child(vivienda)
+            .update({"ActivacionAlarma": (activacionAlarma == 0) ? 1 : 0});
+      }
+    });
+  }
 
   void _setupDatabaseListener() {
     _dbref.child(vivienda).onValue.listen((event) {
@@ -86,21 +118,14 @@ class _HomeUserPageState extends State<HomeUserPage> {
         print("Datos actualizados - " + dataSnapshot.value.toString());
         setState(() {
           databasejson = dataSnapshot.value.toString();
-
-          // Eliminar los corchetes iniciales y finales
           databasejson = databasejson.substring(1, databasejson.length - 1);
-
-          // Dividir la cadena en pares clave-valor
           final keyValuePairs = databasejson.split(', ');
-
-          // Limpiar la lista actual antes de agregar los nuevos sistemas
           sistemasList.clear();
 
           // Recorrer los pares clave-valor y agregarlos a sistemasList
           for (var pair in keyValuePairs) {
             final parts = pair.split(': ');
-            final nombre = parts[0].trim(); // Eliminar espacios en blanco
-
+            final nombre = parts[0].trim();
             if (nombre != "Usuario" &&
                 nombre != "Alarmas" &&
                 nombre != "Hours") {
@@ -110,6 +135,15 @@ class _HomeUserPageState extends State<HomeUserPage> {
               }
             }
           }
+
+          // Limpiar la lista antes de agregar los nuevos sistemas
+          sistemasListParaMostrar.clear();
+
+          // Filtrar sistemas y agregarlos a sistemasListParaMostrar
+          sistemasListParaMostrar.addAll(
+            sistemasList
+                .where((sistema) => sistema.nombre != "ActivacionAlarma"),
+          );
         });
       }
     });
@@ -123,7 +157,6 @@ class _HomeUserPageState extends State<HomeUserPage> {
         backgroundColor: HexColor('#ED9A5E'),
         selectedItemColor: const Color(0xFF0F1370),
         currentIndex: 1,
-        //  color: const Color.fromARGB(234,154,94),
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.alarm_add),
@@ -164,28 +197,42 @@ class _HomeUserPageState extends State<HomeUserPage> {
           children: [
             AdminPrincipal(
                 administratorName: widget.userEmail, pageName: 'home'),
+            const Padding(
+              padding: EdgeInsets.only(top: 120.0, left: 140),
+              child: Text(
+                'Monitoreo',
+                style: TextStyle(
+                  color: Color(0xFF0F1370),
+                  fontSize: 24,
+                  fontFamily: 'Inria Sans',
+                  fontWeight: FontWeight.w700,
+                  height: 0.9,
+                ),
+              ),
+            ),
             Positioned(
-              left: 55,
-              top: 100, // Ajusta la posición según sea necesario
+              left: 9,
+              top: 145,
               child: SizedBox(
-                width: 285, // Ajusta el ancho de acuerdo a tu diseño
-                height: 470, // Ajusta la altura según sea necesario
+                width: 375,
+                height: 470,
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 5,
+                    mainAxisSpacing: 5,
                   ),
-                  itemCount: sistemasList.length,
+                  itemCount: sistemasListParaMostrar.length,
                   itemBuilder: (context, index) {
-                    final sistema = sistemasList[index];
+                    final sistema = sistemasListParaMostrar[index];
+
                     return SistemaUsuario(
                       nombreSistema: sistema.nombre,
                       activo: sistema.estado,
                       icon: Icon(
                         sistemasIcons[sistema.nombre],
-                        size: 35,
-                        color: Colors.white,
+                        size: 50,
+                        color: const Color(0xFF0F1370),
                       ),
                     );
                   },
@@ -193,52 +240,83 @@ class _HomeUserPageState extends State<HomeUserPage> {
               ),
             ),
             Positioned(
-              left: 47,
+              left: 10,
               top: 630,
-              child: GestureDetector(
-                onTap: (() {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('ALERTA'),
-                        content: Text('HUMO / GAS'),
-                        actions: [
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.red),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text('Llamar Emergencias'),
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.grey),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text('Detener'),
-                          ),
-                        ],
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      _activarBotonPanico();
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('ALERTA'),
+                            content: Text('Botón de pánico accionado'),
+                            actions: [
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.red,
+                                ),
+                                onPressed: () {
+                                  // Llamar al número de emergencia (911)
+                                  launch('tel:911');
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('Llamar Emergencias'),
+                              ),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.grey,
+                                ),
+                                onPressed: () {
+                                  _detenerBotonPanico();
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('Detener'),
+                              ),
+                            ],
+                          );
+                        },
                       );
                     },
-                  );
-                }),
-                child: Container(
-                  width: 300,
-                  height: 75,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.red,
-                  ),
-                  child: const Center(
-                    child: Text(
-                      "EMERGENCIA",
-                      style: TextStyle(fontSize: 40, color: Colors.white),
+                    child: Container(
+                      width: 180,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.red,
+                      ),
+                      child: Center(
+                        child: Text(
+                          "EMERGENCIA",
+                          style: TextStyle(fontSize: 18, color: Colors.white),
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  SizedBox(width: 10), // Espaciador horizontal
+                  GestureDetector(
+                    onTap: () {
+                      _toggleActivacionAlarma();
+                    },
+                    child: Container(
+                      width: 180,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: _botonColor,
+                      ),
+                      child: Center(
+                        child: Text(
+                          _estadoAlarma,
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

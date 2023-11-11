@@ -212,7 +212,7 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
                 ),
               ),
             ),
-            Positioned(
+            /*Positioned(
               left: 128,
               top: 160,
               child: Container(
@@ -228,7 +228,7 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
                   ),
                 ),
               ),
-            ),
+            ),*/
 
             // Lista de Viviendas
             Positioned(
@@ -268,9 +268,15 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
     return InkWell(
       onTap: () {
         if (viviendaName != null) {
-          Get.to(
-            () => ViviendaEspecificaAdmin(userEmail: widget.userEmail),
-            arguments: viviendaName,
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => ViviendaEspecificaAdmin(
+                userEmail: widget.userEmail,
+              ),
+              settings: RouteSettings(
+                arguments: viviendaName,
+              ),
+            ),
           );
         }
       },

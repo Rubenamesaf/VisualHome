@@ -58,10 +58,13 @@ class DesingSplashContainer extends StatelessWidget {
                 onPressed: () {
                   // ignore: avoid_print
                   print('Button pressed ...');
-                  Get.to(LoginView());
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginView()),
+                  );
                 },
                 style: ButtonStyle(
-                  minimumSize: MaterialStateProperty.all(const Size(325, 72)),
+                  minimumSize: MaterialStateProperty.all(const Size(200, 50)),
                   padding: MaterialStateProperty.all(
                       const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0)),
                   backgroundColor: MaterialStateProperty.all(

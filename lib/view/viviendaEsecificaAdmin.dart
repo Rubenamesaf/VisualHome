@@ -119,12 +119,11 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: HexColor('#ED9A5E'),
         selectedItemColor: const Color(0xFF0F1370),
-        currentIndex: 2,
-        //  color: const Color.fromARGB(234,154,94),
+        currentIndex: 0,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.add_home_work),
-            label: 'Agregar Vivienda',
+            icon: Icon(Icons.home),
+            label: 'Vivienda\nespecífica',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -136,15 +135,7 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
           ),
         ],
         onTap: (index) async {
-          if (index == 0) {
-            Navigator.pop(context);
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) =>
-                    AgregarVivienda(userEmail: widget.userEmail),
-              ),
-            );
-          }
+          if (index == 0) {}
           if (index == 1) {
             Navigator.pop(context);
           }
@@ -255,7 +246,7 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
             //     ),
             //   ),
             // ),
-            Container(
+            /*Container(
               width: 170,
               decoration: const ShapeDecoration(
                 color: GlobalColors.azulColor,
@@ -267,7 +258,7 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
                   ),
                 ),
               ),
-            ),
+            ),*/
             // Positioned(
             //   left: 110,
             //   top: 160,

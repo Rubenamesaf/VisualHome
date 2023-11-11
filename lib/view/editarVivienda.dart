@@ -59,6 +59,7 @@ class _EditarViviendaState extends State<EditarVivienda> {
   var email = '';
   var direccion = '';
   var clave = '';
+  int? currentIndex;
 
   @override
   void initState() {
@@ -113,19 +114,26 @@ class _EditarViviendaState extends State<EditarVivienda> {
         backgroundColor: HexColor('#ED9A5E'),
         selectedItemColor: const Color(0xFF0F1370),
         currentIndex: 0,
-        //  color: const Color.fromARGB(234,154,94),
         items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.edit),
+            label: 'Editar vivienda',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_sharp),
             label: 'Perfil',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.logout),
-            label: 'Cerrar Sesión',
-          ),
         ],
         onTap: (index) async {
-          if (index == 0) {
+          if (index == 0) {}
+          if (index == 1) {
+            Navigator.pop(context);
+          }
+          if (index == 2) {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) =>
@@ -133,14 +141,10 @@ class _EditarViviendaState extends State<EditarVivienda> {
               ),
             );
           }
-          if (index == 1) {
-            await _signOut(context);
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const SplashView(),
-              ),
-            );
-          }
+          setState(() {
+            currentIndex =
+                index; // Establecer currentIndex después de la navegación
+          });
         },
       ),
       // bottomNavigationBar: CurvedNavigationBar(
@@ -193,7 +197,26 @@ class _EditarViviendaState extends State<EditarVivienda> {
                   ),
                 ),
               ),
-              Container(
+              Padding(
+                padding: EdgeInsets.only(
+                    top: 20.0,
+                    left: 25.0,
+                    bottom: 0), // Ajusta el valor izquierdo según sea necesario
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Datos del habitante:',
+                    style: TextStyle(
+                      color: Color(0xFF0F1370),
+                      fontSize: 17,
+                      fontFamily: 'Inria Sans',
+                      fontWeight: FontWeight.w700,
+                      height: 0.9,
+                    ),
+                  ),
+                ),
+              ),
+              /*Container(
                 width: 270,
                 decoration: const ShapeDecoration(
                   color: GlobalColors.azulColor,
@@ -204,8 +227,27 @@ class _EditarViviendaState extends State<EditarVivienda> {
                     ),
                   ),
                 ),
-              ),
+              ),*/
               _buildTextFormFields(),
+              Padding(
+                padding: EdgeInsets.only(
+                    top: 30.0,
+                    left: 25.0,
+                    bottom: 0), // Ajusta el valor izquierdo según sea necesario
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Módulos de la vivienda:',
+                    style: TextStyle(
+                      color: Color(0xFF0F1370),
+                      fontSize: 17,
+                      fontFamily: 'Inria Sans',
+                      fontWeight: FontWeight.w700,
+                      height: 0.9,
+                    ),
+                  ),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(
                     top: 15.0, bottom: 5.0, left: 24, right: 24),
@@ -216,7 +258,7 @@ class _EditarViviendaState extends State<EditarVivienda> {
                   onPressed: () {
                     _mostrarDialogoSistemas(context);
                   },
-                  child: Text('+   EDITAR SISTEMAS'),
+                  child: Text('+   EDITAR MÓDULOS'),
                 ),
               ),
               Padding(
@@ -473,7 +515,7 @@ class _SistemasDialogState extends State<_SistemasDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Lista de Sistemas'),
+      title: Text('Lista de módulos'),
       content: Container(
         height: 300, // Ajusta la altura del contenido según tus necesidades
         child: SingleChildScrollView(

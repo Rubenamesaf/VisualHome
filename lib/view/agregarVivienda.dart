@@ -123,7 +123,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Padding(
-                  padding: EdgeInsets.only(top: 40.0),
+                  padding: EdgeInsets.only(top: 30.0),
                   child: Text(
                     'NUEVA VIVIENDA',
                     style: TextStyle(
@@ -135,7 +135,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                     ),
                   ),
                 ),
-                Container(
+                /*Container(
                   width: 190,
                   decoration: const ShapeDecoration(
                     color: GlobalColors.azulColor,
@@ -146,9 +146,29 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                       ),
                     ),
                   ),
+                ),*/
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: 20.0,
+                      left: 25.0,
+                      bottom:
+                          0), // Ajusta el valor izquierdo según sea necesario
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Datos del habitante:',
+                      style: TextStyle(
+                        color: Color(0xFF0F1370),
+                        fontSize: 17,
+                        fontFamily: 'Inria Sans',
+                        fontWeight: FontWeight.w700,
+                        height: 0.9,
+                      ),
+                    ),
+                  ),
                 ),
                 const SizedBox(
-                  height: 25,
+                  height: 10,
                 ),
                 Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
@@ -157,7 +177,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                     children: [
                       _buildTextFormField(
                         controller: nombreController,
-                        labelText: 'Nombre',
+                        labelText: 'Nombre y apellido',
                         keyboardType: TextInputType.name,
                       ),
                     ],
@@ -170,7 +190,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                     children: [
                       _buildTextFormField(
                         controller: emailController,
-                        labelText: 'Email Address',
+                        labelText: 'Correo electrónico',
                         keyboardType: TextInputType.emailAddress,
                       ),
                     ],
@@ -183,7 +203,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                     children: [
                       _buildTextFormField(
                           controller: passwordController,
-                          labelText: 'Password',
+                          labelText: 'Código de acceso a la vivienda',
                           keyboardType: TextInputType.number),
                     ],
                   ),
@@ -195,14 +215,34 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                     children: [
                       _buildTextFormField(
                           controller: direccionController,
-                          labelText: 'Address',
+                          labelText: 'Dirección de la vivienda',
                           keyboardType: TextInputType.text),
                     ],
                   ),
                 ),
                 Padding(
+                  padding: EdgeInsets.only(
+                      top: 30.0,
+                      left: 25.0,
+                      bottom:
+                          0), // Ajusta el valor izquierdo según sea necesario
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Módulos de la vivienda:',
+                      style: TextStyle(
+                        color: Color(0xFF0F1370),
+                        fontSize: 17,
+                        fontFamily: 'Inria Sans',
+                        fontWeight: FontWeight.w700,
+                        height: 0.9,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
                   padding: const EdgeInsets.only(
-                      top: 10.0, bottom: 5.0, left: 24, right: 24),
+                      top: 10.0, bottom: 20.0, left: 24, right: 24),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size.fromHeight(40), // NEW
@@ -210,7 +250,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                     onPressed: () {
                       _mostrarDialogoSistemas(context);
                     },
-                    child: Text('+ AGREGAR SISTEMAS'),
+                    child: Text('+ AGREGAR MÓDULOS'),
                   ),
                 ),
                 Padding(
@@ -220,7 +260,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 5.0, horizontal: 24),
+                      const EdgeInsets.symmetric(vertical: 3.0, horizontal: 24),
                   child: _crearBotonDescartar(),
                 ),
               ],
@@ -479,7 +519,7 @@ class _SistemasDialogState extends State<_SistemasDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Lista de Sistemas'),
+      title: Text('Lista de módulos'),
       content: Container(
         height: 300, // Ajusta la altura del contenido según tus necesidades
         child: SingleChildScrollView(

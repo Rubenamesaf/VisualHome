@@ -14,6 +14,7 @@ class SistemaUsuario extends StatelessWidget {
   Widget mostrarStatus() {
     return activo
         ? Container(
+            height: 10,
             width: 75,
             decoration: BoxDecoration(
               color: Colors.green,
@@ -22,6 +23,7 @@ class SistemaUsuario extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
           )
         : Container(
+            height: 10,
             width: 75,
             decoration: BoxDecoration(
               color: Colors.red,
@@ -35,7 +37,10 @@ class SistemaUsuario extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF0F1370),
+        border: Border.all(
+          color: const Color(0xFF0F1370), // Color de la línea del borde
+          width: 3.5, // Ancho de la línea del borde
+        ),
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: Column(
@@ -45,8 +50,8 @@ class SistemaUsuario extends StatelessWidget {
           Text(
             nombreSistema,
             style: const TextStyle(
-              fontSize: 8,
-              color: Colors.white,
+              fontSize: 16,
+              color: const Color(0xFF0F1370),
               fontWeight: FontWeight.bold,
             ),
           ),
