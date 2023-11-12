@@ -22,7 +22,7 @@ Map<String, IconData> sistemasIcons = {
   'Alarmas': Icons.alarm,
   'Perímetro': Icons.square_outlined,
   'Acceso': Icons.door_back_door,
-  'Armado': Icons.security,
+  'Seguridad': Icons.security,
   'Visitantes': Icons.person,
 };
 
@@ -82,7 +82,11 @@ class _HomeUserPageState extends State<HomeUserPage> {
   }
 
   void _toggleActivacionAlarma() {
-    _dbref.child(vivienda).child("Armado").once().then((DatabaseEvent event) {
+    _dbref
+        .child(vivienda)
+        .child("Seguridad")
+        .once()
+        .then((DatabaseEvent event) {
       final snapshot = event.snapshot;
 
       if (snapshot.value != null) {
@@ -102,7 +106,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
         // Actualizar el valor en la base de datos
         _dbref
             .child(vivienda)
-            .update({"Armado": (activacionAlarma == 0) ? 1 : 0});
+            .update({"Seguridad": (activacionAlarma == 0) ? 1 : 0});
       }
     });
   }
@@ -210,7 +214,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
               top: 125,
               child: SizedBox(
                 width: 350,
-                height: 500,
+                height: 510,
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
