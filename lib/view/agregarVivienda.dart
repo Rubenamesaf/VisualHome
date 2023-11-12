@@ -15,16 +15,16 @@ import 'package:login_v1/view/widgets/admin_principal.dart';
 
 List<String> sistemas = [
   'Timbre',
-  'RuidoAlto',
+  'Ruido',
   'Incendio',
-  'DisparoAlarma',
-  'BotonPanico',
-  'TelefonoFijo',
-  'Despertador',
-  'Perimetro',
+  'Movimiento',
+  'Pánico',
+  'Teléfono',
+  'Alarmas',
+  'Perímetro',
   'Acceso',
-  'ActivacionAlarma',
-  'PresenciaPuerta'
+  'Armado',
+  'Visitantes'
 ];
 
 class AgregarVivienda extends StatefulWidget {

@@ -14,16 +14,16 @@ import 'package:url_launcher/url_launcher.dart';
 
 Map<String, IconData> sistemasIcons = {
   'Timbre': Icons.doorbell,
-  'RuidoAlto': Icons.speaker,
+  'Ruido': Icons.speaker,
   'Incendio': Icons.fire_extinguisher,
   'Movimiento': Icons.warning,
-  'BotonPanico': Icons.emergency,
-  'TelefonoFijo': Icons.phone_sharp,
-  'Alarma': Icons.alarm,
-  'Perimetro': Icons.square_outlined,
+  'Pánico': Icons.emergency,
+  'Teléfono': Icons.phone_sharp,
+  'Alarmas': Icons.alarm,
+  'Perímetro': Icons.square_outlined,
   'Acceso': Icons.door_back_door,
-  'ActivacionAlarma': Icons.security,
-  'PresenciaPuerta': Icons.person,
+  'Armado': Icons.security,
+  'Visitantes': Icons.person,
 };
 
 class HomeUserPage extends StatefulWidget {
@@ -73,20 +73,16 @@ class _HomeUserPageState extends State<HomeUserPage> {
 
   void _activarBotonPanico() {
     // Actualizar el valor en la base de datos
-    _dbref.child(vivienda).update({"BotonPanico": 1});
+    _dbref.child(vivienda).update({"Pánico": 1});
   }
 
   void _detenerBotonPanico() {
     // Actualizar el valor en la base de datos
-    _dbref.child(vivienda).update({"BotonPanico": 0});
+    _dbref.child(vivienda).update({"Pánico": 0});
   }
 
   void _toggleActivacionAlarma() {
-    _dbref
-        .child(vivienda)
-        .child("ActivacionAlarma")
-        .once()
-        .then((DatabaseEvent event) {
+    _dbref.child(vivienda).child("Armado").once().then((DatabaseEvent event) {
       final snapshot = event.snapshot;
 
       if (snapshot.value != null) {
@@ -106,7 +102,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
         // Actualizar el valor en la base de datos
         _dbref
             .child(vivienda)
-            .update({"ActivacionAlarma": (activacionAlarma == 0) ? 1 : 0});
+            .update({"Armado": (activacionAlarma == 0) ? 1 : 0});
       }
     });
   }
@@ -127,7 +123,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
             final parts = pair.split(': ');
             final nombre = parts[0].trim();
             if (nombre != "Usuario" &&
-                nombre != "Alarmas" &&
+                nombre != "AlarmasDespertador" &&
                 nombre != "Hours") {
               final estado = int.tryParse(parts[1].trim());
               if (estado != null) {
@@ -141,9 +137,8 @@ class _HomeUserPageState extends State<HomeUserPage> {
 
           // Filtrar sistemas y agregarlos a sistemasListParaMostrar
           sistemasListParaMostrar.addAll(
-            sistemasList
-                .where((sistema) => sistema.nombre != "ActivacionAlarma"),
-          );
+              sistemasList /*.where((sistema) => sistema.nombre != "Armado"),*/
+              );
         });
       }
     });
@@ -198,7 +193,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
             AdminPrincipal(
                 administratorName: widget.userEmail, pageName: 'home'),
             const Padding(
-              padding: EdgeInsets.only(top: 120.0, left: 140),
+              padding: EdgeInsets.only(top: 110.0, left: 139),
               child: Text(
                 'Monitoreo',
                 style: TextStyle(
@@ -211,11 +206,11 @@ class _HomeUserPageState extends State<HomeUserPage> {
               ),
             ),
             Positioned(
-              left: 9,
-              top: 145,
+              left: 22,
+              top: 125,
               child: SizedBox(
-                width: 375,
-                height: 470,
+                width: 350,
+                height: 500,
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
@@ -241,7 +236,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
             ),
             Positioned(
               left: 10,
-              top: 630,
+              top: 650,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

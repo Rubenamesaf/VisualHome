@@ -72,7 +72,7 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
             final nombre = parts[0].trim(); // Eliminar espacios en blanco
 
             if (nombre != "Usuario" &&
-                nombre != "Alarmas" &&
+                nombre != "AlarmasDespertador" &&
                 nombre != "Hours") {
               final estado = int.tryParse(parts[1].trim());
               if (estado != null) {

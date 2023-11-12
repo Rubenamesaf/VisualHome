@@ -77,7 +77,7 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
       try {
         await _dbref
             .child(widget.vivienda)
-            .child("Alarmas")
+            .child("AlarmasDespertador")
             .push()
             .set(alarmaData);
       } catch (e) {
@@ -87,7 +87,7 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
   }
 
   void _setupDatabaseListener() {
-    _dbref.child(widget.vivienda).child("Alarmas").onValue.listen(
+    _dbref.child(widget.vivienda).child("AlarmasDespertador").onValue.listen(
       (event) {
         final dataSnapshot = event.snapshot;
         if (dataSnapshot.value != null && mounted) {
@@ -123,7 +123,7 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
     try {
       _dbref
           .child(widget.vivienda)
-          .child("Alarmas")
+          .child("AlarmasDespertador")
           .child(id)
           .update({"Active": value});
     } catch (e) {
@@ -136,7 +136,11 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
       if (alarmas.length == 1) {
         alarmas.clear();
       }
-      _dbref.child(widget.vivienda).child("Alarmas").child(id).remove();
+      _dbref
+          .child(widget.vivienda)
+          .child("AlarmasDespertador")
+          .child(id)
+          .remove();
     } catch (e) {
       print("Error al actualizar el valor en Firebase: $e");
     }
