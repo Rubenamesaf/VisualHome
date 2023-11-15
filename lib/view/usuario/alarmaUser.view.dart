@@ -2,15 +2,12 @@ import 'dart:math';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/request/request.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:login_v1/models/alarma_model.dart';
-import 'package:login_v1/utils/global.colors.dart';
-import 'package:login_v1/view/usuario/monitoreoSistemaUser.view.dart';
 import 'package:login_v1/view/usuario/userPerfil.view.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
 import 'package:login_v1/view/widgets/registroAlarma.dart';
+//import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class AlarmaUserPage extends StatefulWidget {
   final String userEmail;
@@ -31,8 +28,42 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
   @override
   void initState() {
     super.initState();
+    _initializeNotifications();
     _setupDatabaseListener();
     //_setupDatabaseListener();
+  }
+
+  void _initializeNotifications() async {
+    // const AndroidInitializationSettings initializationSettingsAndroid =
+    //     AndroidInitializationSettings('app_icon');
+    // final InitializationSettings initializationSettings =
+    //     InitializationSettings(
+    //   android: initializationSettingsAndroid,
+    // );
+    // await flutterLocalNotificationsPlugin.initialize(
+    //   initializationSettings,
+    // );
+  }
+
+  Future<void> scheduleAlarm(DateTime datetime) async {
+    // const AndroidNotificationDetails androidPlatformChannelSpecifics =
+    //     AndroidNotificationDetails(
+    //   'alarm_channel',
+    //   'Alarm',
+    //   'Channel for alarm notifications',
+    //   icon: 'app_icon',
+    //   sound: RawResourceAndroidNotificationSound('alarm_sound'),
+    //   largeIcon: DrawableResourceAndroidBitmap('app_icon'),
+    // );
+    // const NotificationDetails platformChannelSpecifics =
+    //     NotificationDetails(android: androidPlatformChannelSpecifics);
+    // await flutterLocalNotificationsPlugin.schedule(
+    //   0,
+    //   'Alarm',
+    //   'Time to wake up!',
+    //   DateTime.now().add(const Duration(seconds: 5)),
+    //   platformChannelSpecifics,
+    // );
   }
 
   String generarCodigoAleatorio() {
@@ -56,10 +87,12 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
         _selectedTime = DateTime(
           DateTime.now().year,
           DateTime.now().month,
-          DateTime.now().day,
+          DateTime.now().day + 1,
           picked.hour,
           picked.minute,
         );
+
+        scheduleAlarm(_selectedTime);
 
         _timeController.text = picked.format(context);
         print(_selectedTime);
