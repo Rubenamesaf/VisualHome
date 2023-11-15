@@ -1,6 +1,7 @@
 import 'dart:convert' as convert;
 import 'dart:io';
 import 'package:login_v1/view/adminPerfil.view.dart';
+import 'package:open_file_plus/open_file_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,6 +16,8 @@ import 'package:login_v1/utils/global.colors.dart';
 import 'package:login_v1/view/agregarVivienda.dart';
 import 'package:login_v1/view/splash.view.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
 
 class SistemaEspecificoAdmin extends StatefulWidget {
   final String userEmail;
@@ -163,25 +166,51 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
         return;
       }
 
-      // Crea el contenido del archivo CSV o TXT
-      String contenido = "Marca Temporal,Proveedor,Vivienda,Sistema,Accion\n";
-      for (var registro in registrosFiltrados) {
-        contenido +=
-            "${registro.marcaTemporal},${registro.proveedor},${registro.vivienda},${registro.sistema},${registro.accion}\n";
+      // Obtiene el directorio de descargas del dispositivo
+      Directory? downloadsDirectory = await getDownloadsDirectory();
+
+      if (downloadsDirectory == null) {
+        print("No se pudo obtener el directorio de descargas");
+        return;
       }
 
-      // Obtiene el directorio de documentos del dispositivo
-      Directory documentsDirectory = await getApplicationDocumentsDirectory();
+      // Crea el contenido del archivo PDF
+      pw.Document pdf = pw.Document();
 
-      // Crea el archivo con la fecha actual como nombre
+      pdf.addPage(
+        pw.Page(
+          build: (pw.Context context) => pw.Table.fromTextArray(
+            context: context,
+            data: <List<String>>[
+              ["Marca Temporal", "Proveedor", "Vivienda", "Sistema", "Accion"],
+              for (var registro in registrosFiltrados)
+                [
+                  registro.marcaTemporal,
+                  registro.proveedor,
+                  registro.vivienda,
+                  registro.sistema,
+                  registro.accion,
+                ],
+            ],
+          ),
+        ),
+      );
+
+// Obtiene el nombre de la vivienda y el sistema (asumiendo que estos valores están disponibles en los registros filtrados)
+      String nombreVivienda = registrosFiltrados.first.vivienda;
+      String nombreSistema = registrosFiltrados.first.sistema;
+
+// Crea el archivo con el nombre de la vivienda, el sistema y la fecha actual
       String fechaActual = DateFormat("yyyyMMddHHmmss").format(DateTime.now());
-      String filePath = '${documentsDirectory.path}/reporte_$fechaActual.csv';
-
-      // Escribe el contenido en el archivo
+      String fileName = '${nombreVivienda}_${nombreSistema}_$fechaActual.pdf';
+      String filePath = '${downloadsDirectory.path}/$fileName';
+      // Guarda el contenido en el archivo PDF
       File file = File(filePath);
-      await file.writeAsString(contenido);
+      await file.writeAsBytes(await pdf.save());
 
       print("Reporte descargado en: $filePath");
+      // Abre el archivo inmediatamente después de descargarlo
+      OpenFile.open(filePath);
     } catch (e) {
       print("Error al descargar el reporte: $e");
     }
@@ -232,55 +261,11 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
           }
         },
       ),
-      // bottomNavigationBar: CurvedNavigationBar(
-      //   backgroundColor: const Color.fromARGB(219, 233, 100, 6),
-      //   color: const Color.fromARGB(255, 252, 176, 122),
-      //   items: const <Widget>[
-      //     Column(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       children: [
-      //         Icon(Icons.account_circle_sharp, color: Color(0xFF0F1370)),
-      //         Text(
-      //           'Perfil',
-      //           style: customTextStyle,
-      //         ),
-      //       ],
-      //     ),
-      //     Column(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       children: [
-      //         Icon(Icons.logout, color: Color(0xFF0F1370)),
-      //         Text(
-      //           'Cerrar Sesión',
-      //           style: customTextStyle,
-      //         ),
-      //       ],
-      //     ),
-      //   ],
-      // ),
       backgroundColor: const Color.fromARGB(240, 252, 227, 210),
       body: Center(
         child: Column(
           children: [
             AdminPrincipal(administratorName: widget.userEmail),
-            // Positioned(
-            //   left: 110,
-            //   top: 135,
-            //   child: SizedBox(
-            //     width: 200,
-            //     height: 38,
-            //     child: Text(
-            //       '$viviendaName',
-            //       style: TextStyle(
-            //         color: Color(0xFF0F1370),
-            //         fontSize: 25,
-            //         fontFamily: 'Inria Sans',
-            //         fontWeight: FontWeight.w700,
-            //         height: 0.76,
-            //       ),
-            //     ),
-            //   ),
-            // ),
             Container(
               padding: const EdgeInsets.only(top: 35),
               width: double.infinity,
@@ -324,52 +309,6 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                                 ],
                               ),
                             ),
-
-                            // Positioned(
-                            //   left: 0 * fem,
-                            //   top: 135 * fem,
-                            //   child: Container(
-                            //     padding: EdgeInsets.fromLTRB(29.71 * fem,
-                            //         20.71 * fem, 29.71 * fem, 18.29 * fem),
-                            //     width: 333 * fem,
-                            //     height: 58 * fem,
-                            //     decoration: BoxDecoration(
-                            //       color: Color(0xe5adbace),
-                            //       borderRadius:
-                            //           BorderRadius.circular(100 * fem),
-                            //     ),
-                            //     child: Row(
-                            //       mainAxisAlignment:
-                            //           MainAxisAlignment.spaceBetween,
-                            //       children: [
-                            //         Text(
-                            //           '$sistema',
-                            //           style: TextStyle(
-                            //             fontFamily: 'Inria Sans',
-                            //             fontSize: 22 * ffem,
-                            //             fontWeight: FontWeight.w700,
-                            //             height: 0.8636363636 * ffem / fem,
-                            //             color: Color(0xff0f1370),
-                            //           ),
-                            //         ),
-                            //         Switch(
-                            //           value: estado,
-                            //           onChanged: toggleSwitch,
-                            //         ),
-                            //       ],
-                            //     ),
-                            //   ),
-                            // ),
-                            // Positioned(
-                            //   left: 248 * fem,
-                            //   top: 2 * fem,
-                            //   child: Align(
-                            //     child: SizedBox(
-                            //       width: 71 * fem,
-                            //       height: 59 * fem,
-                            //     ),
-                            //   ),
-                            // ),
                           ],
                         ),
                       ),
@@ -472,24 +411,6 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                                 ),
                               ),
                             ),
-                            // Positioned(
-                            //   left: 110,
-                            //   top: 200,
-                            //   child: Container(
-                            //     width: 325,
-                            //     decoration: const ShapeDecoration(
-                            //       color: Color.fromARGB(255, 0, 0, 0),
-                            //       shape: RoundedRectangleBorder(
-                            //         side: BorderSide(
-                            //           width: 1.50,
-                            //           strokeAlign:
-                            //               BorderSide.strokeAlignCenter,
-                            //           color: Color.fromARGB(255, 0, 0, 0),
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
                             Expanded(
                               child: ListView.builder(
                                 itemCount:
