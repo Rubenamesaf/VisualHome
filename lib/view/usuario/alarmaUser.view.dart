@@ -7,7 +7,7 @@ import 'package:login_v1/models/alarma_model.dart';
 import 'package:login_v1/view/usuario/userPerfil.view.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
 import 'package:login_v1/view/widgets/registroAlarma.dart';
-//import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class AlarmaUserPage extends StatefulWidget {
   final String userEmail;

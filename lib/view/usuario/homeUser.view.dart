@@ -79,6 +79,9 @@ class _HomeUserPageState extends State<HomeUserPage> {
   void _detenerBotonPanico() {
     // Actualizar el valor en la base de datos
     _dbref.child(vivienda).update({"Pánico": 0});
+    _dbref.child(vivienda).update({"Movimiento": 0});
+    _dbref.child(vivienda).update({"Perímetro": 0});
+    _dbref.child(vivienda).update({"Incendio": 0});
   }
 
   void _toggleActivacionAlarma() {
