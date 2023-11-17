@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 //import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
+import 'package:login_v1/view/nuevoPin.view.dart';
 import 'package:login_v1/view/usuario/homeUser.view.dart';
 //import 'widgets/admin_principal.dart';
 import 'package:flutter/gestures.dart';
@@ -381,36 +382,44 @@ class _LoginViewState extends State<LoginView> {
                             margin: const EdgeInsets.only(
                                 top: 40), // Ajusta el valor según sea necesario
                             child: Center(
-                              child: RichText(
-                                text: TextSpan(
-                                  text:
-                                      '¿Olvidaste tu código PIN?\n    \n     ',
-                                  style: TextStyle(
-                                    color: Color(0xFF0F1370),
-                                    fontSize: 17,
-                                    fontFamily: 'Inria Sans',
-                                    fontWeight: FontWeight.w700,
-                                    height: 0.95,
-                                  ),
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                      text: 'Restaurar contraseña',
-                                      style: TextStyle(
-                                        color: const Color.fromARGB(
-                                            255, 33, 72, 243),
-                                        fontSize: 17,
-                                        fontFamily: 'Inria Sans',
-                                        fontWeight: FontWeight.w700,
-                                        height: 0.95,
-                                        decoration: TextDecoration.underline,
-                                      ),
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-                                          // Agrega la lógica para restaurar la contraseña aquí
-                                          _resetPassword(context);
-                                        },
+                              child: GestureDetector(
+                                onTap: (() {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => const NuevoPinView(),
+                                  ));
+                                }),
+                                child: RichText(
+                                  text: TextSpan(
+                                    text:
+                                        '¿Olvidaste tu código PIN?\n    \n     ',
+                                    style: const TextStyle(
+                                      color: Color(0xFF0F1370),
+                                      fontSize: 17,
+                                      fontFamily: 'Inria Sans',
+                                      fontWeight: FontWeight.w700,
+                                      height: 0.95,
                                     ),
-                                  ],
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: 'Restaurar contraseña',
+                                        style: const TextStyle(
+                                          color:
+                                              Color.fromARGB(255, 33, 72, 243),
+                                          fontSize: 17,
+                                          fontFamily: 'Inria Sans',
+                                          fontWeight: FontWeight.w700,
+                                          height: 0.95,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            // Agrega la lógica para restaurar la contraseña aquí
+                                            _resetPassword(context);
+                                          },
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

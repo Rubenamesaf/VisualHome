@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   awesome_dialog: ^3.1.0
+  android_alarm_manager_plus: ^3.0.3
   cupertino_icons: ^1.0.2
   curved_navigation_bar: ^1.0.3
   firebase_auth: ^4.8.0

@@ -9,10 +9,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 //import 'package:login_v1/view/editHomeAdmin.dart';
 
 class AdminPrincipal extends StatelessWidget {
-  String administratorName;
+  String? administratorName;
   String? pageName;
 
-  AdminPrincipal({required this.administratorName, this.pageName, Key? key})
+  AdminPrincipal({this.administratorName, this.pageName, Key? key})
       : super(key: key);
 
   Future<void> _signOut(BuildContext context) async {
