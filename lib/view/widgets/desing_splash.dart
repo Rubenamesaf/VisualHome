@@ -8,6 +8,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:get/get.dart';
 import 'package:login_v1/view/login.view.dart';
 //import 'package:login_v1/view/widgets/button.global.dart';
+import 'package:login_v1/view/nuevoPin.view.dart';
 
 class DesingSplashContainer extends StatelessWidget {
   const DesingSplashContainer({Key? key}) : super(key: key);

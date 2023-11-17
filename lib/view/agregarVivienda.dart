@@ -383,11 +383,13 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
     final email = emailController.text;
     final password = passwordController.text;
     final direccion = direccionController.text;
+    final codigoPin = "123456";
 
     if (clienteName.isEmpty ||
         email.isEmpty ||
         password.isEmpty ||
-        direccion.isEmpty) {
+        direccion.isEmpty ||
+        codigoPin.isEmpty) {
       // Muestra un cuadro de diálogo informando que los campos están vacíos
       showDialog(
         context: context,
@@ -437,6 +439,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
         'Email': email,
         'Password': password,
         'Direccion': direccion,
+        'CodigoPIN': codigoPin
         // Agrega más campos de usuario si es necesario
       },
     };
@@ -448,7 +451,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
-        password: password,
+        password: codigoPin,
       );
       await _dbref.child(viviendaCode).set(viviendaData);
       // La vivienda se ha guardado en Firebase

@@ -76,7 +76,9 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
                 nombre != "Hours") {
               final estado = int.tryParse(parts[1].trim());
               if (estado != null) {
-                sistemasList.add(Sistema(nombre, estado == 1));
+                if (nombre != "CodigoPIN") {
+                  sistemasList.add(Sistema(nombre, estado == 1));
+                }
               }
             }
           }
@@ -120,10 +122,10 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
         backgroundColor: HexColor('#ED9A5E'),
         selectedItemColor: const Color(0xFF0F1370),
         currentIndex: 0,
-        items: const [
+        items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Vivienda\nespecífica',
+            label: viviendaName,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

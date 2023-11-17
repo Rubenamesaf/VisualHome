@@ -28,7 +28,7 @@ class _NuevoPinViewState extends State<NuevoPinView> {
             const Padding(
               padding: EdgeInsets.only(top: 40.0),
               child: Text(
-                'Camdio de codigo PIN',
+                'Camdio de código PIN',
                 style: TextStyle(
                   color: Color(0xFF0F1370),
                   fontSize: 24,
@@ -40,13 +40,13 @@ class _NuevoPinViewState extends State<NuevoPinView> {
             ),
             const Padding(
               padding: EdgeInsets.only(
-                  top: 20.0,
+                  top: 40.0,
                   left: 25.0,
                   bottom: 0), // Ajusta el valor izquierdo según sea necesario
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Datos del habitante:',
+                  'Ingresa el código de recuperación enviado a tu correo electrónico:',
                   style: TextStyle(
                     color: Color(0xFF0F1370),
                     fontSize: 17,
@@ -60,7 +60,7 @@ class _NuevoPinViewState extends State<NuevoPinView> {
             _buildTextFormFields(),
             Padding(
               padding:
-                  const EdgeInsets.symmetric(vertical: 5.0, horizontal: 24),
+                  const EdgeInsets.symmetric(vertical: 40.0, horizontal: 24),
               child: Column(
                 children: [
                   _crearBotonConfirmar(),
@@ -82,15 +82,34 @@ class _NuevoPinViewState extends State<NuevoPinView> {
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: _buildTextFormField(
               controller: emailController,
-              labelText: 'Correo electronico',
+              labelText: 'Código de recuperación',
               keyboardType: TextInputType.emailAddress,
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(
+                top: 60.0,
+                left: 0.0,
+                bottom: 0), // Ajusta el valor izquierdo según sea necesario
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Ingresa tu nuevo código PIN de acceso a tu app VisualHome:',
+                style: TextStyle(
+                  color: Color(0xFF0F1370),
+                  fontSize: 17,
+                  fontFamily: 'Inria Sans',
+                  fontWeight: FontWeight.w700,
+                  height: 0.9,
+                ),
+              ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: _buildTextFormField(
               controller: passwordController,
-              labelText: 'Nuevo Codigo PIN',
+              labelText: 'Nuevo código PIN',
               keyboardType: TextInputType.visiblePassword,
             ),
           ),
@@ -98,7 +117,7 @@ class _NuevoPinViewState extends State<NuevoPinView> {
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: _buildTextFormField(
               controller: confirmPasswordController,
-              labelText: 'Confirmar Codigo PIN',
+              labelText: 'Confirmar Código PIN',
               keyboardType: TextInputType.visiblePassword,
             ),
           ),

@@ -141,7 +141,7 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
             _buildTextFormFields(),
             Padding(
               padding:
-                  const EdgeInsets.symmetric(vertical: 5.0, horizontal: 24),
+                  const EdgeInsets.symmetric(vertical: 30.0, horizontal: 24),
               child: Column(
                 children: [
                   _crearBotonGuardar(),
@@ -285,7 +285,7 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: _buildTextFormField(
               controller: nombreController,
-              labelText: 'Nombre',
+              labelText: 'Nombre y apellido del habitante',
               keyboardType: TextInputType.name,
             ),
           ),
@@ -293,7 +293,7 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: _buildTextFormField(
               controller: emailController,
-              labelText: 'Email',
+              labelText: 'Correo electrónico de habitante',
               keyboardType: TextInputType.emailAddress,
             ),
           ),
@@ -301,7 +301,7 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: _buildTextFormField(
               controller: passwordController,
-              labelText: 'Clave',
+              labelText: 'Código de acceso a la vivienda',
               keyboardType: TextInputType.visiblePassword,
             ),
           ),
@@ -309,7 +309,7 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: _buildTextFormField(
               controller: addressController,
-              labelText: 'Direccion',
+              labelText: 'Dirección de la vivienda',
               keyboardType: TextInputType.visiblePassword,
             ),
           ),
