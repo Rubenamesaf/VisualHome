@@ -521,7 +521,7 @@ class _SistemasDialogState extends State<_SistemasDialog> {
     return AlertDialog(
       title: Text('Lista de módulos'),
       content: Container(
-        height: 300, // Ajusta la altura del contenido según tus necesidades
+        height: 300,
         child: SingleChildScrollView(
           child: Column(
             children: widget.sistemas.map((sistema) {
@@ -551,6 +551,11 @@ class _SistemasDialogState extends State<_SistemasDialog> {
       actions: [
         ElevatedButton(
           onPressed: () {
+            // Si "Estatus" no está en la lista, agrégalo con valor 1
+            if (!sistemasSeleccionados.contains("Estatus")) {
+              sistemasSeleccionados.add("Estatus");
+            }
+            // Devuelve la lista actualizada
             Navigator.of(context).pop(sistemasSeleccionados);
           },
           child: Text('Aceptar'),

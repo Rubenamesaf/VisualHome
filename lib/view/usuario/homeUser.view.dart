@@ -129,6 +129,12 @@ class _HomeUserPageState extends State<HomeUserPage> {
           for (var pair in keyValuePairs) {
             final parts = pair.split(': ');
             final nombre = parts[0].trim();
+
+            // Evitar agregar la clave "Estatus" a sistemasList
+            if (nombre == "Estatus") {
+              continue;
+            }
+
             if (nombre != "Usuario" &&
                 nombre != "AlarmasDespertador" &&
                 nombre != "Hours") {

@@ -49,22 +49,26 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
           viviendas.clear();
           data.forEach((key, value) {
             if (key is String && key != "Administradores") {
-              viviendas.add(key);
+              // Verificar si la vivienda tiene la clave "Estatus" y su valor es 1
+              if (value is Map<Object?, Object?> &&
+                  value.containsKey("Estatus") &&
+                  value["Estatus"] == 1) {
+                viviendas.add(key);
+              }
             }
             if (key == "Administradores") {
               /*// Buscar el administrador con el email del usuario
-              Admin? admin = await getAdminByEmail(widget.userEmail);
+            Admin? admin = await getAdminByEmail(widget.userEmail);
 
-              // Si el administrador existe, actualizar el estado
-              if (admin != null) {
-                setState(() {
-                  // Guardar el nombre del administrador
-                  adminName = admin.nombre;
-                });*/
+            // Si el administrador existe, actualizar el estado
+            if (admin != null) {
+              setState(() {
+                // Guardar el nombre del administrador
+                adminName = admin.nombre;
+              });
+            }*/
             }
-          }
-              // }
-              );
+          });
           setState(() {});
         }
       }
