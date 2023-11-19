@@ -11,6 +11,7 @@ import 'package:login_v1/view/widgets/admin_principal.dart';
 import 'package:login_v1/view/widgets/notificacionSensor.dart';
 import 'package:login_v1/view/widgets/sistemaUsuario.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 
 Map<String, IconData> sistemasIcons = {
   'Timbre': Icons.doorbell,
@@ -29,6 +30,7 @@ Map<String, IconData> sistemasIcons = {
 class HomeUserPage extends StatefulWidget {
   final String userEmail;
   const HomeUserPage({required this.userEmail, super.key});
+  static const route = '/userpage';
 
   @override
   State<HomeUserPage> createState() => _HomeUserPageState();

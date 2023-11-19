@@ -1,13 +1,15 @@
 import 'dart:math';
 
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:login_v1/models/alarma_model.dart';
 import 'package:login_v1/view/usuario/userPerfil.view.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
 import 'package:login_v1/view/widgets/registroAlarma.dart';
-//import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 
 class AlarmaUserPage extends StatefulWidget {
   final String userEmail;
@@ -17,6 +19,15 @@ class AlarmaUserPage extends StatefulWidget {
 
   @override
   State<AlarmaUserPage> createState() => _AlarmaUserPageState();
+}
+
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+void showAlarmMessage() async {
+  print('Alarma de 10 segundos.');
+
+  //await FirebaseMessaging.instance.
 }
 
 class _AlarmaUserPageState extends State<AlarmaUserPage> {
@@ -29,6 +40,18 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
   void initState() {
     super.initState();
     _setupDatabaseListener();
+  }
+
+  void _setAlarm() async {
+    await AndroidAlarmManager.cancel(1);
+    await AndroidAlarmManager.oneShot(
+      Duration(seconds: 10),
+      1, // Unique ID for the first alarm
+      showAlarmMessage,
+      exact: true,
+      wakeup: true,
+      rescheduleOnReboot: true,
+    );
   }
 
   Future<void> _selectTime(BuildContext context) async {
@@ -137,7 +160,8 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _selectTime(context);
+          //_selectTime(context);
+          _setAlarm();
         },
         child: const Icon(Icons.add),
       ),
