@@ -107,7 +107,7 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
             child: _buildTextFormField(
               controller: nombreController,
               //labelText: nombre.isNotEmpty ? nombre : 'Nombre',
-              labelText: 'Nombre',
+              labelText: 'Nombre y apellido del administrador',
               keyboardType: TextInputType.name,
             ),
           ),
@@ -116,7 +116,7 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
             child: _buildTextFormField(
               controller: emailController,
               //labelText: email.isNotEmpty ? email : 'Email',
-              labelText: 'Email',
+              labelText: 'Correo electrónico del administrador',
               keyboardType: TextInputType.emailAddress,
             ),
           ),
@@ -125,7 +125,7 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
             child: _buildTextFormField(
               controller: passwordController,
               // labelText: clave.toString().isNotEmpty ? clave : 'Clave',
-              labelText: 'Clave',
+              labelText: 'Código PIN de acceso a la app',
               keyboardType: TextInputType.visiblePassword,
             ),
           ),

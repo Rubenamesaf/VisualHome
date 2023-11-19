@@ -142,7 +142,9 @@ class _HomeUserPageState extends State<HomeUserPage> {
                 nombre != "Hours") {
               final estado = int.tryParse(parts[1].trim());
               if (estado != null) {
-                sistemasList.add(Sistema(nombre, estado == 1));
+                if (nombre != "CodigoPIN") {
+                  sistemasList.add(Sistema(nombre, estado == 1));
+                }
               }
             }
           }

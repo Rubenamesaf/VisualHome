@@ -384,9 +384,8 @@ class _LoginViewState extends State<LoginView> {
                             child: Center(
                               child: GestureDetector(
                                 onTap: (() {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => const NuevoPinView(),
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => const NuevoPinView(),
                                   ));
                                 }),
                                 child: RichText(
