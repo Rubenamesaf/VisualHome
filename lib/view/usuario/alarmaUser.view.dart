@@ -26,13 +26,13 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 void showAlarmMessage() async {
   print('Alarma de 10 segundos.');
-
   //await FirebaseMessaging.instance.
 }
 
 class _AlarmaUserPageState extends State<AlarmaUserPage> {
   TextEditingController _timeController = TextEditingController();
   DatabaseReference _dbref = FirebaseDatabase.instance.ref();
+  final _localNotifications = FlutterLocalNotificationsPlugin();
   List<AlarmaModel> alarmas = [];
   late DateTime _selectedTime;
 
@@ -155,13 +155,35 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
     }
   }
 
+  final _androidChannel = const AndroidNotificationChannel(
+    'high_importance_channel',
+    'High Importance Notifications',
+    description: 'This channel is used for important notifications.',
+    importance: Importance.defaultImportance,
+  );
+
+  void _showNotification() async {
+    await _localNotifications.show(
+      1,
+      "Test notification",
+      'Hello world',
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+            _androidChannel.id, _androidChannel.name,
+            channelDescription: _androidChannel.description,
+            icon: 'ic_launcher'),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           //_selectTime(context);
-          _setAlarm();
+          //_setAlarm();
+          _showNotification();
         },
         child: const Icon(Icons.add),
       ),

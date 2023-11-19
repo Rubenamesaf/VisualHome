@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:login_v1/utils/global.colors.dart';
 import 'package:login_v1/view/editAdminInfo.dart';
@@ -39,10 +40,13 @@ class HomeUserPage extends StatefulWidget {
 class _HomeUserPageState extends State<HomeUserPage> {
   bool switchAlarm = false;
   List<Sistema> sistemasList = [];
+  List<Sistema> oldSistemasList = [];
+  int iterator = 0;
   String vivienda = "";
   String databasejson = "";
   late DatabaseReference _dbref;
   List<Sistema> sistemasListParaMostrar = [];
+  final _localNotifications = FlutterLocalNotificationsPlugin();
   Color _botonColor = const Color.fromARGB(255, 110, 112, 114);
   String _estadoAlarma = "           ARMAR\nSistema de seguridad";
 
@@ -125,6 +129,8 @@ class _HomeUserPageState extends State<HomeUserPage> {
           databasejson = dataSnapshot.value.toString();
           databasejson = databasejson.substring(1, databasejson.length - 1);
           final keyValuePairs = databasejson.split(', ');
+          oldSistemasList.clear();
+          oldSistemasList.addAll(sistemasListParaMostrar);
           sistemasList.clear();
 
           // Recorrer los pares clave-valor y agregarlos a sistemasList
@@ -156,9 +162,40 @@ class _HomeUserPageState extends State<HomeUserPage> {
           sistemasListParaMostrar.addAll(
               sistemasList /*.where((sistema) => sistema.nombre != "Armado"),*/
               );
+
+          if (oldSistemasList.isNotEmpty) {
+            for (int i = 0; i < sistemasListParaMostrar.length; i++) {
+              if (oldSistemasList[i].estado !=
+                      sistemasListParaMostrar[i].estado &&
+                  oldSistemasList[i].estado == false) {
+                _showNotification(sistemasListParaMostrar[i].nombre);
+              }
+            }
+          }
         });
       }
     });
+  }
+
+  final _androidChannel = const AndroidNotificationChannel(
+    'high_importance_channel',
+    'High Importance Notifications',
+    description: 'This channel is used for important notifications.',
+    importance: Importance.defaultImportance,
+  );
+
+  void _showNotification(String nombreSistema) async {
+    await _localNotifications.show(
+      10,
+      "Sistema activado",
+      nombreSistema,
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+            _androidChannel.id, _androidChannel.name,
+            channelDescription: _androidChannel.description,
+            icon: 'ic_launcher'),
+      ),
+    );
   }
 
   @override
