@@ -65,7 +65,7 @@ class FirebaseApi {
     );
   }
 
-  Future initLocalNotifications() async {
+  void initLocalNotifications() async {
     const iOS = DarwinInitializationSettings();
     const android = AndroidInitializationSettings('@drawable/ic_launcher');
     const settings = InitializationSettings(android: android, iOS: iOS);
@@ -73,8 +73,23 @@ class FirebaseApi {
     await _localNotifications.initialize(
       settings,
       onDidReceiveNotificationResponse: (details) {
-        final message = RemoteMessage.fromMap(jsonDecode(details.payload!));
-        handleMessage(message);
+        if (details.payload != null && details.payload!.isNotEmpty) {
+          try {
+            // Elimina cualquier carácter de espacio en blanco alrededor del payload
+            final trimmedPayload = details.payload!.trim();
+
+            if (trimmedPayload.isNotEmpty) {
+              final message = RemoteMessage.fromMap(jsonDecode(trimmedPayload));
+              handleMessage(message);
+            } else {
+              print('Error: Payload is empty after trimming whitespace');
+            }
+          } catch (e) {
+            print('Error decoding JSON payload: $e');
+          }
+        } else {
+          print('Error: Payload is null or empty');
+        }
       },
     );
   }

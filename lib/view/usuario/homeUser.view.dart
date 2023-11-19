@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -17,7 +18,7 @@ import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 Map<String, IconData> sistemasIcons = {
   'Timbre': Icons.doorbell,
   'Ruido': Icons.speaker,
-  'Incendio': Icons.fire_extinguisher,
+  'Incendio': Icons.local_fire_department,
   'Movimiento': Icons.warning,
   'Pánico': Icons.emergency,
   'Teléfono': Icons.phone_sharp,
@@ -49,12 +50,87 @@ class _HomeUserPageState extends State<HomeUserPage> {
   final _localNotifications = FlutterLocalNotificationsPlugin();
   Color _botonColor = const Color.fromARGB(255, 110, 112, 114);
   String _estadoAlarma = "           ARMAR\nSistema de seguridad";
+  bool _appLoaded = false;
+  bool _openedFromPushNotification = false;
 
   @override
   void initState() {
     super.initState();
     _dbref = FirebaseDatabase.instance.ref();
     _getVivienda();
+    _configurePushNotifications(); // Mueve esta línea aquí
+
+    // Establecer un oyente para detectar cuando la aplicación ha terminado de cargarse
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        _appLoaded = true;
+      });
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // Comprobar si la aplicación se está abriendo desde la notificación push
+    if (_openedFromPushNotification && _appLoaded) {
+      _mostrarDialogo();
+      _openedFromPushNotification = false;
+    }
+  }
+
+  void _configurePushNotifications() {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      // Manejar la notificación cuando la aplicación está en primer plano
+      _handleNotification(message);
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      // Manejar la notificación cuando la aplicación se abre desde la notificación
+      _handleNotification(message);
+
+      // Establecer la bandera que indica que la aplicación se está abriendo desde la notificación
+      _openedFromPushNotification = true;
+    });
+  }
+
+  void _handleNotification(RemoteMessage message) {
+    _openedFromPushNotification = true;
+    // Opcionalmente, puede acceder a los datos de la notificación aquí
+  }
+
+  void _mostrarDialogo() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('ALERTA'),
+          content: Text('Botón de pánico accionado'),
+          actions: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+              ),
+              onPressed: () {
+                launch('tel:911');
+                Navigator.of(context).pop();
+              },
+              child: Text('Llamar Emergencias'),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.grey,
+              ),
+              onPressed: () {
+                _detenerBotonPanico();
+                Navigator.of(context).pop();
+              },
+              child: Text('Detener'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -187,8 +263,8 @@ class _HomeUserPageState extends State<HomeUserPage> {
   void _showNotification(String nombreSistema) async {
     await _localNotifications.show(
       10,
-      "Sistema activado",
-      nombreSistema,
+      "Módulo de $nombreSistema",
+      "Disparado",
       NotificationDetails(
         android: AndroidNotificationDetails(
             _androidChannel.id, _androidChannel.name,
