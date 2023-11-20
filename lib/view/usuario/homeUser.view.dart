@@ -14,6 +14,9 @@ import 'package:login_v1/view/widgets/notificacionSensor.dart';
 import 'package:login_v1/view/widgets/sistemaUsuario.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart'
+    show AndroidNotificationAction;
 
 Map<String, IconData> sistemasIcons = {
   'Timbre': Icons.doorbell,
@@ -50,87 +53,13 @@ class _HomeUserPageState extends State<HomeUserPage> {
   final _localNotifications = FlutterLocalNotificationsPlugin();
   Color _botonColor = const Color.fromARGB(255, 110, 112, 114);
   String _estadoAlarma = "           ARMAR\nSistema de seguridad";
-  bool _appLoaded = false;
-  bool _openedFromPushNotification = false;
+  String activeSystemName = "";
 
   @override
   void initState() {
     super.initState();
     _dbref = FirebaseDatabase.instance.ref();
     _getVivienda();
-    _configurePushNotifications(); // Mueve esta línea aquí
-
-    // Establecer un oyente para detectar cuando la aplicación ha terminado de cargarse
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() {
-        _appLoaded = true;
-      });
-    });
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    // Comprobar si la aplicación se está abriendo desde la notificación push
-    if (_openedFromPushNotification && _appLoaded) {
-      _mostrarDialogo();
-      _openedFromPushNotification = false;
-    }
-  }
-
-  void _configurePushNotifications() {
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      // Manejar la notificación cuando la aplicación está en primer plano
-      _handleNotification(message);
-    });
-
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      // Manejar la notificación cuando la aplicación se abre desde la notificación
-      _handleNotification(message);
-
-      // Establecer la bandera que indica que la aplicación se está abriendo desde la notificación
-      _openedFromPushNotification = true;
-    });
-  }
-
-  void _handleNotification(RemoteMessage message) {
-    _openedFromPushNotification = true;
-    // Opcionalmente, puede acceder a los datos de la notificación aquí
-  }
-
-  void _mostrarDialogo() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('ALERTA'),
-          content: Text('Botón de pánico accionado'),
-          actions: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-              ),
-              onPressed: () {
-                launch('tel:911');
-                Navigator.of(context).pop();
-              },
-              child: Text('Llamar Emergencias'),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey,
-              ),
-              onPressed: () {
-                _detenerBotonPanico();
-                Navigator.of(context).pop();
-              },
-              child: Text('Detener'),
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override
@@ -200,7 +129,6 @@ class _HomeUserPageState extends State<HomeUserPage> {
     _dbref.child(vivienda).onValue.listen((event) {
       final dataSnapshot = event.snapshot;
       if (dataSnapshot.value != null && mounted) {
-        print("Datos actualizados - " + dataSnapshot.value.toString());
         setState(() {
           databasejson = dataSnapshot.value.toString();
           databasejson = databasejson.substring(1, databasejson.length - 1);
@@ -208,6 +136,9 @@ class _HomeUserPageState extends State<HomeUserPage> {
           oldSistemasList.clear();
           oldSistemasList.addAll(sistemasListParaMostrar);
           sistemasList.clear();
+
+          // Flag to check if any of the specified systems is active
+          bool isEmergencyActive = false;
 
           // Recorrer los pares clave-valor y agregarlos a sistemasList
           for (var pair in keyValuePairs) {
@@ -226,9 +157,56 @@ class _HomeUserPageState extends State<HomeUserPage> {
               if (estado != null) {
                 if (nombre != "CodigoPIN") {
                   sistemasList.add(Sistema(nombre, estado == 1));
+
+                  // Check if the current system is one of the specified systems
+                  if (nombre == 'Pánico' ||
+                      nombre == 'Movimiento' ||
+                      nombre == 'Perímetro' ||
+                      nombre == 'Incendio') {
+                    if (estado == 1) {
+                      activeSystemName = nombre;
+                      isEmergencyActive = true;
+                    }
+                  }
                 }
               }
             }
+          }
+
+          // Show the emergency dialog if any of the specified systems is active
+          if (isEmergencyActive) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('ALERTA'),
+                  content: Text('Detector de $activeSystemName disparado.'),
+                  actions: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                      ),
+                      onPressed: () {
+                        // Llamar al número de emergencia (911)
+                        launch('tel:911');
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('Llamar Emergencias'),
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey,
+                      ),
+                      onPressed: () {
+                        _detenerBotonPanico();
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('Detener'),
+                    ),
+                  ],
+                );
+              },
+            );
           }
 
           // Limpiar la lista antes de agregar los nuevos sistemas
@@ -236,8 +214,8 @@ class _HomeUserPageState extends State<HomeUserPage> {
 
           // Filtrar sistemas y agregarlos a sistemasListParaMostrar
           sistemasListParaMostrar.addAll(
-              sistemasList /*.where((sistema) => sistema.nombre != "Armado"),*/
-              );
+            sistemasList,
+          );
 
           if (oldSistemasList.isNotEmpty) {
             for (int i = 0; i < sistemasListParaMostrar.length; i++) {
@@ -261,16 +239,39 @@ class _HomeUserPageState extends State<HomeUserPage> {
   );
 
   void _showNotification(String nombreSistema) async {
+    // Verificar si el nombre del sistema requiere botones adicionales
+    List<AndroidNotificationAction>? actions;
+    /*if (nombreSistema == "Pánico" ||
+        nombreSistema == "Movimiento" ||
+        nombreSistema == "Incendio" ||
+        nombreSistema == "Perímetro") {
+      // Agregar botones si es uno de los sistemas especificados
+      actions = [
+        AndroidNotificationAction(
+          'action_emergency',
+          'Llamar Emergencias',
+        ),
+        AndroidNotificationAction(
+          'action_stop',
+          'Detener',
+        ),
+      ];
+    }*/
+
     await _localNotifications.show(
       10,
       "Módulo de $nombreSistema",
       "Disparado",
       NotificationDetails(
         android: AndroidNotificationDetails(
-            _androidChannel.id, _androidChannel.name,
-            channelDescription: _androidChannel.description,
-            icon: 'ic_launcher'),
+          _androidChannel.id,
+          _androidChannel.name,
+          channelDescription: _androidChannel.description,
+          icon: 'ic_launcher',
+          actions: actions,
+        ),
       ),
+      payload: nombreSistema, // Agregar el nombre del sistema como carga útil
     );
   }
 
@@ -373,38 +374,6 @@ class _HomeUserPageState extends State<HomeUserPage> {
                   GestureDetector(
                     onTap: () {
                       _activarBotonPanico();
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text('ALERTA'),
-                            content: Text('Botón de pánico accionado'),
-                            actions: [
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.red,
-                                ),
-                                onPressed: () {
-                                  // Llamar al número de emergencia (911)
-                                  launch('tel:911');
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text('Llamar Emergencias'),
-                              ),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.grey,
-                                ),
-                                onPressed: () {
-                                  _detenerBotonPanico();
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text('Detener'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
                     },
                     child: Container(
                       width: 180,
