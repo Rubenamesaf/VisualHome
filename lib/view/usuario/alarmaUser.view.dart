@@ -42,10 +42,11 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
     _setupDatabaseListener();
   }
 
-  void _setAlarm() async {
+  void _setAlarm(Duration duration) async {
+    print(duration.inSeconds.toString());
     await AndroidAlarmManager.cancel(1);
     await AndroidAlarmManager.oneShot(
-      Duration(seconds: 10),
+      duration,
       1, // Unique ID for the first alarm
       showAlarmMessage,
       exact: true,
@@ -65,12 +66,21 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
         _selectedTime = DateTime(
           DateTime.now().year,
           DateTime.now().month,
-          DateTime.now().day + 1,
+          DateTime.now().day,
           picked.hour,
           picked.minute,
         );
 
+        DateTime endTime = DateTime.now();
+
+        // Calcula el tiempo hasta disparar la alarma
+        Duration duration = _selectedTime.difference(endTime);
+
+        // Funcion que pone la alarma
+        _setAlarm(duration);
+
         _timeController.text = picked.format(context);
+
         print(_selectedTime);
         print(_timeController.text);
       });
@@ -181,9 +191,9 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //_selectTime(context);
+          _selectTime(context);
           //_setAlarm();
-          _showNotification();
+          // _showNotification();
         },
         child: const Icon(Icons.add),
       ),
