@@ -1,22 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:login_v1/utils/global.colors.dart';
 import 'package:login_v1/view/editAdminInfo.dart';
 import 'package:login_v1/view/usuario/alarmaUser.view.dart';
-import 'package:login_v1/view/usuario/monitoreoSistemaUser.view.dart';
 import 'package:login_v1/view/usuario/userPerfil.view.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
-import 'package:login_v1/view/widgets/notificacionSensor.dart';
 import 'package:login_v1/view/widgets/sistemaUsuario.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
-import 'package:flutter_app_badger/flutter_app_badger.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart'
-    show AndroidNotificationAction;
 
 Map<String, IconData> sistemasIcons = {
   'Timbre': Icons.doorbell,
