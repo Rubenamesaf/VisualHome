@@ -43,7 +43,7 @@ class DesingSplashContainer extends StatelessWidget {
             Align(
               alignment: const AlignmentDirectional(0, 0.2),
               child: Text(
-                'Un sentido más...',
+                'Tu casa, uno más de tus sentidos.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 20,

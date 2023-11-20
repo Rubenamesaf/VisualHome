@@ -147,32 +147,6 @@ class _EditarViviendaState extends State<EditarVivienda> {
           });
         },
       ),
-      // bottomNavigationBar: CurvedNavigationBar(
-      //   backgroundColor: const Color.fromARGB(219, 233, 100, 6),
-      //   color: const Color.fromARGB(255, 252, 176, 122),
-      //   items: const <Widget>[
-      //     Column(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       children: [
-      //         Icon(Icons.account_circle_sharp, color: Color(0xFF0F1370)),
-      //         Text(
-      //           'Perfil',
-      //           style: customTextStyle,
-      //         ),
-      //       ],
-      //     ),
-      //     Column(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       children: [
-      //         Icon(Icons.logout, color: Color(0xFF0F1370)),
-      //         Text(
-      //           'Cerrar Sesión',
-      //           style: customTextStyle,
-      //         ),
-      //       ],
-      //     ),
-      //   ],
-      // ),
       backgroundColor: const Color.fromARGB(240, 252, 227, 210),
       body: SingleChildScrollView(
         child: Center(
@@ -216,22 +190,10 @@ class _EditarViviendaState extends State<EditarVivienda> {
                   ),
                 ),
               ),
-              /*Container(
-                width: 270,
-                decoration: const ShapeDecoration(
-                  color: GlobalColors.azulColor,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      width: 1.50,
-                      color: GlobalColors.azulColor,
-                    ),
-                  ),
-                ),
-              ),*/
               _buildTextFormFields(),
               Padding(
                 padding: EdgeInsets.only(
-                    top: 30.0,
+                    top: 15.0,
                     left: 25.0,
                     bottom: 0), // Ajusta el valor izquierdo según sea necesario
                 child: Align(
@@ -250,7 +212,7 @@ class _EditarViviendaState extends State<EditarVivienda> {
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                    top: 15.0, bottom: 5.0, left: 24, right: 24),
+                    top: 15.0, bottom: 1.0, left: 24, right: 24),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size.fromHeight(40), // NEW
@@ -263,12 +225,12 @@ class _EditarViviendaState extends State<EditarVivienda> {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 5.0, horizontal: 24),
+                    const EdgeInsets.symmetric(vertical: 1.0, horizontal: 24),
                 child: _crearBotonGuardar(),
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 5.0, horizontal: 24),
+                    const EdgeInsets.symmetric(vertical: 1.0, horizontal: 24),
                 child: _crearBotonDescartar(),
               ),
             ],
@@ -284,7 +246,7 @@ class _EditarViviendaState extends State<EditarVivienda> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            padding: const EdgeInsets.symmetric(vertical: 1.0),
             child: _buildTextFormField(
               controller: nombreController,
               labelText: nombre.isNotEmpty ? nombre : 'Nombre',
@@ -292,7 +254,7 @@ class _EditarViviendaState extends State<EditarVivienda> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            padding: const EdgeInsets.symmetric(vertical: 1.0),
             child: _buildTextFormField(
               controller: emailController,
               labelText: email.isNotEmpty ? email : 'Email',
@@ -300,7 +262,7 @@ class _EditarViviendaState extends State<EditarVivienda> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            padding: const EdgeInsets.symmetric(vertical: 1.0),
             child: _buildTextFormField(
               controller: passwordController,
               labelText: clave.toString().isNotEmpty ? clave : 'Clave',
@@ -308,7 +270,7 @@ class _EditarViviendaState extends State<EditarVivienda> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            padding: const EdgeInsets.symmetric(vertical: 1.0),
             child: _buildTextFormField(
               controller: direccionController,
               labelText: direccion.isNotEmpty ? direccion : 'Direccion',
@@ -345,7 +307,7 @@ class _EditarViviendaState extends State<EditarVivienda> {
   Widget _crearBotonDescartar() {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-        minimumSize: const Size.fromHeight(40),
+        minimumSize: const Size.fromHeight(30),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(0.0),
         ),
@@ -388,7 +350,7 @@ class _EditarViviendaState extends State<EditarVivienda> {
   Widget _crearBotonGuardar() {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-        minimumSize: const Size.fromHeight(40),
+        minimumSize: const Size.fromHeight(30),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(0.0),
         ),

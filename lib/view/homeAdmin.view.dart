@@ -56,18 +56,7 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
                 viviendas.add(key);
               }
             }
-            if (key == "Administradores") {
-              /*// Buscar el administrador con el email del usuario
-            Admin? admin = await getAdminByEmail(widget.userEmail);
-
-            // Si el administrador existe, actualizar el estado
-            if (admin != null) {
-              setState(() {
-                // Guardar el nombre del administrador
-                adminName = admin.nombre;
-              });
-            }*/
-            }
+            if (key == "Administradores") {}
           });
           setState(() {});
         }
