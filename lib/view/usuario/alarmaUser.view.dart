@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:firebase_database/firebase_database.dart';
@@ -42,17 +43,14 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
     _setupDatabaseListener();
   }
 
-  void _setAlarm(Duration duration) async {
-    print(duration.inSeconds.toString());
-    await AndroidAlarmManager.cancel(1);
-    await AndroidAlarmManager.oneShot(
-      duration,
-      1, // Unique ID for the first alarm
-      showAlarmMessage,
-      exact: true,
-      wakeup: true,
-      rescheduleOnReboot: true,
-    );
+  void _setAlarm(Duration duration) {
+    Timer(duration, () {
+      try {
+        _dbref.child(widget.vivienda).update({"Alarmas": 1});
+      } catch (e) {
+        print("Error al actualizar el valor en Firebase: $e");
+      }
+    });
   }
 
   Future<void> _selectTime(BuildContext context) async {
@@ -257,23 +255,6 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
                 ),
               ),
             ),
-            /*Positioned(
-              left: 129,
-              top: 160,
-              child: Container(
-                width: 134,
-                decoration: const ShapeDecoration(
-                  color: GlobalColors.azulColor,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      width: 1.50,
-                      strokeAlign: BorderSide.strokeAlignCenter,
-                      color: GlobalColors.azulColor,
-                    ),
-                  ),
-                ),
-              ),
-            ),*/
             Positioned(
               left: 25,
               top: 170, // Ajusta la posición según sea necesario
@@ -306,37 +287,8 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
                     );
                   },
                 ),
-                // child: ListView(
-                //   children: [
-                //     RegistroAlarma(textoHora: "10:00", switchAlarma: true),
-                //     RegistroAlarma(textoHora: "10:00", switchAlarma: true),
-                //     RegistroAlarma(textoHora: "10:00", switchAlarma: true),
-                //     RegistroAlarma(textoHora: "10:00", switchAlarma: true),
-                //     RegistroAlarma(textoHora: "10:00", switchAlarma: true),
-                //     RegistroAlarma(textoHora: "10:00", switchAlarma: true),
-                //     RegistroAlarma(textoHora: "10:00", switchAlarma: true),
-                //     RegistroAlarma(textoHora: "10:00", switchAlarma: true),
-                //     RegistroAlarma(textoHora: "10:00", switchAlarma: true),
-                //     RegistroAlarma(textoHora: "10:00", switchAlarma: true),
-                //     RegistroAlarma(textoHora: "10:00", switchAlarma: true),
-                //     RegistroAlarma(textoHora: "10:00", switchAlarma: true),
-                //   ],
-                // ),
               ),
             ),
-            // TEXTO AGREGAR VIVIENDA
-            /*Positioned(
-              left: 80,
-              top: 585,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  print('IconButton pressed ...');
-                  Get.to(() => AgregarVivienda(userEmail: widget.userEmail),
-                      arguments: cantidadViviendas);
-                },
-              ),
-            ),*/
-            // FIN TEXTO AGREGAR VIVIENDA
           ],
         ),
       ),

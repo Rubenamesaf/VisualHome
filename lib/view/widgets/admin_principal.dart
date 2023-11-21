@@ -74,7 +74,7 @@ class AdminPrincipal extends StatelessWidget {
                 child: Opacity(
                   opacity: 1,
                   child: Container(
-                    width: 400,
+                    width: 412,
                     height: 89.18,
                     decoration: BoxDecoration(
                       color: HexColor('#ED9A5E'),
@@ -83,22 +83,6 @@ class AdminPrincipal extends StatelessWidget {
                   ),
                 ),
               ),
-              //FoNDO BLANCO DE LA PAGINA  CAMBIO 1
-              /*Positioned(
-                left: 0,
-                top: 698,
-                child: Opacity(
-                  opacity: 0.8,
-                  child: Container(
-                    width: 393,
-                    height: 88,
-                    decoration: BoxDecoration(
-                      color: Colors.amber, //HexColor('#FFFFFF'),
-                      border: Border.all(width: 0.05),
-                    ),
-                  ),
-                ),
-              ),*/
               Positioned(
                 left: 100,
                 top: 21,
@@ -109,80 +93,14 @@ class AdminPrincipal extends StatelessWidget {
                     'assets/images/VisualHome.svg',
                     fit: BoxFit.cover,
                   ),
-                  // child: Text(
-                  //   'VisualHome',
-                  //   textAlign: TextAlign.center,
-                  //   style: TextStyle(
-                  //     color: Color(0xFF0F1370),
-                  //     fontSize: 34,
-                  //     fontFamily: 'Inria Sans',
-                  //     fontWeight: FontWeight.w700,
-                  //     height: 0.54,
-                  //   ),
-                  // ),
                 ),
               ),
-              // CIRCULO NARANJA DE ABAJO C. 2
-              // aqui va VIVIENDAS
-              /*Positioned(
-                left: 152,
-                top: 655,
-                child: Container(
-                  width: 90,
-                  height: 90,
-                  decoration: const ShapeDecoration(
-                    color: Color(0xDBF19756),
-                    shape: OvalBorder(),
-                  ),
-                ),
-              ),*/
-              /*Positioned(
-                left: 172,
-                top: 676,
-                child: Container(
-                  width: 50,
-                  height: 50,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: const BoxDecoration(),
-                  child: SvgPicture.asset(
-                    'assets/images/bxs-user 1.svg',
-                    height: 40,
-                  ),
-                ),
-              ),*/
               showBackButton(context),
               showLogoutButton(context),
-              /*Positioned(
-                left: 331,
-                top: 4,
-                child: Container(
-                  width: 50,
-                  height: 50,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: const BoxDecoration(),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 0.14,
-                        top: 13.90,
-                        child: Container(
-                          width: 35.16,
-                          height: 39.01,
-                          /*child: SvgPicture.asset(
-                            'assets/images/undraw_profile_pic.svg',
-                            height: 40,
-                          ),*/
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),*/
             ],
           ),
         )
       ],
     );
-    // cambio loco
   }
 }

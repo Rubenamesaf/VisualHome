@@ -63,7 +63,9 @@ class _HomeUserPageState extends State<HomeUserPage> {
     if (userSnapshot.snapshot.value != null) {
       final dynamic data = userSnapshot.snapshot.value;
       data.forEach((key, value) {
-        if (key is String && key != "Administradores") {
+        if (key is String &&
+            key != "Administradores" &&
+            key != "AlarmasDespertador") {
           if (value["Usuario"]["Email"] == widget.userEmail) {
             vivienda = key;
           }
@@ -84,6 +86,11 @@ class _HomeUserPageState extends State<HomeUserPage> {
     _dbref.child(vivienda).update({"Movimiento": 0});
     _dbref.child(vivienda).update({"Perímetro": 0});
     _dbref.child(vivienda).update({"Incendio": 0});
+  }
+
+  void _detenerAlarmas() {
+    // Actualizar el valor en la base de datos
+    _dbref.child(vivienda).update({"Alarmas": 0});
   }
 
   void _toggleActivacionAlarma() {
@@ -130,6 +137,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
 
           // Flag to check if any of the specified systems is active
           bool isEmergencyActive = false;
+          bool isAlarmaAlert = false;
 
           // Recorrer los pares clave-valor y agregarlos a sistemasList
           for (var pair in keyValuePairs) {
@@ -159,6 +167,12 @@ class _HomeUserPageState extends State<HomeUserPage> {
                       isEmergencyActive = true;
                     }
                   }
+                  if (nombre == 'Alarmas') {
+                    if (estado == 1) {
+                      activeSystemName = nombre;
+                      isAlarmaAlert = true;
+                    }
+                  }
                 }
               }
             }
@@ -173,26 +187,85 @@ class _HomeUserPageState extends State<HomeUserPage> {
                   title: Text('ALERTA'),
                   content: Text('Detector de $activeSystemName disparado.'),
                   actions: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                      ),
-                      onPressed: () {
-                        // Llamar al número de emergencia (911)
-                        launch('tel:911');
-                        Navigator.of(context).pop();
-                      },
-                      child: Text('Llamar Emergencias'),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red,
+                              padding:
+                                  EdgeInsets.all(16.0), // Ajusta el padding
+                            ),
+                            onPressed: () {
+                              // Llamar al número de emergencia (911)
+                              launch('tel:911');
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              'Llamar Emergencias',
+                              style: TextStyle(
+                                  fontSize: 16.0), // Ajusta el tamaño del texto
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                            width: 16.0), // Ajusta el espacio entre los botones
+                        Expanded(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.grey,
+                              padding:
+                                  EdgeInsets.all(16.0), // Ajusta el padding
+                            ),
+                            onPressed: () {
+                              _detenerBotonPanico();
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              'Detener',
+                              style: TextStyle(
+                                  fontSize: 16.0), // Ajusta el tamaño del texto
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.grey,
+                  ],
+                );
+              },
+            );
+          }
+          if (isAlarmaAlert) {
+            DateTime horaActual = DateTime.now(); // Obtén la hora actual
+
+            showDialog(
+              context: context,
+              barrierDismissible: false, // Evita que se cierre al tocar fuera
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('ALARMA'),
+                  content: Text('${horaActual.hour}:${horaActual.minute}'),
+                  actions: [
+                    Container(
+                      width: double
+                          .infinity, // Hace que el botón ocupe todo el ancho
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromRGBO(0, 129, 28, 1),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 16.0), // Ajusta el padding vertical
+                        ),
+                        onPressed: () {
+                          _detenerAlarmas();
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          'DETENER',
+                          style: TextStyle(
+                              fontSize: 18.0), // Ajusta el tamaño del texto
+                        ),
                       ),
-                      onPressed: () {
-                        _detenerBotonPanico();
-                        Navigator.of(context).pop();
-                      },
-                      child: Text('Detener'),
                     ),
                   ],
                 );
@@ -315,7 +388,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
             AdminPrincipal(
                 administratorName: widget.userEmail, pageName: 'home'),
             const Padding(
-              padding: EdgeInsets.only(top: 110.0, left: 139),
+              padding: EdgeInsets.only(top: 105.0, left: 139),
               child: Text(
                 'Monitoreo',
                 style: TextStyle(
@@ -328,11 +401,11 @@ class _HomeUserPageState extends State<HomeUserPage> {
               ),
             ),
             Positioned(
-              left: 22,
-              top: 125,
+              left: 45,
+              top: 110,
               child: SizedBox(
-                width: 350,
-                height: 510,
+                width: 300,
+                height: 430,
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
@@ -348,7 +421,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
                       activo: sistema.estado,
                       icon: Icon(
                         sistemasIcons[sistema.nombre],
-                        size: 50,
+                        size: 40,
                         color: const Color(0xFF0F1370),
                       ),
                     );
@@ -358,7 +431,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
             ),
             Positioned(
               left: 10,
-              top: 650,
+              top: 560,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

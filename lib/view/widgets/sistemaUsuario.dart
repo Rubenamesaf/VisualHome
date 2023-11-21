@@ -50,7 +50,7 @@ class SistemaUsuario extends StatelessWidget {
           Text(
             nombreSistema,
             style: const TextStyle(
-              fontSize: 18,
+              fontSize: 16.5,
               color: const Color(0xFF0F1370),
               fontWeight: FontWeight.bold,
             ),
@@ -59,21 +59,5 @@ class SistemaUsuario extends StatelessWidget {
         ],
       ),
     );
-    // return Column(
-    //   children: [
-    //     ListTile(
-    //       title: Text(
-    //         nombreSistema,
-    //         style: const TextStyle(fontSize: 16, color: Color(0xFF0F1370)),
-    //       ),
-    //       trailing: mostrarStatus(),
-    //     ),
-    //     Divider(
-    //       color: HexColor('#ED9A5E'),
-    //       height: 3,
-    //       thickness: 2,
-    //     ),
-    //   ],
-    // );
   }
 }

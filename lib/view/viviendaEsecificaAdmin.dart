@@ -151,273 +151,92 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
           }
         },
       ),
-      // bottomNavigationBar: CurvedNavigationBar(
-      //   backgroundColor: const Color.fromARGB(219, 233, 100, 6),
-      //   color: const Color.fromARGB(255, 252, 176, 122),
-      //   animationDuration: const Duration(milliseconds: 300),
-      //   index: 1,
-      //   items: const <Widget>[
-      //     Column(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       children: [
-      //         Icon(Icons.add_home_work, color: Color(0xFF0F1370)),
-      //         Text(
-      //           'Agregar Vivienda',
-      //           style: customTextStyle,
-      //           textAlign: TextAlign.center,
-      //         ),
-      //       ],
-      //     ),
-      //     Column(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       children: [
-      //         Icon(Icons.account_circle_sharp, color: Color(0xFF0F1370)),
-      //         Text(
-      //           'Perfil',
-      //           style: customTextStyle,
-      //         ),
-      //       ],
-      //     ),
-      //     Column(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       children: [
-      //         Icon(Icons.logout, color: Color(0xFF0F1370)),
-      //         Text(
-      //           'Cerrar Sesión',
-      //           style: customTextStyle,
-      //         ),
-      //       ],
-      //     ),
-      //   ],
-      //   onTap: (index) {
-      //     if (index == 0) {
-      //       final arguments = {
-      //         'viviendaName': viviendaName,
-      //         'sistemasList': sistemasList,
-      //       };
-      //       print('Botón presionado ...');
-      //       Get.to(() => EditarVivienda(userEmail: widget.userEmail),
-      //           arguments: arguments);
-      //     }
-      //     if (index == 2) {
-      //       Navigator.of(context).push(
-      //         MaterialPageRoute(
-      //           builder: (context) => const SplashView(),
-      //         ),
-      //       );
-      //     }
-      //   },
-      // ),
       backgroundColor: const Color.fromARGB(240, 252, 227, 210),
-      body: Center(
-        child: Column(
-          children: [
-            AdminPrincipal(administratorName: widget.userEmail),
-            const SizedBox(
-              height: 40,
-            ),
-            SizedBox(
-              width: 200,
-              height: 38,
-              child: Text(
-                '$viviendaName',
-                style: const TextStyle(
-                  color: Color(0xFF0F1370),
-                  fontSize: 25,
-                  fontFamily: 'Inria Sans',
-                  fontWeight: FontWeight.w700,
-                  height: 0.76,
-                ),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              AdminPrincipal(administratorName: widget.userEmail),
+              const SizedBox(
+                height: 40,
               ),
-            ),
-            // Positioned(
-            //   left: 110,
-            //   top: 135,
-            //   child: SizedBox(
-            //     width: 200,
-            //     height: 38,
-            //     child: Text(
-            //       '$viviendaName',
-            //       style: TextStyle(
-            //         color: Color(0xFF0F1370),
-            //         fontSize: 25,
-            //         fontFamily: 'Inria Sans',
-            //         fontWeight: FontWeight.w700,
-            //         height: 0.76,
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            /*Container(
-              width: 170,
-              decoration: const ShapeDecoration(
-                color: GlobalColors.azulColor,
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 1.50,
-                    strokeAlign: BorderSide.strokeAlignCenter,
-                    color: Color(0xFF678ACF),
+              SizedBox(
+                width: 200,
+                height: 20,
+                child: Text(
+                  '$viviendaName',
+                  style: const TextStyle(
+                    color: Color(0xFF0F1370),
+                    fontSize: 25,
+                    fontFamily: 'Inria Sans',
+                    fontWeight: FontWeight.w700,
+                    height: 0.76,
                   ),
                 ),
               ),
-            ),*/
-            // Positioned(
-            //   left: 110,
-            //   top: 160,
-            //   child: Container(
-            //     width: 170,
-            //     decoration: const ShapeDecoration(
-            //       color: GlobalColors.azulColor,
-            //       shape: RoundedRectangleBorder(
-            //         side: BorderSide(
-            //           width: 1.50,
-            //           strokeAlign: BorderSide.strokeAlignCenter,
-            //           color: Color(0xFF678ACF),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            Container(
-              width: 285,
-              height: 470,
-              child: ListView.builder(
-                itemCount: sistemasList.length,
-                itemBuilder: (context, index) {
-                  final sistema = sistemasList[index];
-                  // Define un mapa con los argumentos que deseas pasar
+              Container(
+                width: 285,
+                height: 410,
+                child: ListView.builder(
+                  itemCount: sistemasList.length,
+                  itemBuilder: (context, index) {
+                    final sistema = sistemasList[index];
+                    // Define un mapa con los argumentos que deseas pasar
+                    final arguments = {
+                      'viviendaName': viviendaName,
+                      'sistemaName': sistema.nombre,
+                      'estado': sistema
+                          .estado // Agrega más argumentos si es necesario
+                    };
+                    return ListTile(
+                      title: Text(sistema.nombre),
+                      subtitle: buildRichText(sistema.estado),
+                      trailing: ElevatedButton(
+                        onPressed: () {
+                          Get.to(
+                              () => SistemaEspecificoAdmin(
+                                  sistema: sistema.nombre,
+                                  userEmail: widget.userEmail),
+                              arguments: arguments);
+                        },
+                        child: Text('Editar'),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              ElevatedButton.icon(
+                onPressed: () {
                   final arguments = {
                     'viviendaName': viviendaName,
-                    'sistemaName': sistema.nombre,
-                    'estado':
-                        sistema.estado // Agrega más argumentos si es necesario
+                    'sistemasList': sistemasList,
                   };
-                  return ListTile(
-                    title: Text(sistema.nombre),
-                    subtitle: buildRichText(sistema.estado),
-                    trailing: ElevatedButton(
-                      onPressed: () {
-                        /*Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => SistemaEspecificoAdmin(
-                                userEmail: widget.userEmail,
-                                sistema: sistema.nombre)
-                          ),
-                        );*/
-                        Get.to(
-                            () => SistemaEspecificoAdmin(
-                                sistema: sistema.nombre,
-                                userEmail: widget.userEmail),
-                            arguments: arguments);
-                      },
-                      child: Text('Editar'),
-                    ),
-                  );
+                  print('Botón presionado ...');
+                  Get.to(() => EditarVivienda(userEmail: widget.userEmail),
+                      arguments: arguments);
                 },
-              ),
-            ),
-            // Positioned(
-            //   left: 50,
-            //   top: 180,
-            //   child: Container(
-            //     width: 285,
-            //     height: 400,
-            //     child: ListView.builder(
-            //       itemCount: sistemasList.length,
-            //       itemBuilder: (context, index) {
-            //         final sistema = sistemasList[index];
-            //         // Define un mapa con los argumentos que deseas pasar
-            //         final arguments = {
-            //           'viviendaName': viviendaName,
-            //           'sistemaName': sistema.nombre,
-            //           'estado': sistema.estado // Agrega más argumentos si es necesario
-            //         };
-            //         return ListTile(
-            //           title: Text(sistema.nombre),
-            //           subtitle: buildRichText(sistema.estado),
-            //           trailing: ElevatedButton(
-            //             onPressed: () {
-            //               Navigator.of(context).push(
-            //                 MaterialPageRoute(
-            //                   builder: (context) => SistemaEspecificoAdmin(userEmail: widget.userEmail),
-            //                 ),
-            //               );
-            //               // Get.to(
-            //               //     () => SistemaEspecificoAdmin(
-            //               //         userEmail: widget.userEmail),
-            //               //     arguments: arguments);
-            //             },
-            //             child: Text('Editar'),
-            //           ),
-            //         );
-            //       },
-            //     ),
-            //   ),
-            // ),
-            ElevatedButton.icon(
-              onPressed: () {
-                final arguments = {
-                  'viviendaName': viviendaName,
-                  'sistemasList': sistemasList,
-                };
-                print('Botón presionado ...');
-                Get.to(() => EditarVivienda(userEmail: widget.userEmail),
-                    arguments: arguments);
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 18, 145, 24), // Fondo azul
-                onPrimary: Colors.white, // Texto en blanco
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
+                style: ElevatedButton.styleFrom(
+                  primary: Color.fromARGB(255, 18, 145, 24), // Fondo azul
+                  onPrimary: Colors.white, // Texto en blanco
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                icon: Icon(
+                  Icons.add_circle_outline,
+                  color: Colors.white, // Icono en blanco
+                ),
+                label: Text(
+                  'EDITAR VIVIENDA',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'Inria Sans',
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-              icon: Icon(
-                Icons.add_circle_outline,
-                color: Colors.white, // Icono en blanco
-              ),
-              label: Text(
-                'EDITAR VIVIENDA',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontFamily: 'Inria Sans',
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            // Positioned(
-            //   left: 90,
-            //   top: 585,
-            //   child: ElevatedButton.icon(
-            //     onPressed: () {
-            //       final arguments = {
-            //         'viviendaName': viviendaName,
-            //         'sistemasList': sistemasList,
-            //       };
-            //       print('Botón presionado ...');
-            //       Get.to(() => EditarVivienda(userEmail: widget.userEmail), arguments: arguments);
-            //     },
-            //     style: ElevatedButton.styleFrom(
-            //       primary: Color.fromARGB(255, 18, 145, 24), // Fondo azul
-            //       onPrimary: Colors.white, // Texto en blanco
-            //       shape: RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(8.0),
-            //       ),
-            //     ),
-            //     icon: Icon(
-            //       Icons.add_circle_outline,
-            //       color: Colors.white, // Icono en blanco
-            //     ),
-            //     label: Text(
-            //       'EDITAR VIVIENDA',
-            //       style: TextStyle(
-            //         fontSize: 18,
-            //         fontFamily: 'Inria Sans',
-            //         fontWeight: FontWeight.bold,
-            //       ),
-            //     ),
-            //   ),
-            // ),
-          ],
+            ],
+          ),
         ),
       ),
     );

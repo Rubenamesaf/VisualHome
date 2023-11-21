@@ -135,18 +135,6 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                     ),
                   ),
                 ),
-                /*Container(
-                  width: 190,
-                  decoration: const ShapeDecoration(
-                    color: GlobalColors.azulColor,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        width: 1.50,
-                        color: GlobalColors.azulColor,
-                      ),
-                    ),
-                  ),
-                ),*/
                 Padding(
                   padding: EdgeInsets.only(
                       top: 20.0,
@@ -184,7 +172,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(24, 10, 24, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
@@ -197,7 +185,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(24, 10, 24, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
@@ -209,7 +197,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(24, 10, 24, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
@@ -222,7 +210,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                      top: 30.0,
+                      top: 15.0,
                       left: 25.0,
                       bottom:
                           0), // Ajusta el valor izquierdo según sea necesario
@@ -242,7 +230,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
-                      top: 10.0, bottom: 20.0, left: 24, right: 24),
+                      top: 5.0, bottom: 10.0, left: 24, right: 24),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size.fromHeight(40), // NEW
@@ -255,12 +243,12 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 5.0, horizontal: 24),
+                      const EdgeInsets.symmetric(vertical: 1.0, horizontal: 24),
                   child: _crearBotonGuardar(),
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 3.0, horizontal: 24),
+                      const EdgeInsets.symmetric(vertical: 1.0, horizontal: 24),
                   child: _crearBotonDescartar(),
                 ),
               ],
@@ -274,7 +262,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
   Widget _crearBotonDescartar() {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-        minimumSize: const Size.fromHeight(40), //
+        minimumSize: const Size.fromHeight(30), //
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(0.0),
         ),
@@ -318,7 +306,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
   Widget _crearBotonGuardar() {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-        minimumSize: const Size.fromHeight(40), //
+        minimumSize: const Size.fromHeight(30), //
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(0.0),
         ),

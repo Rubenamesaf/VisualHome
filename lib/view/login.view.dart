@@ -195,11 +195,13 @@ class _LoginViewState extends State<LoginView> {
                         children: [
                           //inicio pega
                           const SizedBox(height: 60),
+
                           TextFormField(
                             controller: emailController,
                             obscureText: false,
+
                             decoration: InputDecoration(
-                              labelText: 'Correo Electronico',
+                              labelText: 'Correo Electrónico',
                               labelStyle: const TextStyle(
                                   fontSize: 15,
                                   color: Color.fromARGB(181, 0, 0, 255)),
@@ -260,14 +262,15 @@ class _LoginViewState extends State<LoginView> {
                               if (Value.isEmpty) {
                                 return "Ingrese su correo electrónico";
                               } else if (!emailValid) {
-                                return "Ingrese un correo de electrónico valido";
+                                return "Ingrese un correo de electrónico válido";
                               }
                               return null;
                             },
                             // fin validacion
                           ),
                           //pegado
-                          const SizedBox(height: 40),
+                          const SizedBox(height: 30),
+
                           TextFormField(
                             controller: passwordController,
                             obscureText: !showPassword, // true,
@@ -286,7 +289,7 @@ class _LoginViewState extends State<LoginView> {
                               //fin del beta
                               labelText: 'Código PIN',
                               labelStyle: const TextStyle(
-                                  fontSize: 15,
+                                  fontSize: 16,
                                   color: Color.fromARGB(181, 0, 0, 255)),
                               hintText: '',
                               hintStyle: const TextStyle(
@@ -328,6 +331,12 @@ class _LoginViewState extends State<LoginView> {
                                 Icons.lock_outline,
                                 color: Color(0xFF0F1370),
                               ),
+                            ),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
+                              color: HexColor('#101470'),
+                              fontFamily: 'Outfit',
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
@@ -415,7 +424,7 @@ class _LoginViewState extends State<LoginView> {
                                   ),
                                   children: <TextSpan>[
                                     TextSpan(
-                                      text: 'Restaurar contraseña',
+                                      text: 'Restaurar código PIN',
                                       style: const TextStyle(
                                         color: Color.fromARGB(255, 33, 72, 243),
                                         fontSize: 17,

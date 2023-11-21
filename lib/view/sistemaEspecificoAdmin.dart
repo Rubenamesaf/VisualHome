@@ -63,23 +63,33 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
       var url = Uri.parse(
           "https://script.google.com/macros/s/AKfycbxx7A2ALz1liRPDHG0EMtD5IAS7PROdURmW7hvRh8nRV-j3CLfBbKpoLVNNyX_qxjER/exec");
 
-      var raw = await http.get(url);
-
-      var jsonRegistro = convert.jsonDecode(raw.body);
+      var response = await http.get(url);
+      var raw = convert.utf8.decode(response.bodyBytes);
+      var jsonRegistro = convert.jsonDecode(raw);
 
       jsonRegistro.forEach((elemento) {
         var marcaTemporal = elemento['marca_temporal'];
         var proveedor = elemento['proveedor'];
         var vivienda = elemento['vivienda'];
-        var sistema = elemento['sistema'];
+
+        // Realiza la sustitución de caracteres especiales antes de crear el objeto HistorialModel
+        var sistema = elemento['sistema']
+            .replaceAll('Ã¡', 'á')
+            .replaceAll('Ã©', 'é')
+            .replaceAll('Ã­', 'í')
+            .replaceAll('Ã³', 'ó')
+            .replaceAll('Ãº', 'ú')
+            .replaceAll('Ã¼', 'ü');
+
         var accion = elemento['accion'];
 
         HistorialModel historialModel = HistorialModel(
-            accion: accion,
-            marcaTemporal: marcaTemporal,
-            sistema: sistema,
-            vivienda: vivienda,
-            proveedor: proveedor);
+          accion: accion,
+          marcaTemporal: marcaTemporal,
+          sistema: sistema,
+          vivienda: vivienda,
+          proveedor: proveedor,
+        );
 
         if (mounted) {
           setState(() {
@@ -276,7 +286,7 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                     children: [
                       Container(
                         width: double.infinity,
-                        height: 100 * fem,
+                        height: 70 * fem,
                         child: Column(
                           children: [
                             Container(
