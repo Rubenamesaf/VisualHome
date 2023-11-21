@@ -163,7 +163,7 @@ class _NuevoPinViewState extends State<NuevoPinView> {
             child: _buildTextFormField(
               controller: passwordController,
               labelText: 'Nuevo código PIN',
-              keyboardType: TextInputType.visiblePassword,
+              keyboardType: TextInputType.number,
             ),
           ),
           Padding(
@@ -171,7 +171,7 @@ class _NuevoPinViewState extends State<NuevoPinView> {
             child: _buildTextFormField(
               controller: confirmPasswordController,
               labelText: 'Confirmar Código PIN',
-              keyboardType: TextInputType.visiblePassword,
+              keyboardType: TextInputType.number,
             ),
           ),
         ],
@@ -197,7 +197,7 @@ class _NuevoPinViewState extends State<NuevoPinView> {
         color: GlobalColors.textColor,
         fontFamily: 'Outfit',
       ),
-      keyboardType: keyboardType,
+      keyboardType: TextInputType.number,
     );
   }
 

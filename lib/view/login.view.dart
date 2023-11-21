@@ -273,7 +273,8 @@ class _LoginViewState extends State<LoginView> {
 
                           TextFormField(
                             controller: passwordController,
-                            obscureText: !showPassword, // true,
+                            obscureText: !showPassword,
+                            keyboardType: TextInputType.number, // true,
                             decoration: InputDecoration(
                               // el beta de la clave oculta
                               suffix: InkWell(
