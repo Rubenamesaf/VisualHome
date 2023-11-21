@@ -439,7 +439,8 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
         'Email': email,
         'Password': password,
         'Direccion': direccion,
-        'CodigoPIN': codigoPin
+        'CodigoPIN': codigoPin,
+        'CodigoVerificador': '',
         // Agrega más campos de usuario si es necesario
       },
     };

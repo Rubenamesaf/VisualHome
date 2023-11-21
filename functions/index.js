@@ -18,8 +18,8 @@
 const functions = require("firebase-functions");
 const nodemailer = require("nodemailer");
 
-const gmailEmail = "rubenamesaf@gmail.com";
-const gmailPassword = "Mediaisla2023";
+const gmailEmail = "pepsua47@gmail.com";
+const gmailPassword = "vqxt okzh jajy sihp";
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -31,12 +31,13 @@ const transporter = nodemailer.createTransport({
 
 exports.sendEmail = functions.https.onRequest((req, res) => {
   const dest = req.query.dest;
+  const codigo = req.query.codigo;
 
   const mailOptions = {
     from: gmailEmail,
     to: dest,
-    subject: "Correo de prueba desde Firebase",
-    text: "Este es un correo de prueba enviado desde una función de Firebase.",
+    subject: "VisualHome - Codigo de recuperacion",
+    text: "Codigo de recuperacion: " + codigo,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {

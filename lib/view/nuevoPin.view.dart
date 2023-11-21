@@ -1,20 +1,73 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:login_v1/utils/global.colors.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
 
 class NuevoPinView extends StatefulWidget {
-  const NuevoPinView({super.key});
+  final String userEmail;
+  final String codigo;
+  const NuevoPinView({required this.userEmail, required this.codigo, Key? key})
+      : super(key: key);
 
   @override
   State<NuevoPinView> createState() => _NuevoPinViewState();
 }
 
 class _NuevoPinViewState extends State<NuevoPinView> {
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController verificadorController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
+  String vivienda = '';
+  String direccion = '';
+  String email = '';
+  String nombre = '';
+  String password = '';
+  String codigoPin = '';
+  DatabaseReference _dbref = FirebaseDatabase.instance.ref();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    _getVivienda();
+  }
+
+  Future<void> _getVivienda() async {
+    final userSnapshot = await _dbref.child("").once();
+    if (userSnapshot.snapshot.value != null) {
+      final dynamic data = userSnapshot.snapshot.value;
+      data.forEach((key, value) {
+        if (key is String && key != "Administradores") {
+          if (value["Usuario"]["Email"] == widget.userEmail) {
+            direccion = value["Usuario"]["Direccion"];
+            email = value["Usuario"]["Email"];
+            nombre = value["Usuario"]["Nombre"];
+            codigoPin = value["Usuario"]["CodigoPIN"];
+            password = value["Usuario"]["Password"];
+            vivienda = key;
+          }
+        }
+      });
+    }
+    _setCodigoVerificador();
+  }
+
+  Future<void> _setCodigoVerificador() async {
+    await _dbref.child(vivienda).update({
+      'Usuario': {
+        'Direccion': direccion,
+        'Email': email,
+        'Nombre': nombre,
+        'CodigoPIN': codigoPin,
+        'Password': password,
+        'CodigoVerificador': widget.codigo,
+        // Agrega más campos de usuario si es necesario
+      },
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +134,7 @@ class _NuevoPinViewState extends State<NuevoPinView> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: _buildTextFormField(
-              controller: emailController,
+              controller: verificadorController,
               labelText: 'Código de recuperación',
               keyboardType: TextInputType.emailAddress,
             ),
@@ -151,7 +204,73 @@ class _NuevoPinViewState extends State<NuevoPinView> {
   Widget _crearBotonConfirmar() {
     return ElevatedButton(
       onPressed: () async {
-        //Enviar correo
+        if (passwordController.text == confirmPasswordController.text &&
+            verificadorController.text == widget.codigo &&
+            passwordController.text.isNotEmpty &&
+            confirmPasswordController.text.isNotEmpty &&
+            passwordController.text.length == 6 &&
+            confirmPasswordController.text.length == 6) {
+          await _dbref.child(vivienda).update({
+            'Usuario': {
+              'CodigoPIN': passwordController.text,
+              'Direccion': direccion,
+              'Email': email,
+              'Nombre': nombre,
+              'Password': password,
+              'CodigoVerificador': widget.codigo,
+            },
+          });
+
+          await _auth.signInWithEmailAndPassword(
+            email: email,
+            password: codigoPin,
+          );
+
+          User? user = _auth.currentUser!;
+
+          await user.updatePassword(passwordController.text);
+          _auth.signOut();
+
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Codigo PIN Guardado Exitosamente'),
+                content: Text('La Codigo PIN se ha guardado exitosamente.'),
+                actions: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('Aceptar'),
+                  ),
+                ],
+              );
+            },
+          );
+        } else {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Campos invalidos'),
+                content: Text(
+                    'Debe cerciorarse que todos los campos esten llenos y correctos'),
+                actions: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context)
+                          .pop(); // Cierra el cuadro informativo
+                      // Puedes agregar aquí cualquier acción adicional
+                    },
+                    child: Text('Aceptar'),
+                  ),
+                ],
+              );
+            },
+          );
+        }
       },
       style: ButtonStyle(
         minimumSize: MaterialStateProperty.all(const Size(200, 50)),

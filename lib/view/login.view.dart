@@ -1,11 +1,13 @@
 //import 'dart:html';
 
+import 'dart:math';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_svg/svg.dart';
-//import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:login_v1/view/nuevoPin.view.dart';
@@ -82,6 +84,24 @@ class _LoginViewState extends State<LoginView> {
         signInSuccess = false;
       });
     }
+  }
+
+  Future<void> _sendEmail(String destinationEmail, String codigo) async {
+    final url =
+        'https://us-central1-domotica-sordos.cloudfunctions.net/sendEmail?dest=$destinationEmail&codigo=$codigo';
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      print('Correo enviado exitosamente');
+    } else {
+      print('Error al enviar el correo: ${response.body}');
+    }
+  }
+
+  int generarNumeroAleatorio() {
+    Random random = Random();
+    // Genera un número aleatorio entre 100000 y 999999 (ambos inclusive)
+    int numeroAleatorio = 100000 + random.nextInt(900000);
+    return numeroAleatorio;
   }
 
   Future<void> _resetPassword(BuildContext context) async {
@@ -382,43 +402,44 @@ class _LoginViewState extends State<LoginView> {
                             margin: const EdgeInsets.only(
                                 top: 40), // Ajusta el valor según sea necesario
                             child: Center(
-                              child: GestureDetector(
-                                onTap: (() {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => const NuevoPinView(),
-                                  ));
-                                }),
-                                child: RichText(
-                                  text: TextSpan(
-                                    text:
-                                        '¿Olvidaste tu código PIN?\n    \n     ',
-                                    style: const TextStyle(
-                                      color: Color(0xFF0F1370),
-                                      fontSize: 17,
-                                      fontFamily: 'Inria Sans',
-                                      fontWeight: FontWeight.w700,
-                                      height: 0.95,
-                                    ),
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: 'Restaurar contraseña',
-                                        style: const TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 33, 72, 243),
-                                          fontSize: 17,
-                                          fontFamily: 'Inria Sans',
-                                          fontWeight: FontWeight.w700,
-                                          height: 0.95,
-                                          decoration: TextDecoration.underline,
-                                        ),
-                                        recognizer: TapGestureRecognizer()
-                                          ..onTap = () {
-                                            // Agrega la lógica para restaurar la contraseña aquí
-                                            _resetPassword(context);
-                                          },
-                                      ),
-                                    ],
+                              child: RichText(
+                                text: TextSpan(
+                                  text:
+                                      '¿Olvidaste tu código PIN?\n    \n     ',
+                                  style: const TextStyle(
+                                    color: Color(0xFF0F1370),
+                                    fontSize: 17,
+                                    fontFamily: 'Inria Sans',
+                                    fontWeight: FontWeight.w700,
+                                    height: 0.95,
                                   ),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: 'Restaurar contraseña',
+                                      style: const TextStyle(
+                                        color: Color.fromARGB(255, 33, 72, 243),
+                                        fontSize: 17,
+                                        fontFamily: 'Inria Sans',
+                                        fontWeight: FontWeight.w700,
+                                        height: 0.95,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () async {
+                                          final codigo =
+                                              generarNumeroAleatorio();
+                                          await _sendEmail(emailController.text,
+                                              codigo.toString());
+                                          Navigator.of(context)
+                                              .push(MaterialPageRoute(
+                                            builder: (context) => NuevoPinView(
+                                              userEmail: emailController.text,
+                                              codigo: codigo.toString(),
+                                            ),
+                                          ));
+                                        },
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
