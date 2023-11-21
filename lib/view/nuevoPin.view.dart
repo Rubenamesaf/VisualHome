@@ -236,7 +236,8 @@ class _NuevoPinViewState extends State<NuevoPinView> {
             builder: (BuildContext context) {
               return AlertDialog(
                 title: Text('Codigo PIN Guardado Exitosamente'),
-                content: Text('La Codigo PIN se ha guardado exitosamente.'),
+                content: Text(
+                    'El Codigo PIN de acceso a tu app VisualHome ha sido cambiado.'),
                 actions: [
                   ElevatedButton(
                     onPressed: () {
