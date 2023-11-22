@@ -18,8 +18,8 @@
 const functions = require("firebase-functions");
 const nodemailer = require("nodemailer");
 
-const gmailEmail = "pepsua47@gmail.com";
-const gmailPassword = "vqxt okzh jajy sihp";
+const gmailEmail = "rubenamesaf@gmail.com";
+const gmailPassword = "kpzv pllv dkoj kvyk";
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
