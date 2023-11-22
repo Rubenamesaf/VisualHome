@@ -148,6 +148,12 @@ class _HomeUserPageState extends State<HomeUserPage> {
             if (nombre == "Estatus") {
               continue;
             }
+            if (nombre == "CodigoPIN") {
+              continue;
+            }
+            if (nombre == "CodigoVerificador") {
+              continue;
+            }
 
             if (nombre != "Usuario" &&
                 nombre != "AlarmasDespertador" &&
@@ -187,55 +193,33 @@ class _HomeUserPageState extends State<HomeUserPage> {
                   title: Text('ALERTA'),
                   content: Text('Detector de $activeSystemName disparado.'),
                   actions: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red,
-                              padding:
-                                  EdgeInsets.all(16.0), // Ajusta el padding
-                            ),
-                            onPressed: () {
-                              // Llamar al número de emergencia (911)
-                              launch('tel:911');
-                              Navigator.of(context).pop();
-                            },
-                            child: Text(
-                              'Llamar Emergencias',
-                              style: TextStyle(
-                                  fontSize: 16.0), // Ajusta el tamaño del texto
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                            width: 16.0), // Ajusta el espacio entre los botones
-                        Expanded(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.grey,
-                              padding:
-                                  EdgeInsets.all(16.0), // Ajusta el padding
-                            ),
-                            onPressed: () {
-                              _detenerBotonPanico();
-                              Navigator.of(context).pop();
-                            },
-                            child: Text(
-                              'Detener',
-                              style: TextStyle(
-                                  fontSize: 16.0), // Ajusta el tamaño del texto
-                            ),
-                          ),
-                        ),
-                      ],
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                      ),
+                      onPressed: () {
+                        // Llamar al número de emergencia (911)
+                        launch('tel:911');
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('Llamar Emergencias'),
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey,
+                      ),
+                      onPressed: () {
+                        _detenerBotonPanico();
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('Detener'),
                     ),
                   ],
                 );
               },
             );
           }
+
           if (isAlarmaAlert) {
             DateTime horaActual = DateTime.now(); // Obtén la hora actual
 
@@ -303,24 +287,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
   );
 
   void _showNotification(String nombreSistema) async {
-    // Verificar si el nombre del sistema requiere botones adicionales
     List<AndroidNotificationAction>? actions;
-    /*if (nombreSistema == "Pánico" ||
-        nombreSistema == "Movimiento" ||
-        nombreSistema == "Incendio" ||
-        nombreSistema == "Perímetro") {
-      // Agregar botones si es uno de los sistemas especificados
-      actions = [
-        AndroidNotificationAction(
-          'action_emergency',
-          'Llamar Emergencias',
-        ),
-        AndroidNotificationAction(
-          'action_stop',
-          'Detener',
-        ),
-      ];
-    }*/
 
     await _localNotifications.show(
       10,
@@ -430,7 +397,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
               ),
             ),
             Positioned(
-              left: 10,
+              left: 35,
               top: 560,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -440,7 +407,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
                       _activarBotonPanico();
                     },
                     child: Container(
-                      width: 180,
+                      width: 150,
                       height: 50,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
@@ -449,7 +416,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
                       child: Center(
                         child: Text(
                           "EMERGENCIA",
-                          style: TextStyle(fontSize: 18, color: Colors.white),
+                          style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
                       ),
                     ),
@@ -460,7 +427,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
                       _toggleActivacionAlarma();
                     },
                     child: Container(
-                      width: 180,
+                      width: 160,
                       height: 50,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
@@ -469,7 +436,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
                       child: Center(
                         child: Text(
                           _estadoAlarma,
-                          style: TextStyle(fontSize: 16, color: Colors.white),
+                          style: TextStyle(fontSize: 15, color: Colors.white),
                         ),
                       ),
                     ),
