@@ -20,16 +20,18 @@ class Sistema {
 }
 
 List<String> sistemas = [
-  "BotonPanico",
-  "Perimetro",
-  "TelefonoFijo",
-  "RuidoAlto",
-  "DisparoAlarma",
-  "Incendio",
-  "Despertador",
-  "ActivacionAlarma",
-  "Acceso",
-  "Timbre"
+  'Timbre',
+  'Ruido',
+  'Incendio',
+  'Movimiento',
+  'Pánico',
+  'Teléfono',
+  'Alarmas',
+  'Perímetro',
+  'Acceso',
+  'Armado',
+  'Visitantes'
+      'Estatus'
 ];
 
 class EditarVivienda extends StatefulWidget {

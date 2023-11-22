@@ -24,7 +24,8 @@ List<String> sistemas = [
   'Perímetro',
   'Acceso',
   'Armado',
-  'Visitantes'
+  'Visitantes',
+  'Estatus'
 ];
 
 class AgregarVivienda extends StatefulWidget {
@@ -443,6 +444,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
         password: codigoPin,
       );
       await _dbref.child(viviendaCode).set(viviendaData);
+      await _dbref.child(viviendaCode).update({"Estatus": 1});
       // La vivienda se ha guardado en Firebase
       print('Vivienda guardada en Firebase');
       print(viviendaData);

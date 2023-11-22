@@ -9,7 +9,7 @@
 
     
    <application
-        android:label="login_v1"
+        android:label="VisualHome"
         android:name="androidx.multidex.MultiDexApplication"
         android:icon="@mipmap/ic_launcher">
         <activity
