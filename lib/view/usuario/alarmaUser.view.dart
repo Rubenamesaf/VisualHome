@@ -186,6 +186,8 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
 
   @override
   Widget build(BuildContext context) {
+    double deviceheight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -208,7 +210,7 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'Inicio',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_rounded),
@@ -248,7 +250,6 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
                   style: TextStyle(
                     color: Color(0xFF0F1370),
                     fontSize: 25,
-                    fontFamily: 'Inria Sans',
                     fontWeight: FontWeight.w700,
                     height: 0.76,
                   ),
@@ -259,8 +260,8 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
               left: 25,
               top: 170, // Ajusta la posición según sea necesario
               child: SizedBox(
+                height: deviceheight * 0.7,
                 width: 340, // Ajusta el ancho de acuerdo a tu diseño
-                height: 480, // Ajusta la altura según sea necesario
                 child: ListView.builder(
                   itemCount: alarmas.length,
                   itemBuilder: (context, index) {

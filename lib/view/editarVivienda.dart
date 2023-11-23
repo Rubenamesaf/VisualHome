@@ -30,8 +30,8 @@ List<String> sistemas = [
   'Perímetro',
   'Acceso',
   'Armado',
-  'Visitantes'
-      'Estatus'
+  'Visitantes',
+  'Estatus'
 ];
 
 class EditarVivienda extends StatefulWidget {
@@ -123,7 +123,7 @@ class _EditarViviendaState extends State<EditarVivienda> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'Inicio',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_sharp),
@@ -166,7 +166,6 @@ class _EditarViviendaState extends State<EditarVivienda> {
                     style: const TextStyle(
                       color: Color(0xFF0F1370),
                       fontSize: 25,
-                      fontFamily: 'Inria Sans',
                       fontWeight: FontWeight.w700,
                       height: 0.9,
                     ),
@@ -185,7 +184,6 @@ class _EditarViviendaState extends State<EditarVivienda> {
                     style: TextStyle(
                       color: Color(0xFF0F1370),
                       fontSize: 17,
-                      fontFamily: 'Inria Sans',
                       fontWeight: FontWeight.w700,
                       height: 0.9,
                     ),
@@ -205,7 +203,6 @@ class _EditarViviendaState extends State<EditarVivienda> {
                     style: TextStyle(
                       color: Color(0xFF0F1370),
                       fontSize: 17,
-                      fontFamily: 'Inria Sans',
                       fontWeight: FontWeight.w700,
                       height: 0.9,
                     ),
@@ -300,7 +297,6 @@ class _EditarViviendaState extends State<EditarVivienda> {
         fontSize: 16,
         fontWeight: FontWeight.normal,
         color: GlobalColors.textColor,
-        fontFamily: 'Outfit',
       ),
       keyboardType: keyboardType,
     );

@@ -43,6 +43,7 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
   int estadoBinario = 0;
   DateTime? fechaInicio;
   DateTime? fechaFin;
+  bool loading = false;
 
   @override
   void initState() {
@@ -60,6 +61,10 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
 
   getHistorialFromSheet() async {
     try {
+      setState(() {
+        loading = true; // Muestra el indicador de carga
+      });
+
       var url = Uri.parse(
           "https://script.google.com/macros/s/AKfycbxx7A2ALz1liRPDHG0EMtD5IAS7PROdURmW7hvRh8nRV-j3CLfBbKpoLVNNyX_qxjER/exec");
 
@@ -94,11 +99,17 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
         if (mounted) {
           setState(() {
             registros.add(historialModel);
+            loading = false; // Oculta el indicador de carga
           });
         }
       });
       print(registros);
     } catch (e) {
+      if (mounted) {
+        setState(() {
+          loading = false; // Oculta el indicador de carga en caso de error
+        });
+      }
       print("Error al obtener historial: $e");
     }
   }
@@ -192,7 +203,7 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
           build: (pw.Context context) => pw.Table.fromTextArray(
             context: context,
             data: <List<String>>[
-              ["Marca Temporal", "Proveedor", "Vivienda", "Sistema", "Accion"],
+              ["Fecha", "Proveedor", "Vivienda", "Módulo", "Acción"],
               for (var registro in registrosFiltrados)
                 [
                   registro.marcaTemporal,
@@ -241,7 +252,7 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'Inicio',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_sharp),
@@ -305,7 +316,6 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                                   Text(
                                     nombre,
                                     style: TextStyle(
-                                      fontFamily: 'Inria Sans',
                                       fontSize: 22 * ffem,
                                       fontWeight: FontWeight.w700,
                                       height: 0.8636363636 * ffem / fem,
@@ -341,7 +351,6 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                                 Text(
                                   'Filtrar',
                                   style: TextStyle(
-                                    fontFamily: 'Inria Sans',
                                     fontSize: 22 * ffem,
                                     fontWeight: FontWeight.w700,
                                     height: 0.8636363636 * ffem / fem,
@@ -392,7 +401,6 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                                         ? 'Desde: ${DateFormat('dd/MM/yyyy').format(fechaInicio!)}'
                                         : 'Desde: N/S',
                                     style: TextStyle(
-                                      fontFamily: 'Inria Sans',
                                       fontSize: 16,
                                       color: Colors.black,
                                     ),
@@ -402,7 +410,6 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                                         ? 'Hasta: ${DateFormat('dd/MM/yyyy').format(fechaFin!)}'
                                         : 'Hasta: N/S',
                                     style: TextStyle(
-                                      fontFamily: 'Inria Sans',
                                       fontSize: 16,
                                       color: Colors.black,
                                     ),
@@ -442,19 +449,25 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 33.0),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size.fromHeight(40), // NEW
-                          ),
-                          onPressed: _descargarReporte,
-                          child: const Text(
-                            'DESCARGAR REPORTE',
-                            style: TextStyle(fontSize: 18),
+                      if (loading)
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: CircularProgressIndicator(),
+                        ),
+                      if (!loading)
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 33.0),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: Size.fromHeight(40), // NEW
+                            ),
+                            onPressed: _descargarReporte,
+                            child: Text(
+                              'DESCARGAR REPORTE',
+                              style: TextStyle(fontSize: 18),
+                            ),
                           ),
                         ),
-                      ),
                     ],
                   ),
                 ],

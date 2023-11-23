@@ -8,6 +8,7 @@ import 'package:login_v1/view/usuario/userPerfil.view.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
 import 'package:login_v1/view/widgets/sistemaUsuario.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 Map<String, IconData> sistemasIcons = {
   'Timbre': Icons.doorbell,
@@ -308,6 +309,9 @@ class _HomeUserPageState extends State<HomeUserPage> {
 
   @override
   Widget build(BuildContext context) {
+    double deviceheight = MediaQuery.of(context).size.height;
+    double devicewidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(240, 252, 227, 210),
       bottomNavigationBar: BottomNavigationBar(
@@ -321,7 +325,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'Inicio',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_rounded),
@@ -361,7 +365,6 @@ class _HomeUserPageState extends State<HomeUserPage> {
                 style: TextStyle(
                   color: Color(0xFF0F1370),
                   fontSize: 24,
-                  fontFamily: 'Inria Sans',
                   fontWeight: FontWeight.w700,
                   height: 0.9,
                 ),
@@ -372,7 +375,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
               top: 110,
               child: SizedBox(
                 width: 300,
-                height: 430,
+                height: deviceheight * 0.7,
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,

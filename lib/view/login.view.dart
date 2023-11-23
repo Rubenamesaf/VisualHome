@@ -171,6 +171,7 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+    double deviceheight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Stack(
         children: [
@@ -203,11 +204,10 @@ class _LoginViewState extends State<LoginView> {
                             decoration: InputDecoration(
                               labelText: 'Correo Electrónico',
                               labelStyle: const TextStyle(
-                                  fontSize: 15,
+                                  fontSize: 16,
                                   color: Color.fromARGB(181, 0, 0, 255)),
                               hintText: '',
                               hintStyle: const TextStyle(
-                                fontFamily: 'Outfit',
                                 color: Color(0x9AFFFFFF),
                               ),
                               enabledBorder: OutlineInputBorder(
@@ -250,7 +250,6 @@ class _LoginViewState extends State<LoginView> {
                               fontSize: 16,
                               fontWeight: FontWeight.normal,
                               color: HexColor('#101470'),
-                              fontFamily: 'Outfit',
                             ),
                             keyboardType: TextInputType.emailAddress,
                             //validacion
@@ -271,81 +270,83 @@ class _LoginViewState extends State<LoginView> {
                           //pegado
                           const SizedBox(height: 30),
 
-                          TextFormField(
-                            controller: passwordController,
-                            obscureText: !showPassword,
-                            keyboardType: TextInputType.number, // true,
-                            decoration: InputDecoration(
-                              // el beta de la clave oculta
-                              suffix: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    showPassword = !showPassword;
-                                  });
-                                },
-                                child: Icon(showPassword
-                                    ? Icons.visibility
-                                    : Icons.visibility_off),
-                              ),
-                              //fin del beta
-                              labelText: 'Código PIN',
-                              labelStyle: const TextStyle(
-                                  fontSize: 16,
-                                  color: Color.fromARGB(181, 0, 0, 255)),
-                              hintText: '',
-                              hintStyle: const TextStyle(
-                                fontFamily: 'Outfit',
-                                color: Color(0x9AFFFFFF),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: Color(0xD1FBE288),
-                                  width: 1,
+                          SizedBox(
+                            height: 60,
+                            child: TextFormField(
+                              controller: passwordController,
+                              obscureText: !showPassword,
+                              keyboardType: TextInputType.number, // true,
+                              decoration: InputDecoration(
+                                // el beta de la clave oculta
+                                suffixIcon: IconButton(
+                                  color: Color(0xFF0F1370),
+                                  onPressed: () {
+                                    setState(() {
+                                      showPassword = !showPassword;
+                                    });
+                                  },
+                                  icon: Icon(showPassword
+                                      ? Icons.visibility
+                                      : Icons.visibility_off),
                                 ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: Color(0xFF678ACF),
-                                  width: 1,
+                                //fin del beta
+                                labelText: 'Código PIN',
+                                labelStyle: const TextStyle(
+                                    fontSize: 16,
+                                    color: Color.fromARGB(181, 0, 0, 255)),
+                                hintText: '',
+                                hintStyle: const TextStyle(
+                                  color: Color(0x9AFFFFFF),
                                 ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: Color(0xFF678ACF),
-                                  width: 1,
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Color(0xD1FBE288),
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: Color(0xD1FBE288),
-                                  width: 1,
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Color(0xFF678ACF),
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
-                                borderRadius: BorderRadius.circular(8),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Color(0xFF678ACF),
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Color(0xD1FBE288),
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                filled: true,
+                                fillColor:
+                                    const Color.fromARGB(126, 103, 138, 207),
+                                prefixIcon: const Icon(
+                                  Icons.lock_outline,
+                                  color: Color(0xFF0F1370),
+                                ),
                               ),
-                              filled: true,
-                              fillColor:
-                                  const Color.fromARGB(126, 103, 138, 207),
-                              prefixIcon: const Icon(
-                                Icons.lock_outline,
-                                color: Color(0xFF0F1370),
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal,
+                                color: HexColor('#101470'),
                               ),
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "Ingrese su código de acceso";
+                                } else if (passwordController.text.length < 6) {
+                                  return "Su código debe contener 6 números";
+                                }
+                              },
                             ),
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.normal,
-                              color: HexColor('#101470'),
-                              fontFamily: 'Outfit',
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "Ingrese su código de acceso";
-                              } else if (passwordController.text.length < 6) {
-                                return "Su código debe contener 6 números";
-                              }
-                            },
                           ),
                           const SizedBox(
                             height: 50,
@@ -402,7 +403,6 @@ class _LoginViewState extends State<LoginView> {
                               style: TextStyle(
                                 color: Color(0xFF0F1370),
                                 fontSize: 20,
-                                fontFamily: 'Inria Sans',
                                 fontWeight: FontWeight.w700,
                                 height: 0.95,
                               ),
@@ -419,7 +419,6 @@ class _LoginViewState extends State<LoginView> {
                                   style: const TextStyle(
                                     color: Color(0xFF0F1370),
                                     fontSize: 17,
-                                    fontFamily: 'Inria Sans',
                                     fontWeight: FontWeight.w700,
                                     height: 0.95,
                                   ),
@@ -429,7 +428,6 @@ class _LoginViewState extends State<LoginView> {
                                       style: const TextStyle(
                                         color: Color.fromARGB(255, 33, 72, 243),
                                         fontSize: 17,
-                                        fontFamily: 'Inria Sans',
                                         fontWeight: FontWeight.w700,
                                         height: 0.95,
                                         decoration: TextDecoration.underline,

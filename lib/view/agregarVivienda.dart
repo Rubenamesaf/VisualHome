@@ -78,6 +78,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
 
   @override
   Widget build(BuildContext context) {
+    double deviceheight = MediaQuery.of(context).size.height;
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: HexColor('#ED9A5E'),
@@ -91,7 +92,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'Inicio',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_sharp),
@@ -130,7 +131,6 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                     style: TextStyle(
                       color: Color(0xFF0F1370),
                       fontSize: 24,
-                      fontFamily: 'Inria Sans',
                       fontWeight: FontWeight.w700,
                       height: 0.9,
                     ),
@@ -149,7 +149,6 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                       style: TextStyle(
                         color: Color(0xFF0F1370),
                         fontSize: 17,
-                        fontFamily: 'Inria Sans',
                         fontWeight: FontWeight.w700,
                         height: 0.9,
                       ),
@@ -222,7 +221,6 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                       style: TextStyle(
                         color: Color(0xFF0F1370),
                         fontSize: 17,
-                        fontFamily: 'Inria Sans',
                         fontWeight: FontWeight.w700,
                         height: 0.9,
                       ),
@@ -359,7 +357,6 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
         fontSize: 16,
         fontWeight: FontWeight.normal,
         color: GlobalColors.textColor,
-        fontFamily: 'Outfit',
       ),
       keyboardType: keyboardType,
     );

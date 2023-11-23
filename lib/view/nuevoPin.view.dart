@@ -81,11 +81,10 @@ class _NuevoPinViewState extends State<NuevoPinView> {
             const Padding(
               padding: EdgeInsets.only(top: 40.0),
               child: Text(
-                'Camdio de código PIN',
+                'Cambio de código PIN',
                 style: TextStyle(
                   color: Color(0xFF0F1370),
                   fontSize: 24,
-                  fontFamily: 'Inria Sans',
                   fontWeight: FontWeight.w700,
                   height: 0.9,
                 ),
@@ -103,7 +102,6 @@ class _NuevoPinViewState extends State<NuevoPinView> {
                   style: TextStyle(
                     color: Color(0xFF0F1370),
                     fontSize: 17,
-                    fontFamily: 'Inria Sans',
                     fontWeight: FontWeight.w700,
                     height: 0.9,
                   ),
@@ -151,7 +149,6 @@ class _NuevoPinViewState extends State<NuevoPinView> {
                 style: TextStyle(
                   color: Color(0xFF0F1370),
                   fontSize: 17,
-                  fontFamily: 'Inria Sans',
                   fontWeight: FontWeight.w700,
                   height: 0.9,
                 ),
@@ -195,14 +192,13 @@ class _NuevoPinViewState extends State<NuevoPinView> {
         fontSize: 16,
         fontWeight: FontWeight.normal,
         color: GlobalColors.textColor,
-        fontFamily: 'Outfit',
       ),
       keyboardType: TextInputType.number,
     );
   }
 
   Widget _crearBotonConfirmar() {
-    return ElevatedButton(
+    return TextButton(
       onPressed: () async {
         if (passwordController.text == confirmPasswordController.text &&
             verificadorController.text == widget.codigo &&
@@ -235,9 +231,9 @@ class _NuevoPinViewState extends State<NuevoPinView> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text('Codigo PIN Guardado Exitosamente'),
+                title: Text('Código guardado con éxito'),
                 content: Text(
-                    'El Codigo PIN de acceso a tu app VisualHome ha sido cambiado.'),
+                    'El cóigo de acceso a tu app VisualHome ha sido cambiado.'),
                 actions: [
                   ElevatedButton(
                     onPressed: () {
@@ -255,9 +251,9 @@ class _NuevoPinViewState extends State<NuevoPinView> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text('Campos invalidos'),
+                title: Text('Campos inválidos'),
                 content: Text(
-                    'Debe cerciorarse que todos los campos esten llenos y correctos'),
+                    'Debe completar los campos con los códigos correspondientes.\n\n1. Código de recuperación enviado a su correo.\n2. Nuevo código de acceso a su app.\n3. Repetir el nuevo código de acceso.'),
                 actions: [
                   ElevatedButton(
                     onPressed: () {
@@ -276,14 +272,16 @@ class _NuevoPinViewState extends State<NuevoPinView> {
       style: ButtonStyle(
         minimumSize: MaterialStateProperty.all(const Size(200, 50)),
         padding: MaterialStateProperty.all(
-            const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0)),
-        backgroundColor:
-            MaterialStateProperty.all(const Color.fromARGB(255, 235, 133, 55)
-                // Color(0xFFF19756),
-                ),
-        textStyle: MaterialStateProperty.all(const TextStyle(
-          fontWeight: FontWeight.w600,
-        )),
+          const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+        ),
+        backgroundColor: MaterialStateProperty.all(
+          const Color.fromARGB(255, 235, 133, 55),
+        ),
+        textStyle: MaterialStateProperty.all(
+          const TextStyle(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
         elevation: MaterialStateProperty.all(3),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
@@ -291,14 +289,13 @@ class _NuevoPinViewState extends State<NuevoPinView> {
           ),
         ),
       ),
-      child: const Text(
+      child: Text(
         'Confirmar',
         textAlign: TextAlign.center,
         style: TextStyle(
           color: Color(0xFF0F1370),
           fontSize: 20,
-          fontFamily: 'Inria Sans',
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w500,
           height: 0.95,
         ),
       ),

@@ -123,6 +123,8 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
 
   @override
   Widget build(BuildContext context) {
+    double deviceheight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: HexColor('#ED9A5E'),
@@ -135,7 +137,7 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'Inicio',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_sharp),
@@ -174,7 +176,6 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
                   style: const TextStyle(
                     color: Color(0xFF0F1370),
                     fontSize: 25,
-                    fontFamily: 'Inria Sans',
                     fontWeight: FontWeight.w700,
                     height: 0.76,
                   ),
@@ -182,7 +183,7 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
               ),
               Container(
                 width: 285,
-                height: 410,
+                height: deviceheight * 0.6,
                 child: ListView.builder(
                   itemCount: sistemasList.length,
                   itemBuilder: (context, index) {
@@ -236,7 +237,6 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
                   'EDITAR VIVIENDA',
                   style: TextStyle(
                     fontSize: 18,
-                    fontFamily: 'Inria Sans',
                     fontWeight: FontWeight.bold,
                   ),
                 ),

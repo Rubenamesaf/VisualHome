@@ -50,7 +50,7 @@ class SistemaUsuario extends StatelessWidget {
           Text(
             nombreSistema,
             style: const TextStyle(
-              fontSize: 16.5,
+              fontSize: 16,
               color: const Color(0xFF0F1370),
               fontWeight: FontWeight.bold,
             ),

@@ -97,14 +97,7 @@ class _MonitoreoSistemaUserState extends State<MonitoreoSistemaUser> {
               ),
             );
           }
-          if (index == 1) {
-            // Navigator.of(context).push(
-            //   MaterialPageRoute(
-            //     builder: (context) =>
-            //         AdminPerfilView(userEmail: widget.userEmail),
-            //   ),
-            // );
-          }
+          if (index == 1) {}
         },
       ),
       body: Center(
@@ -123,7 +116,6 @@ class _MonitoreoSistemaUserState extends State<MonitoreoSistemaUser> {
                   style: const TextStyle(
                     color: Color(0xFF0F1370),
                     fontSize: 25,
-                    fontFamily: 'Inria Sans',
                     fontWeight: FontWeight.w700,
                     height: 0.76,
                   ),
@@ -151,7 +143,7 @@ class _MonitoreoSistemaUserState extends State<MonitoreoSistemaUser> {
               left: 55,
               top: 170,
               child: SizedBox(
-                width: 285,
+                width: 290,
                 height: 500,
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -173,14 +165,6 @@ class _MonitoreoSistemaUserState extends State<MonitoreoSistemaUser> {
                     );
                   },
                 ),
-                // child: ListView.builder(
-                //   itemCount: sistemasList.length,
-                //   itemBuilder: (context, index) {
-                //     final sistema = sistemasList[index];
-                //     return SistemaUsuario(
-                //         nombreSistema: sistema.nombre, activo: sistema.estado);
-                //   },
-                // ),
               ),
             ),
           ],

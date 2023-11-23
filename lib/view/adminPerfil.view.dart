@@ -274,7 +274,7 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'Inicio',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_sharp),
@@ -315,18 +315,6 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
                 ),
               ),
             ),
-            /*Container(
-              width: 60,
-              decoration: const ShapeDecoration(
-                color: GlobalColors.azulColor,
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 1.50,
-                    color: GlobalColors.azulColor,
-                  ),
-                ),
-              ),
-            ),*/
             Padding(
               padding: EdgeInsets.only(
                   top: 20.0,

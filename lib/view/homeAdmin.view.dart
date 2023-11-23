@@ -85,6 +85,7 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
 
   @override
   Widget build(BuildContext context) {
+    double deviceheight = MediaQuery.of(context).size.height;
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: HexColor('#ED9A5E'),
@@ -98,7 +99,7 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'Inicio',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_sharp),
@@ -124,63 +125,6 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
           }
         },
       ),
-      // bottomNavigationBar: CurvedNavigationBar(
-      //   backgroundColor: const Color.fromARGB(219, 233, 100, 6),
-      //   color: const Color.fromARGB(255, 252, 176, 122),
-      //   animationDuration: const Duration(milliseconds: 300),
-      //   index: 1,
-      //   items: const <Widget>[
-      //     Column(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       children: [
-      //         Icon(Icons.add_home_work, color: Color(0xFF0F1370)),
-      //         Text(
-      //           'Agregar Vivienda',
-      //           style: customTextStyle,
-      //           textAlign: TextAlign.center,
-      //         ),
-      //       ],
-      //     ),
-      //     Column(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       children: [
-      //         Icon(Icons.account_circle_sharp, color: Color(0xFF0F1370)),
-      //         Text(
-      //           'Perfil',
-      //           style: customTextStyle,
-      //         ),
-      //       ],
-      //     ),
-      //     Column(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       children: [
-      //         Icon(Icons.logout, color: Color(0xFF0F1370)),
-      //         Text(
-      //           'Cerrar Sesión',
-      //           style: customTextStyle,
-      //         ),
-      //       ],
-      //     ),
-      //   ],
-      //   onTap: (index) async {
-      //     if (index == 0) {
-      //       Navigator.of(context).push(
-      //         MaterialPageRoute(
-      //           builder: (context) =>
-      //               AgregarVivienda(userEmail: widget.userEmail),
-      //         ),
-      //       );
-      //     }
-      //     if (index == 2) {
-      //       await _signOut(context);
-      //       Navigator.of(context).push(
-      //         MaterialPageRoute(
-      //           builder: (context) => const SplashView(),
-      //         ),
-      //       );
-      //     }
-      //   },
-      // ),
       backgroundColor: const Color.fromARGB(240, 252, 227, 210),
       body: Center(
         child: Stack(
@@ -205,31 +149,14 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
                 ),
               ),
             ),
-            /*Positioned(
-              left: 128,
-              top: 160,
-              child: Container(
-                width: 134,
-                decoration: const ShapeDecoration(
-                  color: GlobalColors.azulColor,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      width: 1.50,
-                      strokeAlign: BorderSide.strokeAlignCenter,
-                      color: GlobalColors.azulColor,
-                    ),
-                  ),
-                ),
-              ),
-            ),*/
-
             // Lista de Viviendas
             Positioned(
               left: 50,
               top: 180, // Ajusta la posición según sea necesario
               child: Container(
                 width: 285, // Ajusta el ancho de acuerdo a tu diseño
-                height: 470, // Ajusta la altura según sea necesario
+                height:
+                    deviceheight * 0.7, // Ajusta la altura según sea necesario
                 child: ListView.builder(
                   itemCount: viviendas.length,
                   itemBuilder: (context, index) {
@@ -238,19 +165,6 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
                 ),
               ),
             ),
-            // TEXTO AGREGAR VIVIENDA
-            /*Positioned(
-              left: 80,
-              top: 585,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  print('IconButton pressed ...');
-                  Get.to(() => AgregarVivienda(userEmail: widget.userEmail),
-                      arguments: cantidadViviendas);
-                },
-              ),
-            ),*/
-            // FIN TEXTO AGREGAR VIVIENDA
           ],
         ),
       ),
