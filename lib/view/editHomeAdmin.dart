@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
-//import 'package:get/get.dart';
 import 'package:login_v1/utils/global.colors.dart';
-//import 'package:login_v1/view/sistemaEspecificoAdmin.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
-//import 'package:login_v1/models/vivienda_model.dart';
 
 class editHomeAdmin extends StatelessWidget {
   editHomeAdmin({Key? key}) : super(key: key);
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
-  // ViviendaModel vivienda = new ViviendaModel(name: name, emailAddress: emailAddress, pasword: pasword, address: address);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +15,6 @@ class editHomeAdmin extends StatelessWidget {
         child: Stack(
           children: [
             AdminPrincipal(administratorName: "Nombre del Administrador"),
-
             const Positioned(
               left: 50,
               top: 135,
@@ -56,8 +50,6 @@ class editHomeAdmin extends StatelessWidget {
                 ),
               ),
             ),
-            //inicio formulario
-            //nombre
             Positioned(
               left: 10,
               right: 30,
@@ -68,11 +60,7 @@ class editHomeAdmin extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       TextFormField(
-                        //controller: emailController,
-                        //textInputType: TextInputType.emailAddress,
-                        //controller: _model.emailTextController,
                         obscureText: false,
-                        //    initialValue: vivienda.name,
                         decoration: InputDecoration(
                           labelText: 'Name',
                           hintText: 'Your Name...',
@@ -115,21 +103,16 @@ class editHomeAdmin extends StatelessWidget {
                             color: GlobalColors.logoazulColor,
                           ),
                         ),
-                        // aqui se pone EL VALIDATOR
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.normal,
                             color: GlobalColors.textColor,
                             fontFamily: 'Outfit'),
                         keyboardType: TextInputType.name,
-                        //validator: _model.emailTextControllerValidator
-                        //    .asValidator(context),
                       ),
                     ],
                   )),
             ),
-            //fin nombre
-            // email
             Positioned(
               left: 10,
               right: 30,
@@ -141,10 +124,7 @@ class editHomeAdmin extends StatelessWidget {
                     children: [
                       TextFormField(
                         controller: emailController,
-                        //textInputType: TextInputType.emailAddress,
-                        //controller: _model.emailTextController,
                         obscureText: false,
-                        //    initialValue: vivienda.pasword,
                         decoration: InputDecoration(
                           labelText: 'Email Address',
                           hintText: 'Your email...',
@@ -193,14 +173,10 @@ class editHomeAdmin extends StatelessWidget {
                             color: GlobalColors.textColor,
                             fontFamily: 'Outfit'),
                         keyboardType: TextInputType.emailAddress,
-                        //validator: _model.emailTextControllerValidator
-                        //    .asValidator(context),
                       ),
                     ],
                   )),
             ),
-            // fin email
-            //password
             Positioned(
               left: 10,
               right: 30,
@@ -212,10 +188,7 @@ class editHomeAdmin extends StatelessWidget {
                     children: [
                       TextFormField(
                         controller: passwordController,
-                        //textInputType: TextInputType.emailAddress,
-                        //controller: _model.emailTextController,
                         obscureText: false,
-                        //    initialValue: vivienda.emailAddress,
                         decoration: InputDecoration(
                           labelText: 'Password',
                           hintText: 'Enter your password here...',
@@ -264,14 +237,10 @@ class editHomeAdmin extends StatelessWidget {
                             color: GlobalColors.textColor,
                             fontFamily: 'Outfit'),
                         keyboardType: TextInputType.visiblePassword,
-                        //validator: _model.emailTextControllerValidator
-                        //    .asValidator(context),
                       ),
                     ],
                   )),
             ),
-            //fin password
-            // direccion
             Positioned(
               left: 10,
               right: 30,
@@ -282,11 +251,7 @@ class editHomeAdmin extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       TextFormField(
-                        //controller: emailController,
-                        //textInputType: TextInputType.emailAddress,
-                        //controller: _model.emailTextController,
                         obscureText: false,
-                        //   initialValue: vivienda.address,
                         decoration: InputDecoration(
                           labelText: 'Address',
                           hintText: 'Your Adress...',
@@ -335,22 +300,10 @@ class editHomeAdmin extends StatelessWidget {
                             color: GlobalColors.textColor,
                             fontFamily: 'Outfit'),
                         keyboardType: TextInputType.streetAddress,
-                        //  onSaved: (Value) => vivienda.address = Value,
-                        //  validator: (Value) {
-                        //   if (Value.contains('hola')) {
-                        //      return 'ingrese una direccion';
-                        //     } else {
-                        //       return null;
-                        //      }
-                        //     },
-                        //validator: _model.emailTextControllerValidator
-                        //    .asValidator(context),
                       ),
                     ],
                   )),
             ),
-            //fin direccion
-            // fin de formulario
             Positioned(left: 280, top: 120, child: _crearBotonGuardar())
           ],
         ),
@@ -368,9 +321,7 @@ Widget _crearBotonGuardar() {
       backgroundColor: Color(0xD1FBE288),
       foregroundColor: Color(0xFF0F1370),
     ),
-    onPressed: () {
-      print('IconButton pressed ...');
-    },
+    onPressed: () {},
     label: const Text('Guardar'),
     icon: const Icon(Icons.save),
   );

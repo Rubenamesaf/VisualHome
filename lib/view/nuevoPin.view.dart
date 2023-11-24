@@ -64,7 +64,6 @@ class _NuevoPinViewState extends State<NuevoPinView> {
         'CodigoPIN': codigoPin,
         'Password': password,
         'CodigoVerificador': widget.codigo,
-        // Agrega más campos de usuario si es necesario
       },
     });
   }
@@ -91,10 +90,7 @@ class _NuevoPinViewState extends State<NuevoPinView> {
               ),
             ),
             const Padding(
-              padding: EdgeInsets.only(
-                  top: 40.0,
-                  left: 25.0,
-                  bottom: 0), // Ajusta el valor izquierdo según sea necesario
+              padding: EdgeInsets.only(top: 40.0, left: 25.0, bottom: 0),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -138,10 +134,7 @@ class _NuevoPinViewState extends State<NuevoPinView> {
             ),
           ),
           const Padding(
-            padding: EdgeInsets.only(
-                top: 60.0,
-                left: 0.0,
-                bottom: 0), // Ajusta el valor izquierdo según sea necesario
+            padding: EdgeInsets.only(top: 60.0, left: 0.0, bottom: 0),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -257,9 +250,7 @@ class _NuevoPinViewState extends State<NuevoPinView> {
                 actions: [
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context)
-                          .pop(); // Cierra el cuadro informativo
-                      // Puedes agregar aquí cualquier acción adicional
+                      Navigator.of(context).pop();
                     },
                     child: Text('Aceptar'),
                   ),

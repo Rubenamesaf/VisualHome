@@ -1,5 +1,3 @@
-//import 'package:flutter/material.dart';
-
 class HistorialModel {
   String marcaTemporal;
   String sistema;

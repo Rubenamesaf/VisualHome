@@ -2,30 +2,16 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:login_v1/main.dart';
-//import 'package:get/get_core/src/get_main.dart';
-//import 'dart:ui';
-//import 'package:google_fonts/google_fonts.dart';
-//import 'package:login_v1/historial_model%20copy.dart';
-//import 'package:login_v1/models/vivienda_model.dart';
 import 'package:login_v1/utils/global.colors.dart';
 import 'package:login_v1/view/adminPerfil.view.dart';
 import 'package:login_v1/view/agregarVivienda.dart';
-//import 'package:login_v1/utils/botongenerico.dart';
 import 'package:login_v1/view/editarVivienda.dart';
-//import 'package:login_v1/view/editHomeAdmin.dart';
 import 'package:login_v1/view/sistemaEspecificoAdmin.dart';
 import 'package:login_v1/view/splash.view.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
-//import 'package:firebase_database/firebase_database.dart';
-//import 'package:flutter/material.dart';
-//import 'package:get/get.dart';
-//import 'package:login_v1/view/editHomeAdmin.dart';
-//import 'package:login_v1/view/sistemaEspecificoAdmin.dart';
-//import 'dart:convert'; // Importar la librería para decodificar JSON
 
 class ViviendaEspecificaAdmin extends StatefulWidget {
   final String userEmail;
@@ -53,23 +39,18 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
     _dbref.child("$viviendaName").onValue.listen((event) {
       final dataSnapshot = event.snapshot;
       if (dataSnapshot.value != null && mounted) {
-        print("Datos actualizados - " + dataSnapshot.value.toString());
         setState(() {
           databasejson = dataSnapshot.value.toString();
 
-          // Eliminar los corchetes iniciales y finales
           databasejson = databasejson.substring(1, databasejson.length - 1);
 
-          // Dividir la cadena en pares clave-valor
           final keyValuePairs = databasejson.split(', ');
 
-          // Limpiar la lista actual antes de agregar los nuevos sistemas
           sistemasList.clear();
 
-          // Recorrer los pares clave-valor y agregarlos a sistemasList
           for (var pair in keyValuePairs) {
             final parts = pair.split(': ');
-            final nombre = parts[0].trim(); // Eliminar espacios en blanco
+            final nombre = parts[0].trim();
 
             if (nombre == "CodigoPIN") {
               continue;
@@ -89,22 +70,19 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
             }
           }
         });
-        print(sistemasList);
       }
     });
   }
 
   RichText buildRichText(bool isActive) {
     const TextStyle defaultStyle = TextStyle(
-      color: Color.fromARGB(
-          255, 255, 0, 0), // Color por defecto para sistemas inactivos
-      fontWeight:
-          FontWeight.normal, // Estilo por defecto para sistemas inactivos
+      color: Color.fromARGB(255, 255, 0, 0),
+      fontWeight: FontWeight.normal,
     );
 
     const TextStyle activeStyle = TextStyle(
-      color: Colors.green, // Color verde para sistemas activos
-      fontWeight: FontWeight.bold, // Texto en negrita para sistemas activos
+      color: Colors.green,
+      fontWeight: FontWeight.bold,
     );
 
     final text = isActive ? 'Activo' : 'Inactivo';
@@ -188,12 +166,11 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
                   itemCount: sistemasList.length,
                   itemBuilder: (context, index) {
                     final sistema = sistemasList[index];
-                    // Define un mapa con los argumentos que deseas pasar
+
                     final arguments = {
                       'viviendaName': viviendaName,
                       'sistemaName': sistema.nombre,
-                      'estado': sistema
-                          .estado // Agrega más argumentos si es necesario
+                      'estado': sistema.estado
                     };
                     return ListTile(
                       title: Text(sistema.nombre),
@@ -218,20 +195,20 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
                     'viviendaName': viviendaName,
                     'sistemasList': sistemasList,
                   };
-                  print('Botón presionado ...');
+
                   Get.to(() => EditarVivienda(userEmail: widget.userEmail),
                       arguments: arguments);
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 18, 145, 24), // Fondo azul
-                  onPrimary: Colors.white, // Texto en blanco
+                  primary: Color.fromARGB(255, 18, 145, 24),
+                  onPrimary: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                 ),
                 icon: Icon(
                   Icons.add_circle_outline,
-                  color: Colors.white, // Icono en blanco
+                  color: Colors.white,
                 ),
                 label: Text(
                   'EDITAR VIVIENDA',

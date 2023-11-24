@@ -17,26 +17,6 @@ class RegistroAlarma extends StatefulWidget {
 class _RegistroAlarmaState extends State<RegistroAlarma> {
   @override
   Widget build(BuildContext context) {
-    // return Column(
-    //   children: [
-    //     ListTile(
-    //       title: Text(
-    //         widget.textoHora,
-    //         style: const TextStyle(fontSize: 36, color: Color(0xFF0F1370)),
-    //       ),
-    //       trailing: Transform.scale(
-    //         scale: 1.5,
-    //         child: Column(
-    //           children: [
-    //             widget.switchAlarma,
-    //             widget.botonEliminar,
-    //           ],
-    //         ),
-    //       ),
-    //     ),
-    //     const Divider(),
-    //   ],
-    // );
     return Card(
       child: Container(
         color: const Color.fromARGB(240, 252, 227, 210),

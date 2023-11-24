@@ -25,10 +25,7 @@ class AlarmaUserPage extends StatefulWidget {
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-void showAlarmMessage() async {
-  print('Alarma de 10 segundos.');
-  //await FirebaseMessaging.instance.
-}
+void showAlarmMessage() async {}
 
 class _AlarmaUserPageState extends State<AlarmaUserPage> {
   TextEditingController _timeController = TextEditingController();
@@ -47,9 +44,7 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
     Timer(duration, () {
       try {
         _dbref.child(widget.vivienda).update({"Alarmas": 1});
-      } catch (e) {
-        print("Error al actualizar el valor en Firebase: $e");
-      }
+      } catch (e) {}
     });
   }
 
@@ -71,16 +66,11 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
 
         DateTime endTime = DateTime.now();
 
-        // Calcula el tiempo hasta disparar la alarma
         Duration duration = _selectedTime.difference(endTime);
 
-        // Funcion que pone la alarma
         _setAlarm(duration);
 
         _timeController.text = picked.format(context);
-
-        print(_selectedTime);
-        print(_timeController.text);
       });
 
       final alarmaData = <String, dynamic>{
@@ -88,7 +78,6 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
         'Hours': _selectedTime.hour,
         'Minutes': _selectedTime.minute,
         'Active': true,
-        // Agrega más campos de usuario si es necesario
       };
 
       try {
@@ -97,9 +86,7 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
             .child("AlarmasDespertador")
             .push()
             .set(alarmaData);
-      } catch (e) {
-        print(e);
-      }
+      } catch (e) {}
     }
   }
 
@@ -143,9 +130,7 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
           .child("AlarmasDespertador")
           .child(id)
           .update({"Active": value});
-    } catch (e) {
-      print("Error al actualizar el valor en Firebase: $e");
-    }
+    } catch (e) {}
   }
 
   void borrarAlarma(String id) {
@@ -158,9 +143,7 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
           .child("AlarmasDespertador")
           .child(id)
           .remove();
-    } catch (e) {
-      print("Error al actualizar el valor en Firebase: $e");
-    }
+    } catch (e) {}
   }
 
   final _androidChannel = const AndroidNotificationChannel(
@@ -192,8 +175,6 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           _selectTime(context);
-          //_setAlarm();
-          // _showNotification();
         },
         child: const Icon(Icons.add),
       ),
@@ -202,7 +183,6 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
         backgroundColor: HexColor('#ED9A5E'),
         selectedItemColor: const Color(0xFF0F1370),
         currentIndex: 0,
-        //  color: const Color.fromARGB(234,154,94),
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.alarm_add),
@@ -258,10 +238,10 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
             ),
             Positioned(
               left: 25,
-              top: 170, // Ajusta la posición según sea necesario
+              top: 170,
               child: SizedBox(
                 height: deviceheight * 0.7,
-                width: 340, // Ajusta el ancho de acuerdo a tu diseño
+                width: 340,
                 child: ListView.builder(
                   itemCount: alarmas.length,
                   itemBuilder: (context, index) {
@@ -271,7 +251,6 @@ class _AlarmaUserPageState extends State<AlarmaUserPage> {
                         value: alarmas[index].active,
                         onChanged: (_) {
                           setState(() {
-                            print(_);
                             alarmas[index].active = _;
                           });
                           toggleSwitch(_, alarmas[index].id);

@@ -1,4 +1,3 @@
-//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -33,7 +32,6 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
     super.initState();
     viviendas.clear();
     _leerViviendas();
-    //_setupDatabaseListener();
   }
 
   Future<void> _signOut(BuildContext context) async {
@@ -49,7 +47,6 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
           viviendas.clear();
           data.forEach((key, value) {
             if (key is String && key != "Administradores") {
-              // Verificar si la vivienda tiene la clave "Estatus" y su valor es 1
               if (value is Map<Object?, Object?> &&
                   value.containsKey("Estatus") &&
                   value["Estatus"] == 1) {
@@ -91,7 +88,6 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
         backgroundColor: HexColor('#ED9A5E'),
         selectedItemColor: const Color(0xFF0F1370),
         currentIndex: 1,
-        //  color: const Color.fromARGB(234,154,94),
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.add_home_work),
@@ -149,14 +145,12 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
                 ),
               ),
             ),
-            // Lista de Viviendas
             Positioned(
               left: 50,
-              top: 180, // Ajusta la posición según sea necesario
+              top: 180,
               child: Container(
-                width: 285, // Ajusta el ancho de acuerdo a tu diseño
-                height:
-                    deviceheight * 0.7, // Ajusta la altura según sea necesario
+                width: 285,
+                height: deviceheight * 0.7,
                 child: ListView.builder(
                   itemCount: viviendas.length,
                   itemBuilder: (context, index) {
@@ -191,15 +185,15 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
         margin: const EdgeInsets.symmetric(vertical: 8.0),
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          color: const Color(0xbaf19756), // Color de fondo azul
-          borderRadius: BorderRadius.circular(30), // Esquinas redondeadas
+          color: const Color(0xbaf19756),
+          borderRadius: BorderRadius.circular(30),
         ),
         child: Align(
           alignment: Alignment.center,
           child: Text(
             viviendaName,
             style: const TextStyle(
-              color: Color(0xFF0F1370), // Color del texto blanco
+              color: Color(0xFF0F1370),
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -211,8 +205,6 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
 }
 
 class GlobalColors {
-  static const azulColor =
-      Color(0xFF0000FF); // Cambia este color según tus preferencias
-  static const naranjaClaritoColor =
-      Color(0xFFFFD700); // Cambia este color según tus preferencias
+  static const azulColor = Color(0xFF0000FF);
+  static const naranjaClaritoColor = Color(0xFFFFD700);
 }

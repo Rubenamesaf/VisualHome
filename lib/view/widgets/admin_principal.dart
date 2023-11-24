@@ -1,12 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-//import 'package:get/get.dart';
+
 import 'package:hexcolor/hexcolor.dart';
-//import 'package:login_v1/utils/global.colors.dart';
-//import 'package:login_v1/view/homeAdmin.view.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
-//import 'package:login_v1/view/editHomeAdmin.dart';
 
 class AdminPrincipal extends StatelessWidget {
   String? administratorName;
@@ -61,7 +59,6 @@ class AdminPrincipal extends StatelessWidget {
     return Column(
       children: [
         Container(
-          //width: 392.7,
           height: 90,
           clipBehavior: Clip.antiAlias,
           decoration:

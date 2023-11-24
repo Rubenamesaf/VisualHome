@@ -21,7 +21,7 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
   final TextEditingController nombreController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  //final TextEditingController direccionController = TextEditingController();
+
   late DatabaseReference _dbref;
 
   var nombre = '';
@@ -48,7 +48,6 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
             .equalTo(user.email)
             .once();
 
-        // Verifica si adminSnapshot.snapshot.value es null antes de acceder a 'values'
         if (adminSnapshot.snapshot.value != null) {
           final dynamic data = adminSnapshot.snapshot.value;
 
@@ -61,14 +60,10 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
             nombreController.text = adminData['Nombre'];
             emailController.text = adminData['Email'];
             passwordController.text = adminData['Clave'].toString();
-            // Asumo que también tienes un campo 'Direccion' en tu base de datos
-            //direccionController.text = adminData['Direccion'];
           });
         }
       }
-    } catch (e) {
-      print("Error loading admin data: $e");
-    }
+    } catch (e) {}
   }
 
   Future<void> _signOut(BuildContext context) async {
@@ -106,7 +101,6 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: _buildTextFormField(
               controller: nombreController,
-              //labelText: nombre.isNotEmpty ? nombre : 'Nombre',
               labelText: 'Nombre y apellido del administrador',
               keyboardType: TextInputType.name,
             ),
@@ -115,7 +109,6 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: _buildTextFormField(
               controller: emailController,
-              //labelText: email.isNotEmpty ? email : 'Email',
               labelText: 'Correo electrónico del administrador',
               keyboardType: TextInputType.emailAddress,
             ),
@@ -124,20 +117,10 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: _buildTextFormField(
               controller: passwordController,
-              // labelText: clave.toString().isNotEmpty ? clave : 'Clave',
               labelText: 'Código PIN de acceso a la app',
               keyboardType: TextInputType.visiblePassword,
             ),
           ),
-          /*Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5.0),
-            child: _buildTextFormField(
-              controller: direccionController,
-              // labelText: direccion.isNotEmpty ? direccion : 'Direccion',
-              labelText: 'Direccion',
-              keyboardType: TextInputType.streetAddress,
-            ),
-          ),*/
         ],
       ),
     );
@@ -146,7 +129,7 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
   Widget _crearBotonGuardar() {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-        minimumSize: const Size.fromHeight(40), //
+        minimumSize: const Size.fromHeight(40),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(0.0),
         ),
@@ -164,7 +147,7 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
   Widget _crearBotonDescartar() {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-        minimumSize: const Size.fromHeight(40), //
+        minimumSize: const Size.fromHeight(40),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(0.0),
         ),
@@ -172,7 +155,6 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
         foregroundColor: Color.fromARGB(255, 255, 255, 255),
       ),
       onPressed: () {
-        // Muestra un cuadro de diálogo de confirmación
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -183,15 +165,14 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
               actions: [
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pop(); // Cierra el cuadro de diálogo
-                    Navigator.of(context).pop(); // Regresa a la página anterior
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
                   },
                   child: Text('Sí'),
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pop(); // Cierra el cuadro de diálogo
-                    // Puedes agregar aquí cualquier acción adicional
+                    Navigator.of(context).pop();
                   },
                   child: Text('No'),
                 ),
@@ -225,16 +206,12 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
         'Nombre': clienteName,
         'Email': correo,
         'Clave': password,
-        // Agrega más campos de usuario si es necesario
       },
     };
 
     try {
       await _dbref.child("Administradores").set(adminData);
-      // La vivienda se ha guardado en Firebase
-      print('Perfil guardado en Firebase');
-      print(adminData);
-      // Puedes redirigir a otra pantalla o realizar otras acciones aquí
+
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -244,8 +221,7 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
             actions: [
               ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pop(); // Cierra el cuadro informativo
-                  // Puedes agregar aquí cualquier acción adicional
+                  Navigator.of(context).pop();
                 },
                 child: Text('Aceptar'),
               ),
@@ -253,10 +229,7 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
           );
         },
       );
-    } catch (e) {
-      // Manejar errores si es necesario
-      print('Error al guardar el perfil en Firebase: $e');
-    }
+    } catch (e) {}
   }
 
   @override
@@ -266,7 +239,6 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
         backgroundColor: HexColor('#ED9A5E'),
         selectedItemColor: const Color(0xFF0F1370),
         currentIndex: 2,
-        //  color: const Color.fromARGB(234,154,94),
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.add_home_work),
@@ -316,10 +288,7 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(
-                  top: 20.0,
-                  left: 25.0,
-                  bottom: 0), // Ajusta el valor izquierdo según sea necesario
+              padding: EdgeInsets.only(top: 20.0, left: 25.0, bottom: 0),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(

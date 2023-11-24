@@ -1,10 +1,8 @@
-//import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 import 'package:login_v1/utils/global.colors.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
-//import 'dart:math';
 
 class Sistema {
   final String nombre;
@@ -43,7 +41,7 @@ class _AgregarViviendaState extends State<EditarVivienda> {
   void initState() {
     super.initState();
     viviendaName = Get.arguments['viviendaName'];
-    //sistemasList = Get.arguments['sistemasList'];
+
     _setupDatabaseListener();
   }
 
@@ -51,23 +49,16 @@ class _AgregarViviendaState extends State<EditarVivienda> {
     _dbref.child("$viviendaName").onValue.listen((event) {
       final dynamic data = event.snapshot.value;
 
-      // Verificar si los datos son nulos o no existen
       if (data == null) {
         return;
       }
 
-      // Acceder a los valores directamente
       setState(() {
         nombre = data['Usuario']['Nombre'];
         email = data['Usuario']['Email'];
         clave = data['Usuario']['Password'];
         direccion = data['Usuario']['Direccion'];
       });
-
-      print(nombre);
-      print(email);
-      print(clave);
-      print(direccion);
     });
   }
 
@@ -83,7 +74,6 @@ class _AgregarViviendaState extends State<EditarVivienda> {
         child: Stack(
           children: [
             AdminPrincipal(administratorName: widget.userEmail),
-
             Positioned(
               left: 40,
               top: 135,
@@ -394,7 +384,6 @@ class _AgregarViviendaState extends State<EditarVivienda> {
               width: 310,
               child: _crearBotonGuardar(),
             ),
-            // Botón "Agregar Sistemas"
             Positioned(
               left: 40,
               top: 490,
@@ -421,9 +410,7 @@ class _AgregarViviendaState extends State<EditarVivienda> {
         backgroundColor: Color.fromARGB(209, 255, 0, 0),
         foregroundColor: Color.fromARGB(255, 255, 255, 255),
       ),
-      onPressed: () {
-        print('DESCARTANDO CREACION');
-      },
+      onPressed: () {},
       label: Text('DESCARTAR'),
       icon: Icon(Icons.cancel),
     );
@@ -447,10 +434,8 @@ class _AgregarViviendaState extends State<EditarVivienda> {
   }
 
   Future<void> _mostrarDialogoSistemas(BuildContext context) async {
-    // Crear una instancia del widget de diálogo de sistemas
     final sistemasDialog = _SistemasDialog(sistemas: sistemas);
 
-    // Mostrar el diálogo y obtener los sistemas seleccionados
     final List<String>? sistemasSeleccionados = await showDialog<List<String>>(
       context: context,
       builder: (BuildContext context) {
@@ -458,12 +443,10 @@ class _AgregarViviendaState extends State<EditarVivienda> {
       },
     );
 
-    // Aquí puedes utilizar sistemasSeleccionados como lo necesites
     if (sistemasSeleccionados != null) {
       setState(() {
         this.sistemasSeleccionados = sistemasSeleccionados;
       });
-      print('Sistemas seleccionados: $sistemasSeleccionados');
     }
   }
 
@@ -493,7 +476,6 @@ class _AgregarViviendaState extends State<EditarVivienda> {
         'Email': correo,
         'Password': password,
         'Direccion': location,
-        // Agrega más campos de usuario si es necesario
       },
     };
 
@@ -503,14 +485,7 @@ class _AgregarViviendaState extends State<EditarVivienda> {
 
     try {
       await _dbref.child(viviendaCode).set(viviendaData);
-      // La vivienda se ha guardado en Firebase
-      print('Vivienda guardada en Firebase');
-      print(viviendaData);
-      // Puedes redirigir a otra pantalla o realizar otras acciones aquí
-    } catch (e) {
-      // Manejar errores si es necesario
-      print('Error al guardar la vivienda en Firebase: $e');
-    }
+    } catch (e) {}
   }
 }
 
@@ -540,12 +515,8 @@ class _SistemasDialogState extends State<_SistemasDialog> {
                 setState(() {
                   if (isSelected) {
                     sistemasSeleccionados.remove(sistema);
-                    print("CANCELANDO SISTEMA DE $sistema");
-                    print(sistemasSeleccionados);
                   } else {
                     sistemasSeleccionados.add(sistema);
-                    print("AGREGANDO SISTEMA DE $sistema");
-                    print(sistemasSeleccionados);
                   }
                 });
               },
@@ -560,8 +531,7 @@ class _SistemasDialogState extends State<_SistemasDialog> {
       actions: [
         ElevatedButton(
           onPressed: () {
-            Navigator.of(context).pop(
-                sistemasSeleccionados); // Devuelve los sistemas seleccionados
+            Navigator.of(context).pop(sistemasSeleccionados);
           },
           child: Text('Aceptar'),
         ),

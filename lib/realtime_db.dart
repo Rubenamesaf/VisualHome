@@ -1,8 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-//import 'package:firebase_database/firebase_database.dart';
-//import 'dart:convert' as convert;
-//import 'package:login_v1/viviendas_model.dart';
 
 class realtime_db extends StatefulWidget {
   @override
@@ -16,17 +13,12 @@ class _realtime_dbState extends State<realtime_db> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    // ignore: deprecated_member_use
+
     _dbref = FirebaseDatabase.instance.reference();
 
     _dbref.child("").child("").onValue.listen((DatabaseEvent event) {
-      print("counter update " + event.snapshot.value.toString());
-      setState(() {
-        //countvalue = event.snapshot.value as int;
-        print("klk");
-      });
+      setState(() {});
     });
   }
 
@@ -67,7 +59,6 @@ class _realtime_dbState extends State<realtime_db> {
                     _updatevalue_count();
                   },
                   child: Text(" update counter value by 1")),
-              //   _updatevalue_count()
               TextButton(
                   onPressed: () {
                     _delete();
@@ -105,7 +96,6 @@ class _realtime_dbState extends State<realtime_db> {
     _dbref.once().then((DatabaseEvent event) {
       final dataSnapshot = event.snapshot;
       if (dataSnapshot.value != null) {
-        print(" read once - " + dataSnapshot.value.toString());
         setState(() {
           databasejson = dataSnapshot.value.toString();
         });
@@ -117,7 +107,6 @@ class _realtime_dbState extends State<realtime_db> {
     _dbref.child("Vivienda 2").once().then((DatabaseEvent event) {
       final dataSnapshot = event.snapshot;
       if (dataSnapshot.value != null) {
-        print(" read once - " + dataSnapshot.value.toString());
         setState(() {
           databasejson = dataSnapshot.value.toString();
         });
@@ -133,7 +122,6 @@ class _realtime_dbState extends State<realtime_db> {
     _dbref.child("").once().then((DatabaseEvent event) {
       final dataSnapshot = event.snapshot;
       if (dataSnapshot.value != null) {
-        print(" read once - " + dataSnapshot.value.toString());
         setState(() {
           final dynamic data = dataSnapshot.value;
           if (data is Map<Object?, Object?>) {
@@ -143,7 +131,6 @@ class _realtime_dbState extends State<realtime_db> {
                 viviendas.add(key);
               }
             });
-            print(viviendas); // Esto imprimirá ["Vivienda 1", "Vivienda 2"]
           }
         });
       }

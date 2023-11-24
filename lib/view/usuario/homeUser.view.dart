@@ -77,12 +77,10 @@ class _HomeUserPageState extends State<HomeUserPage> {
   }
 
   void _activarBotonPanico() {
-    // Actualizar el valor en la base de datos
     _dbref.child(vivienda).update({"Pánico": 1});
   }
 
   void _detenerBotonPanico() {
-    // Actualizar el valor en la base de datos
     _dbref.child(vivienda).update({"Pánico": 0});
     _dbref.child(vivienda).update({"Movimiento": 0});
     _dbref.child(vivienda).update({"Perímetro": 0});
@@ -90,7 +88,6 @@ class _HomeUserPageState extends State<HomeUserPage> {
   }
 
   void _detenerAlarmas() {
-    // Actualizar el valor en la base de datos
     _dbref.child(vivienda).update({"Alarmas": 0});
   }
 
@@ -105,7 +102,6 @@ class _HomeUserPageState extends State<HomeUserPage> {
       if (snapshot.value != null) {
         int activacionAlarma = snapshot.value as int;
 
-        // Cambiar el valor y el color del botón
         setState(() {
           _botonColor = (activacionAlarma == 0)
               ? Colors.green
@@ -116,7 +112,6 @@ class _HomeUserPageState extends State<HomeUserPage> {
               : "           ARMAR\nSistema de seguridad";
         });
 
-        // Actualizar el valor en la base de datos
         _dbref
             .child(vivienda)
             .update({"Seguridad": (activacionAlarma == 0) ? 1 : 0});
@@ -136,16 +131,13 @@ class _HomeUserPageState extends State<HomeUserPage> {
           oldSistemasList.addAll(sistemasListParaMostrar);
           sistemasList.clear();
 
-          // Flag to check if any of the specified systems is active
           bool isEmergencyActive = false;
           bool isAlarmaAlert = false;
 
-          // Recorrer los pares clave-valor y agregarlos a sistemasList
           for (var pair in keyValuePairs) {
             final parts = pair.split(': ');
             final nombre = parts[0].trim();
 
-            // Evitar agregar la clave "Estatus" a sistemasList
             if (nombre == "Estatus") {
               continue;
             }
@@ -164,7 +156,6 @@ class _HomeUserPageState extends State<HomeUserPage> {
                 if (nombre != "CodigoPIN") {
                   sistemasList.add(Sistema(nombre, estado == 1));
 
-                  // Check if the current system is one of the specified systems
                   if (nombre == 'Pánico' ||
                       nombre == 'Movimiento' ||
                       nombre == 'Perímetro' ||
@@ -185,7 +176,6 @@ class _HomeUserPageState extends State<HomeUserPage> {
             }
           }
 
-          // Show the emergency dialog if any of the specified systems is active
           if (isEmergencyActive) {
             showDialog(
               context: context,
@@ -199,7 +189,6 @@ class _HomeUserPageState extends State<HomeUserPage> {
                         backgroundColor: Colors.red,
                       ),
                       onPressed: () {
-                        // Llamar al número de emergencia (911)
                         launch('tel:911');
                         Navigator.of(context).pop();
                       },
@@ -222,24 +211,22 @@ class _HomeUserPageState extends State<HomeUserPage> {
           }
 
           if (isAlarmaAlert) {
-            DateTime horaActual = DateTime.now(); // Obtén la hora actual
+            DateTime horaActual = DateTime.now();
 
             showDialog(
               context: context,
-              barrierDismissible: false, // Evita que se cierre al tocar fuera
+              barrierDismissible: false,
               builder: (BuildContext context) {
                 return AlertDialog(
                   title: Text('ALARMA'),
                   content: Text('${horaActual.hour}:${horaActual.minute}'),
                   actions: [
                     Container(
-                      width: double
-                          .infinity, // Hace que el botón ocupe todo el ancho
+                      width: double.infinity,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color.fromRGBO(0, 129, 28, 1),
-                          padding: EdgeInsets.symmetric(
-                              vertical: 16.0), // Ajusta el padding vertical
+                          padding: EdgeInsets.symmetric(vertical: 16.0),
                         ),
                         onPressed: () {
                           _detenerAlarmas();
@@ -247,8 +234,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
                         },
                         child: Text(
                           'DETENER',
-                          style: TextStyle(
-                              fontSize: 18.0), // Ajusta el tamaño del texto
+                          style: TextStyle(fontSize: 18.0),
                         ),
                       ),
                     ),
@@ -258,10 +244,8 @@ class _HomeUserPageState extends State<HomeUserPage> {
             );
           }
 
-          // Limpiar la lista antes de agregar los nuevos sistemas
           sistemasListParaMostrar.clear();
 
-          // Filtrar sistemas y agregarlos a sistemasListParaMostrar
           sistemasListParaMostrar.addAll(
             sistemasList,
           );
@@ -303,7 +287,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
           actions: actions,
         ),
       ),
-      payload: nombreSistema, // Agregar el nombre del sistema como carga útil
+      payload: nombreSistema,
     );
   }
 
@@ -424,7 +408,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 10), // Espaciador horizontal
+                  SizedBox(width: 10),
                   GestureDetector(
                     onTap: () {
                       _toggleActivacionAlarma();

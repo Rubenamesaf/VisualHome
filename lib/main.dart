@@ -11,11 +11,9 @@ import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
-  WidgetsFlutterBinding
-      .ensureInitialized(); // Asegura que los widgets esten inicializados
+  WidgetsFlutterBinding.ensureInitialized();
 
-  FirebaseApp firebaseApp =
-      await Firebase.initializeApp(); // Inicializa Firebase2
+  FirebaseApp firebaseApp = await Firebase.initializeApp();
 
   await FirebaseApi().initNotifications();
 

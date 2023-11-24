@@ -1,5 +1,3 @@
-//import 'dart:html';
-
 import 'dart:math';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -12,7 +10,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:login_v1/view/nuevoPin.view.dart';
 import 'package:login_v1/view/usuario/homeUser.view.dart';
-//import 'widgets/admin_principal.dart';
+
 import 'package:flutter/gestures.dart';
 
 import 'homeAdmin.view.dart';
@@ -20,17 +18,14 @@ import 'homeAdmin.view.dart';
 class LoginView extends StatefulWidget {
   LoginView({Key? key}) : super(key: key);
 
-  // DISEÑO
-
   @override
   _LoginViewState createState() => _LoginViewState();
 }
 
 class _LoginViewState extends State<LoginView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool showPassword = false; // este es para que la clave se oculte
-  bool signInSuccess =
-      false; // variable para rastrear el exito del inicio de sesion
+  bool showPassword = false;
+  bool signInSuccess = false;
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -44,17 +39,13 @@ class _LoginViewState extends State<LoginView> {
         password: passwordController.text,
       );
       _logger.i("que éxito");
-      // Obtener el usuario actualmente autenticado
+
       User? userInstance = FirebaseAuth.instance.currentUser;
 
       if (userInstance != null) {
-        // Obtener la lista de administradores
         final administradoresEmailList = await _getAdministradores();
 
-        // Validar si el correo pertenece a un administrador
         if (administradoresEmailList.contains(emailController.text)) {
-          // El correo pertenece a un administrador
-          // Redirige a la pantalla de administrador
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -63,7 +54,6 @@ class _LoginViewState extends State<LoginView> {
             ),
           );
         } else {
-          // El correo no es de un administrador, redirige a la pantalla de usuario
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -73,13 +63,11 @@ class _LoginViewState extends State<LoginView> {
           );
         }
       }
-      // si el inicio de sesion es exitoso
+
       setState(() {
         signInSuccess = true;
       });
-      // Aquí puedes manejar la navegación a la siguiente pantalla después del inicio de sesión exitoso.
     } catch (e) {
-      // Aquí puedes manejar los errores de inicio de sesión.
       setState(() {
         signInSuccess = false;
       });
@@ -91,15 +79,12 @@ class _LoginViewState extends State<LoginView> {
         'https://us-central1-domotica-sordos.cloudfunctions.net/sendEmail?dest=$destinationEmail&codigo=$codigo';
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
-      print('Correo enviado exitosamente');
-    } else {
-      print('Error al enviar el correo: ${response.body}');
-    }
+    } else {}
   }
 
   int generarNumeroAleatorio() {
     Random random = Random();
-    // Genera un número aleatorio entre 100000 y 999999 (ambos inclusive)
+
     int numeroAleatorio = 100000 + random.nextInt(900000);
     return numeroAleatorio;
   }
@@ -108,9 +93,7 @@ class _LoginViewState extends State<LoginView> {
     try {
       await FirebaseAuth.instance
           .sendPasswordResetEmail(email: emailController.text);
-      // Muestra un diálogo de éxito o redirige a una pantalla de éxito
-      // Puedes agregar un AwesomeDialog o usar Navigator para navegar a otra pantalla.
-      // Por ejemplo:
+
       AwesomeDialog(
         context: context,
         dialogType: DialogType.success,
@@ -122,7 +105,6 @@ class _LoginViewState extends State<LoginView> {
         btnOkOnPress: () {},
       ).show();
     } catch (e) {
-      // Maneja los errores aquí
       AwesomeDialog(
         context: context,
         dialogType: DialogType.error,
@@ -136,7 +118,6 @@ class _LoginViewState extends State<LoginView> {
     }
   }
 
-  // Obtener la lista de administradores desde la base de datos
   Future<List<String>> _getAdministradores() async {
     try {
       final DatabaseEvent event = await _dbref.child("Administradores").once();
@@ -153,18 +134,14 @@ class _LoginViewState extends State<LoginView> {
             if (email != null) {
               administradoresEmailList.add(email.toString());
             }
-            print("Email encontrado: $email");
           });
         }
 
         return administradoresEmailList;
       }
 
-      // Si no hay datos disponibles, regresa una lista vacía
       return [];
     } catch (error) {
-      print("Error al obtener datos de Administradores: $error");
-      // Manejar errores aquí
       return [];
     }
   }
@@ -194,13 +171,10 @@ class _LoginViewState extends State<LoginView> {
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       child: Column(
                         children: [
-                          //inicio pega
                           const SizedBox(height: 60),
-
                           TextFormField(
                             controller: emailController,
                             obscureText: false,
-
                             decoration: InputDecoration(
                               labelText: 'Correo Electrónico',
                               labelStyle: const TextStyle(
@@ -252,7 +226,6 @@ class _LoginViewState extends State<LoginView> {
                               color: HexColor('#101470'),
                             ),
                             keyboardType: TextInputType.emailAddress,
-                            //validacion
                             validator: (Value) {
                               bool emailValid = RegExp(
                                       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
@@ -265,19 +238,15 @@ class _LoginViewState extends State<LoginView> {
                               }
                               return null;
                             },
-                            // fin validacion
                           ),
-                          //pegado
                           const SizedBox(height: 30),
-
                           SizedBox(
                             height: 60,
                             child: TextFormField(
                               controller: passwordController,
                               obscureText: !showPassword,
-                              keyboardType: TextInputType.number, // true,
+                              keyboardType: TextInputType.number,
                               decoration: InputDecoration(
-                                // el beta de la clave oculta
                                 suffixIcon: IconButton(
                                   color: Color(0xFF0F1370),
                                   onPressed: () {
@@ -289,7 +258,6 @@ class _LoginViewState extends State<LoginView> {
                                       ? Icons.visibility
                                       : Icons.visibility_off),
                                 ),
-                                //fin del beta
                                 labelText: 'Código PIN',
                                 labelStyle: const TextStyle(
                                     fontSize: 16,
@@ -357,7 +325,6 @@ class _LoginViewState extends State<LoginView> {
                                 await _signInWithEmailAndPassword(context);
 
                                 if (!signInSuccess) {
-                                  // Si la autenticación no es válida, muestra el AwesomeDialog de advertencia
                                   AwesomeDialog(
                                     context: context,
                                     dialogType: DialogType.error,
@@ -370,8 +337,7 @@ class _LoginViewState extends State<LoginView> {
                                     btnOkOnPress: () {},
                                   ).show();
                                 } else {
-                                  emailController
-                                      .clear(); //OJO YO CREO QUE ESTO NI EL PASSWORD HACEN FALTA
+                                  emailController.clear();
                                   passwordController.clear();
                                 }
                               }
@@ -383,9 +349,7 @@ class _LoginViewState extends State<LoginView> {
                                   const EdgeInsetsDirectional.fromSTEB(
                                       24, 0, 24, 0)),
                               backgroundColor: MaterialStateProperty.all(
-                                  const Color.fromARGB(255, 235, 133, 55)
-                                  // Color(0xFFF19756),
-                                  ),
+                                  const Color.fromARGB(255, 235, 133, 55)),
                               textStyle:
                                   MaterialStateProperty.all(const TextStyle(
                                 fontWeight: FontWeight.w600,
@@ -409,8 +373,7 @@ class _LoginViewState extends State<LoginView> {
                             ),
                           ),
                           Container(
-                            margin: const EdgeInsets.only(
-                                top: 40), // Ajusta el valor según sea necesario
+                            margin: const EdgeInsets.only(top: 40),
                             child: Center(
                               child: RichText(
                                 text: TextSpan(
@@ -458,7 +421,6 @@ class _LoginViewState extends State<LoginView> {
                   ],
                 ),
               ),
-              //aqui se agrega el form
             ),
           ),
         ],

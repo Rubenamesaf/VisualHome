@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login_v1/utils/global.colors.dart';
-//import 'package:login_v1/utils/global.colors.dart';
-//import 'dart:async';
-//import 'package:get/get.dart';
-//import 'package:login_v1/view/login.view.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SocialLogin extends StatelessWidget {
@@ -46,28 +43,6 @@ class SocialLogin extends StatelessWidget {
             )
           ],
         ),
-        /*// ajustes aqui feo feos
-        const Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(0, 44, 0, 30),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 6),
-                child: Text(
-                  'Dont have an account yet? ',
-                  style: TextStyle(
-                    fontFamily: 'Outfit',
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-              //PEGAR EL PADING AQUIIIIII
-            ],
-          ),
-        ),*/
       ],
     );
   }

@@ -38,8 +38,8 @@ class SistemaUsuario extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          color: const Color(0xFF0F1370), // Color de la línea del borde
-          width: 3.5, // Ancho de la línea del borde
+          color: const Color(0xFF0F1370),
+          width: 3.5,
         ),
         borderRadius: BorderRadius.circular(16.0),
       ),

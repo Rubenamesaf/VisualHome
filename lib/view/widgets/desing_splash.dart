@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:login_v1/utils/global.colors.dart';
 import 'package:hexcolor/hexcolor.dart';
-//import 'package:google_fonts/google_fonts.dart';
-//import 'package:provider/provider.dart';
-//import 'dart:async';
+
 import 'package:get/get.dart';
 import 'package:login_v1/view/login.view.dart';
-//import 'package:login_v1/view/widgets/button.global.dart';
+
 import 'package:login_v1/view/nuevoPin.view.dart';
 
 class DesingSplashContainer extends StatelessWidget {
@@ -57,8 +55,6 @@ class DesingSplashContainer extends StatelessWidget {
               alignment: const AlignmentDirectional(0, 0.5),
               child: ElevatedButton(
                 onPressed: () {
-                  // ignore: avoid_print
-                  print('Button pressed ...');
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => LoginView()),

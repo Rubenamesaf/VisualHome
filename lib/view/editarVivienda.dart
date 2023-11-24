@@ -10,7 +10,6 @@ import 'package:login_v1/view/agregarVivienda.dart';
 import 'package:login_v1/view/splash.view.dart';
 import 'package:login_v1/view/viviendaEsecificaAdmin.dart';
 import 'package:login_v1/view/widgets/admin_principal.dart';
-//import 'dart:math';
 
 class Sistema {
   final String nombre;
@@ -73,8 +72,6 @@ class _EditarViviendaState extends State<EditarVivienda> {
     sistemasSeleccionados =
         sistemasList.map((sistema) => sistema.nombre).toList();
 
-    print(sistemasSeleccionados);
-
     sistemasDialog = _SistemasDialog(
       sistemas: sistemas,
       sistemasSeleccionados: sistemasSeleccionados,
@@ -96,11 +93,6 @@ class _EditarViviendaState extends State<EditarVivienda> {
           clave = data['Usuario']['Password'];
           direccion = data['Usuario']['Direccion'];
         });
-
-        print(nombre);
-        print(email);
-        print(clave);
-        print(direccion);
       }
     });
   }
@@ -144,8 +136,7 @@ class _EditarViviendaState extends State<EditarVivienda> {
             );
           }
           setState(() {
-            currentIndex =
-                index; // Establecer currentIndex después de la navegación
+            currentIndex = index;
           });
         },
       ),
@@ -173,10 +164,7 @@ class _EditarViviendaState extends State<EditarVivienda> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(
-                    top: 20.0,
-                    left: 25.0,
-                    bottom: 0), // Ajusta el valor izquierdo según sea necesario
+                padding: EdgeInsets.only(top: 20.0, left: 25.0, bottom: 0),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -192,10 +180,7 @@ class _EditarViviendaState extends State<EditarVivienda> {
               ),
               _buildTextFormFields(),
               Padding(
-                padding: EdgeInsets.only(
-                    top: 15.0,
-                    left: 25.0,
-                    bottom: 0), // Ajusta el valor izquierdo según sea necesario
+                padding: EdgeInsets.only(top: 15.0, left: 25.0, bottom: 0),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -214,7 +199,7 @@ class _EditarViviendaState extends State<EditarVivienda> {
                     top: 15.0, bottom: 1.0, left: 24, right: 24),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(40), // NEW
+                    minimumSize: const Size.fromHeight(40),
                   ),
                   onPressed: () {
                     _mostrarDialogoSistemas(context);
@@ -313,7 +298,6 @@ class _EditarViviendaState extends State<EditarVivienda> {
         foregroundColor: Color.fromARGB(255, 255, 255, 255),
       ),
       onPressed: () {
-        // Muestra un cuadro de diálogo de confirmación
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -323,15 +307,14 @@ class _EditarViviendaState extends State<EditarVivienda> {
               actions: [
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pop(); // Cierra el cuadro de diálogo
-                    Navigator.of(context).pop(); // Regresa a la página anterior
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
                   },
                   child: Text('Sí'),
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pop(); // Cierra el cuadro de diálogo
-                    // Puedes agregar aquí cualquier acción adicional
+                    Navigator.of(context).pop();
                   },
                   child: Text('No'),
                 ),
@@ -365,12 +348,9 @@ class _EditarViviendaState extends State<EditarVivienda> {
   }
 
   Future<void> _mostrarDialogoSistemas(BuildContext context) async {
-    // Verificar si el widget está montado antes de mostrar el diálogo
     if (mounted) {
-      // Crear una instancia del widget de diálogo de sistemas
       sistemasDialog = sistemasDialog;
 
-      // Mostrar el diálogo y obtener los sistemas seleccionados
       sistemasSeleccionados = await showDialog<List<String>>(
             context: context,
             builder: (BuildContext context) {
@@ -379,12 +359,10 @@ class _EditarViviendaState extends State<EditarVivienda> {
           ) ??
           [];
 
-      // Aquí puedes utilizar sistemasSeleccionados como lo necesites
       if (sistemasSeleccionados != null) {
         setState(() {
           this.sistemasSeleccionados = sistemasSeleccionados;
         });
-        print('Sistemas seleccionados: $sistemasSeleccionados');
       }
     }
   }
@@ -415,20 +393,12 @@ class _EditarViviendaState extends State<EditarVivienda> {
         'Email': correo,
         'Password': password,
         'Direccion': location,
-        // Agrega más campos de usuario si es necesario
       },
     };
 
-    // for (String sistema in sistemasSeleccionados) {
-    //   viviendaData[sistema] = 0;
-    // }
-
     try {
       await _dbref.child(viviendaCode).update(viviendaData);
-      // La vivienda se ha guardado en Firebase
-      print('Vivienda guardada en Firebase');
-      print(viviendaData);
-      // Puedes redirigir a otra pantalla o realizar otras acciones aquí
+
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -438,8 +408,7 @@ class _EditarViviendaState extends State<EditarVivienda> {
             actions: [
               ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pop(); // Cierra el cuadro informativo
-                  // Puedes agregar aquí cualquier acción adicional
+                  Navigator.of(context).pop();
                 },
                 child: Text('Aceptar'),
               ),
@@ -447,10 +416,7 @@ class _EditarViviendaState extends State<EditarVivienda> {
           );
         },
       );
-    } catch (e) {
-      // Manejar errores si es necesario
-      print('Error al guardar la vivienda en Firebase: $e');
-    }
+    } catch (e) {}
   }
 }
 
@@ -477,7 +443,7 @@ class _SistemasDialogState extends State<_SistemasDialog> {
     return AlertDialog(
       title: Text('Lista de módulos'),
       content: Container(
-        height: 300, // Ajusta la altura del contenido según tus necesidades
+        height: 300,
         child: SingleChildScrollView(
           child: Column(
             children: widget.sistemas.map((sistema) {
@@ -489,12 +455,8 @@ class _SistemasDialogState extends State<_SistemasDialog> {
                     setState(() {
                       if (isSelected) {
                         sistemasSeleccionados.remove(sistema);
-                        print("CANCELANDO SISTEMA DE $sistema");
-                        print(sistemasSeleccionados);
                       } else {
                         sistemasSeleccionados.add(sistema);
-                        print("AGREGANDO SISTEMA DE $sistema");
-                        print(sistemasSeleccionados);
                       }
                     });
                   },

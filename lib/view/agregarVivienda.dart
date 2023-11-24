@@ -6,8 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
-//import 'package:get/get.dart';
-//import 'package:get/get_core/src/get_main.dart';
+
 import 'package:login_v1/utils/global.colors.dart';
 import 'package:login_v1/view/adminPerfil.view.dart';
 import 'package:login_v1/view/splash.view.dart';
@@ -84,7 +83,6 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
         backgroundColor: HexColor('#ED9A5E'),
         selectedItemColor: const Color(0xFF0F1370),
         currentIndex: 0,
-        //  color: const Color.fromARGB(234,154,94),
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.add_home_work),
@@ -137,11 +135,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(
-                      top: 20.0,
-                      left: 25.0,
-                      bottom:
-                          0), // Ajusta el valor izquierdo según sea necesario
+                  padding: EdgeInsets.only(top: 20.0, left: 25.0, bottom: 0),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -209,11 +203,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(
-                      top: 15.0,
-                      left: 25.0,
-                      bottom:
-                          0), // Ajusta el valor izquierdo según sea necesario
+                  padding: EdgeInsets.only(top: 15.0, left: 25.0, bottom: 0),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -232,7 +222,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                       top: 5.0, bottom: 10.0, left: 24, right: 24),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      minimumSize: const Size.fromHeight(40), // NEW
+                      minimumSize: const Size.fromHeight(40),
                     ),
                     onPressed: () {
                       _mostrarDialogoSistemas(context);
@@ -261,7 +251,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
   Widget _crearBotonDescartar() {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-        minimumSize: const Size.fromHeight(30), //
+        minimumSize: const Size.fromHeight(30),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(0.0),
         ),
@@ -269,7 +259,6 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
         foregroundColor: Color.fromARGB(255, 255, 255, 255),
       ),
       onPressed: () {
-        // Muestra un cuadro de diálogo de confirmación
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -280,15 +269,14 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
               actions: [
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pop(); // Cierra el cuadro de diálogo
-                    Navigator.of(context).pop(); // Regresa a la página anterior
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
                   },
                   child: Text('Sí'),
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pop(); // Cierra el cuadro de diálogo
-                    // Puedes agregar aquí cualquier acción adicional
+                    Navigator.of(context).pop();
                   },
                   child: Text('No'),
                 ),
@@ -305,7 +293,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
   Widget _crearBotonGuardar() {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-        minimumSize: const Size.fromHeight(30), //
+        minimumSize: const Size.fromHeight(30),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(0.0),
         ),
@@ -321,10 +309,8 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
   }
 
   Future<void> _mostrarDialogoSistemas(BuildContext context) async {
-    // Crear una instancia del widget de diálogo de sistemas
     final sistemasDialog = _SistemasDialog(sistemas: sistemas);
 
-    // Mostrar el diálogo y obtener los sistemas seleccionados
     final List<String>? sistemasSeleccionados = await showDialog<List<String>>(
       context: context,
       builder: (BuildContext context) {
@@ -332,12 +318,10 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
       },
     );
 
-    // Aquí puedes utilizar sistemasSeleccionados como lo necesites
     if (sistemasSeleccionados != null) {
       setState(() {
         this.sistemasSeleccionados = sistemasSeleccionados;
       });
-      print('Sistemas seleccionados: $sistemasSeleccionados');
     }
   }
 
@@ -376,7 +360,6 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
         password.isEmpty ||
         direccion.isEmpty ||
         codigoPin.isEmpty) {
-      // Muestra un cuadro de diálogo informando que los campos están vacíos
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -387,7 +370,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
             actions: [
               ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pop(); // Cierra el cuadro informativo
+                  Navigator.of(context).pop();
                 },
                 child: Text('Aceptar'),
               ),
@@ -395,7 +378,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
           );
         },
       );
-      return; // Sale de la función si los campos están vacíos
+      return;
     }
 
     if (password.length != 6) {
@@ -408,7 +391,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
             actions: [
               ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pop(); // Cierra el cuadro informativo
+                  Navigator.of(context).pop();
                 },
                 child: Text('Aceptar'),
               ),
@@ -427,7 +410,6 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
         'Direccion': direccion,
         'CodigoPIN': codigoPin,
         'CodigoVerificador': '',
-        // Agrega más campos de usuario si es necesario
       },
     };
 
@@ -442,11 +424,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
       );
       await _dbref.child(viviendaCode).set(viviendaData);
       await _dbref.child(viviendaCode).update({"Estatus": 1});
-      // La vivienda se ha guardado en Firebase
-      print('Vivienda guardada en Firebase');
-      print(viviendaData);
 
-      // Puedes redirigir a otra pantalla o realizar otras acciones aquí
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -456,8 +434,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
             actions: [
               ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pop(); // Cierra el cuadro informativo
-                  // Puedes agregar aquí cualquier acción adicional
+                  Navigator.of(context).pop();
                 },
                 child: Text('Aceptar'),
               ),
@@ -466,7 +443,6 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
         },
       );
     } catch (e) {
-      // Manejar errores si es necesario
       if (e is FirebaseAuthException) {
         if (e.code == 'email-already-in-use') {
           showDialog(
@@ -479,9 +455,7 @@ class _AgregarViviendaState extends State<AgregarVivienda> {
                 actions: [
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context)
-                          .pop(); // Cierra el cuadro informativo
-                      // Puedes agregar aquí cualquier acción adicional
+                      Navigator.of(context).pop();
                     },
                     child: Text('Aceptar'),
                   ),
@@ -542,11 +516,10 @@ class _SistemasDialogState extends State<_SistemasDialog> {
       actions: [
         ElevatedButton(
           onPressed: () {
-            // Si "Estatus" no está en la lista, agrégalo con valor 1
             if (!sistemasSeleccionados.contains("Estatus")) {
               sistemasSeleccionados.add("Estatus");
             }
-            // Devuelve la lista actualizada
+
             Navigator.of(context).pop(sistemasSeleccionados);
           },
           child: Text('Aceptar'),

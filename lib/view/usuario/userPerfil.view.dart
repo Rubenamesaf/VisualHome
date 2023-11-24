@@ -58,9 +58,7 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
           });
         }
       }
-    } catch (e) {
-      print("Error loading admin data: $e");
-    }
+    } catch (e) {}
   }
 
   @override
@@ -73,7 +71,6 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
         backgroundColor: HexColor('#ED9A5E'),
         selectedItemColor: const Color(0xFF0F1370),
         currentIndex: 2,
-        //  color: const Color.fromARGB(234,154,94),
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.alarm_add),
@@ -121,10 +118,7 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(
-                  top: 20.0,
-                  left: 25.0,
-                  bottom: 0), // Ajusta el valor izquierdo según sea necesario
+              padding: EdgeInsets.only(top: 20.0, left: 25.0, bottom: 0),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -158,7 +152,7 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
   Widget _crearBotonDescartar() {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-        minimumSize: const Size.fromHeight(40), //
+        minimumSize: const Size.fromHeight(40),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(0.0),
         ),
@@ -166,7 +160,6 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
         foregroundColor: Color.fromARGB(255, 255, 255, 255),
       ),
       onPressed: () {
-        // Muestra un cuadro de diálogo de confirmación
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -177,15 +170,14 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
               actions: [
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pop(); // Cierra el cuadro de diálogo
-                    Navigator.of(context).pop(); // Regresa a la página anterior
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
                   },
                   child: Text('Sí'),
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pop(); // Cierra el cuadro de diálogo
-                    // Puedes agregar aquí cualquier acción adicional
+                    Navigator.of(context).pop();
                   },
                   child: Text('No'),
                 ),
@@ -202,7 +194,7 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
   Widget _crearBotonGuardar() {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-        minimumSize: const Size.fromHeight(40), //
+        minimumSize: const Size.fromHeight(40),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(0.0),
         ),
@@ -211,7 +203,7 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
       ),
       onPressed: () {
         _guardarViviendaEnFirebase();
-        Navigator.of(context).pop(); // Cierra el cuadro de diálogo
+        Navigator.of(context).pop();
       },
       label: Text('GUARDAR'),
       icon: Icon(Icons.save),
@@ -243,16 +235,12 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
         'Email': correo,
         'Password': password,
         'Direccion': direccion,
-        // Agrega más campos de usuario si es necesario
       },
     };
 
     try {
       await _dbref.child(widget.vivienda).update(userData);
-      // La vivienda se ha guardado en Firebase
-      print('Perfil guardado en Firebase');
-      print(userData);
-      // Puedes redirigir a otra pantalla o realizar otras acciones aquí
+
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -270,10 +258,7 @@ class _UserPerfilPageState extends State<UserPerfilPage> {
           );
         },
       );
-    } catch (e) {
-      // Manejar errores si es necesario
-      print('Error al guardar la vivienda en Firebase: $e');
-    }
+    } catch (e) {}
   }
 
   Widget _buildTextFormFields() {

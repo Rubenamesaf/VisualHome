@@ -32,23 +32,18 @@ class _MonitoreoSistemaUserState extends State<MonitoreoSistemaUser> {
     _dbref.child(widget.vivienda).onValue.listen((event) {
       final dataSnapshot = event.snapshot;
       if (dataSnapshot.value != null && mounted) {
-        print("Datos actualizados - " + dataSnapshot.value.toString());
         setState(() {
           databasejson = dataSnapshot.value.toString();
 
-          // Eliminar los corchetes iniciales y finales
           databasejson = databasejson.substring(1, databasejson.length - 1);
 
-          // Dividir la cadena en pares clave-valor
           final keyValuePairs = databasejson.split(', ');
 
-          // Limpiar la lista actual antes de agregar los nuevos sistemas
           sistemasList.clear();
 
-          // Recorrer los pares clave-valor y agregarlos a sistemasList
           for (var pair in keyValuePairs) {
             final parts = pair.split(': ');
-            final nombre = parts[0].trim(); // Eliminar espacios en blanco
+            final nombre = parts[0].trim();
 
             if (nombre != "Usuario") {
               final estado = int.tryParse(parts[1].trim());
@@ -70,7 +65,6 @@ class _MonitoreoSistemaUserState extends State<MonitoreoSistemaUser> {
         backgroundColor: HexColor('#ED9A5E'),
         selectedItemColor: const Color(0xFF0F1370),
         currentIndex: 2,
-        //  color: const Color.fromARGB(234,154,94),
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.alarm_add),

@@ -62,7 +62,7 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
   getHistorialFromSheet() async {
     try {
       setState(() {
-        loading = true; // Muestra el indicador de carga
+        loading = true;
       });
 
       var url = Uri.parse(
@@ -77,7 +77,6 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
         var proveedor = elemento['proveedor'];
         var vivienda = elemento['vivienda'];
 
-        // Realiza la sustitución de caracteres especiales antes de crear el objeto HistorialModel
         var sistema = elemento['sistema']
             .replaceAll('Ã¡', 'á')
             .replaceAll('Ã©', 'é')
@@ -99,29 +98,25 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
         if (mounted) {
           setState(() {
             registros.add(historialModel);
-            loading = false; // Oculta el indicador de carga
+            loading = false;
           });
         }
       });
-      print(registros);
     } catch (e) {
       if (mounted) {
         setState(() {
-          loading = false; // Oculta el indicador de carga en caso de error
+          loading = false;
         });
       }
-      print("Error al obtener historial: $e");
     }
   }
 
   void toggleSwitch(bool value) {
-    // Actualiza el estado local antes de realizar operaciones asíncronas
     setState(() {
       estado = value;
       estadoBinario = estado ? 1 : 0;
     });
 
-    // Actualiza el valor en Firebase
     _updateValue();
   }
 
@@ -129,9 +124,7 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
     try {
       var sistem = widget.sistema;
       _dbref.child("$viviendaName").update({"$sistem": estadoBinario});
-    } catch (e) {
-      print("Error al actualizar el valor en Firebase: $e");
-    }
+    } catch (e) {}
   }
 
   @override
@@ -149,7 +142,6 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
               _quitarEspacios(registro.vivienda) ==
                   _quitarEspacios(viviendaName))
           .toList();
-      print(registros);
     }
 
     return registros.where((registro) {
@@ -157,7 +149,6 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
       DateTime marcaTemporal =
           DateFormat("MMMM d, yyyy h:mma").parse(formattedDate);
 
-      // Suma un día a la fecha fin
       DateTime fechaFinInclusive = fechaFin!.add(Duration(days: 1));
 
       return marcaTemporal.isAfter(fechaInicio!) &&
@@ -177,25 +168,19 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
 
   Future<void> _descargarReporte() async {
     try {
-      // Filtra los registros que se están mostrando en pantalla
       List<HistorialModel> registrosFiltrados =
           filtrarRegistrosPorFechaYSistema();
 
-      // Verifica si hay registros para descargar
       if (registrosFiltrados.isEmpty) {
-        print("No hay registros para descargar");
         return;
       }
 
-      // Obtiene el directorio de descargas del dispositivo
       Directory? downloadsDirectory = await getDownloadsDirectory();
 
       if (downloadsDirectory == null) {
-        print("No se pudo obtener el directorio de descargas");
         return;
       }
 
-      // Crea el contenido del archivo PDF
       pw.Document pdf = pw.Document();
 
       pdf.addPage(
@@ -217,24 +202,18 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
         ),
       );
 
-// Obtiene el nombre de la vivienda y el sistema (asumiendo que estos valores están disponibles en los registros filtrados)
       String nombreVivienda = registrosFiltrados.first.vivienda;
       String nombreSistema = registrosFiltrados.first.sistema;
 
-// Crea el archivo con el nombre de la vivienda, el sistema y la fecha actual
       String fechaActual = DateFormat("yyyyMMddHHmmss").format(DateTime.now());
       String fileName = '${nombreVivienda}_${nombreSistema}_$fechaActual.pdf';
       String filePath = '${downloadsDirectory.path}/$fileName';
-      // Guarda el contenido en el archivo PDF
+
       File file = File(filePath);
       await file.writeAsBytes(await pdf.save());
 
-      print("Reporte descargado en: $filePath");
-      // Abre el archivo inmediatamente después de descargarlo
       OpenFile.open(filePath);
-    } catch (e) {
-      print("Error al descargar el reporte: $e");
-    }
+    } catch (e) {}
   }
 
   @override
@@ -244,7 +223,6 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
         backgroundColor: HexColor('#ED9A5E'),
         selectedItemColor: const Color(0xFF0F1370),
         currentIndex: 2,
-        //  color: const Color.fromARGB(234,154,94),
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.add_home_work),
@@ -459,7 +437,7 @@ class _SistemaEspecificoAdminState extends State<SistemaEspecificoAdmin> {
                           padding: EdgeInsets.symmetric(horizontal: 33.0),
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              minimumSize: Size.fromHeight(40), // NEW
+                              minimumSize: Size.fromHeight(40),
                             ),
                             onPressed: _descargarReporte,
                             child: Text(
