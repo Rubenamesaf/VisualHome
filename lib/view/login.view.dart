@@ -7,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:hexcolor/hexcolor.dart';
-import 'package:logger/logger.dart';
 import 'package:login_v1/view/nuevoPin.view.dart';
 import 'package:login_v1/view/usuario/homeUser.view.dart';
 
@@ -29,7 +28,6 @@ class _LoginViewState extends State<LoginView> {
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final Logger _logger = Logger();
   final DatabaseReference _dbref = FirebaseDatabase.instance.ref();
 
   Future<void> _signInWithEmailAndPassword(BuildContext context) async {
@@ -38,7 +36,6 @@ class _LoginViewState extends State<LoginView> {
         email: emailController.text,
         password: passwordController.text,
       );
-      _logger.i("que éxito");
 
       User? userInstance = FirebaseAuth.instance.currentUser;
 
