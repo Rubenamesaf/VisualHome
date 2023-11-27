@@ -115,8 +115,6 @@ class _LoginViewState extends State<LoginView> {
 
     if (isLoggedIn) {
       String userEmail = await getUserEmail();
-      // Si el usuario está autenticado, navega a la pantalla principal
-      // Puedes personalizar esto según tus necesidades
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -217,6 +215,19 @@ class _LoginViewState extends State<LoginView> {
                       child: SvgPicture.asset(
                         'assets/images/VisualHome.svg',
                         fit: BoxFit.fitWidth,
+                      ),
+                    ),
+                    Align(
+                      alignment: const AlignmentDirectional(0, 0.2),
+                      child: Text(
+                        'Tu casa, uno más de tus sentidos.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'Raleway',
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400,
+                            height: 1.0),
                       ),
                     ),
                     Padding(
