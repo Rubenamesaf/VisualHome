@@ -78,11 +78,13 @@ class _ViviendaEspecificaAdminState extends State<ViviendaEspecificaAdmin> {
     const TextStyle defaultStyle = TextStyle(
       color: Color.fromARGB(255, 255, 0, 0),
       fontWeight: FontWeight.normal,
+      fontFamily: 'Raleway',
     );
 
     const TextStyle activeStyle = TextStyle(
       color: Colors.green,
       fontWeight: FontWeight.bold,
+      fontFamily: 'Raleway',
     );
 
     final text = isActive ? 'Activo' : 'Inactivo';

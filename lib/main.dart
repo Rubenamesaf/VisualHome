@@ -5,6 +5,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:login_v1/api/firebase_api.dart';
 import 'package:login_v1/view/homeAdmin.view.dart';
+import 'package:login_v1/view/login.view.dart';
 import 'package:login_v1/view/splash.view.dart';
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 
@@ -35,7 +36,7 @@ class App extends StatelessWidget {
     return GetMaterialApp(
       theme: ThemeData(fontFamily: 'Raleway'),
       debugShowCheckedModeBanner: false,
-      home: SplashView(),
+      home: LoginView(),
     );
   }
 }

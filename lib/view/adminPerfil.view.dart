@@ -86,7 +86,7 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
         fontSize: 16,
         fontWeight: FontWeight.normal,
         color: GlobalColors.textColor,
-        fontFamily: 'Outfit',
+        fontFamily: 'Raleway',
       ),
       keyboardType: keyboardType,
     );
@@ -281,7 +281,7 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
                 style: TextStyle(
                   color: Color(0xFF0F1370),
                   fontSize: 24,
-                  fontFamily: 'Inria Sans',
+                  fontFamily: 'Raleway',
                   fontWeight: FontWeight.w700,
                   height: 0.9,
                 ),
@@ -296,7 +296,7 @@ class _AdminPerfilViewState extends State<AdminPerfilView> {
                   style: TextStyle(
                     color: Color(0xFF0F1370),
                     fontSize: 17,
-                    fontFamily: 'Inria Sans',
+                    fontFamily: 'Raleway',
                     fontWeight: FontWeight.w700,
                     height: 0.9,
                   ),

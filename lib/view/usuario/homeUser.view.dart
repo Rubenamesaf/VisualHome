@@ -46,6 +46,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
   Color _botonColor = const Color.fromARGB(255, 110, 112, 114);
   String _estadoAlarma = "           ARMAR\nSistema de seguridad";
   String activeSystemName = "";
+  bool llamadaEmergenciaEnCurso = false;
 
   @override
   void initState() {
@@ -190,7 +191,41 @@ class _HomeUserPageState extends State<HomeUserPage> {
                       ),
                       onPressed: () {
                         launch('tel:911');
+                        llamadaEmergenciaEnCurso = true;
                         Navigator.of(context).pop();
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('ALERTA'),
+                              content: Text(
+                                  'Detector de $activeSystemName disparado.'),
+                              actions: [
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.red,
+                                  ),
+                                  onPressed: () {
+                                    launch('tel:911');
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('Llamar Emergencias'),
+                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    _detenerBotonPanico();
+                                    llamadaEmergenciaEnCurso = false;
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('Detener'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
                       },
                       child: Text('Llamar Emergencias'),
                     ),
@@ -289,6 +324,18 @@ class _HomeUserPageState extends State<HomeUserPage> {
       ),
       payload: nombreSistema,
     );
+    llamadaEmergenciaEnCurso = true;
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // La aplicación se reanuda, verifica si hay una llamada de emergencia en curso
+      if (!llamadaEmergenciaEnCurso) {
+        // No hay llamada de emergencia en curso, muestra la alerta
+        _setupDatabaseListener();
+      }
+    }
   }
 
   @override
@@ -423,7 +470,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
                       child: Center(
                         child: Text(
                           _estadoAlarma,
-                          style: TextStyle(fontSize: 15, color: Colors.white),
+                          style: TextStyle(fontSize: 14, color: Colors.white),
                         ),
                       ),
                     ),

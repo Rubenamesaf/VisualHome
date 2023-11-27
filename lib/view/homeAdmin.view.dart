@@ -138,7 +138,7 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
                   style: TextStyle(
                     color: Color(0xFF0F1370),
                     fontSize: 25,
-                    fontFamily: 'Inria Sans',
+                    fontFamily: 'Raleway',
                     fontWeight: FontWeight.w700,
                     height: 0.76,
                   ),

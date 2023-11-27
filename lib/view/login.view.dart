@@ -11,6 +11,7 @@ import 'package:login_v1/view/nuevoPin.view.dart';
 import 'package:login_v1/view/usuario/homeUser.view.dart';
 
 import 'package:flutter/gestures.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'homeAdmin.view.dart';
 
@@ -29,6 +30,15 @@ class _LoginViewState extends State<LoginView> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final DatabaseReference _dbref = FirebaseDatabase.instance.ref();
+
+  Future<void> _signOut() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      saveLoginState(false);
+    } catch (e) {
+      print("Error al cerrar sesión: $e");
+    }
+  }
 
   Future<void> _signInWithEmailAndPassword(BuildContext context) async {
     try {
@@ -51,6 +61,7 @@ class _LoginViewState extends State<LoginView> {
             ),
           );
         } else {
+          saveUserEmail(userInstance.email ?? "");
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -63,11 +74,55 @@ class _LoginViewState extends State<LoginView> {
 
       setState(() {
         signInSuccess = true;
+        saveLoginState(true);
       });
     } catch (e) {
       setState(() {
         signInSuccess = false;
+        saveLoginState(false);
       });
+    }
+  }
+
+  Future<void> saveUserEmail(String userEmail) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('userEmail', userEmail);
+  }
+
+  Future<void> saveLoginState(bool isLoggedIn) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isLoggedIn', isLoggedIn);
+  }
+
+  Future<bool> getLoginState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('isLoggedIn') ?? false;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkLoginStatus();
+  }
+
+  Future<String> getUserEmail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('userEmail') ?? "";
+  }
+
+  Future<void> checkLoginStatus() async {
+    bool isLoggedIn = await getLoginState();
+
+    if (isLoggedIn) {
+      String userEmail = await getUserEmail();
+      // Si el usuario está autenticado, navega a la pantalla principal
+      // Puedes personalizar esto según tus necesidades
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomeUserPage(userEmail: userEmail),
+        ),
+      );
     }
   }
 
@@ -366,6 +421,7 @@ class _LoginViewState extends State<LoginView> {
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700,
                                 height: 0.95,
+                                fontFamily: 'Raleway',
                               ),
                             ),
                           ),
@@ -381,6 +437,7 @@ class _LoginViewState extends State<LoginView> {
                                     fontSize: 17,
                                     fontWeight: FontWeight.w700,
                                     height: 0.95,
+                                    fontFamily: 'Raleway',
                                   ),
                                   children: <TextSpan>[
                                     TextSpan(
@@ -389,6 +446,7 @@ class _LoginViewState extends State<LoginView> {
                                         color: Color.fromARGB(255, 33, 72, 243),
                                         fontSize: 17,
                                         fontWeight: FontWeight.w700,
+                                        fontFamily: 'Raleway',
                                         height: 0.95,
                                         decoration: TextDecoration.underline,
                                       ),

@@ -15,7 +15,7 @@ class SistemaUsuario extends StatelessWidget {
     return activo
         ? Container(
             height: 10,
-            width: 75,
+            width: 70,
             decoration: BoxDecoration(
               color: Colors.green,
               borderRadius: BorderRadius.circular(16.0),
@@ -24,7 +24,7 @@ class SistemaUsuario extends StatelessWidget {
           )
         : Container(
             height: 10,
-            width: 75,
+            width: 70,
             decoration: BoxDecoration(
               color: Colors.red,
               borderRadius: BorderRadius.circular(16.0),
@@ -50,7 +50,7 @@ class SistemaUsuario extends StatelessWidget {
           Text(
             nombreSistema,
             style: const TextStyle(
-              fontSize: 16,
+              fontSize: 14,
               color: const Color(0xFF0F1370),
               fontWeight: FontWeight.bold,
             ),

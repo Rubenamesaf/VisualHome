@@ -45,7 +45,7 @@ class DesingSplashContainer extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 20,
-                    fontFamily: 'Inria Sans',
+                    fontFamily: 'Raleway',
                     color: GlobalColors.blancoColor,
                     fontWeight: FontWeight.w400,
                     height: 0.95),
@@ -82,7 +82,7 @@ class DesingSplashContainer extends StatelessWidget {
                   style: TextStyle(
                     color: Color(0xFF0F1370),
                     fontSize: 20,
-                    fontFamily: 'Inria Sans',
+                    fontFamily: 'Raleway',
                     fontWeight: FontWeight.w700,
                     height: 0.95,
                   ),
