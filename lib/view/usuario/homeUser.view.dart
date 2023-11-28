@@ -254,7 +254,8 @@ class _HomeUserPageState extends State<HomeUserPage> {
               builder: (BuildContext context) {
                 return AlertDialog(
                   title: Text('ALARMA'),
-                  content: Text('${horaActual.hour}:${horaActual.minute}'),
+                  content: Text(
+                      'Disparo de alarma programada a la(s) ${horaActual.hour}:${horaActual.minute}'),
                   actions: [
                     Container(
                       width: double.infinity,

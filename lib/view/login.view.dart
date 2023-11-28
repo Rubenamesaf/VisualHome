@@ -26,6 +26,8 @@ class _LoginViewState extends State<LoginView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool showPassword = false;
   bool signInSuccess = false;
+  bool isLoggedIn = false;
+  bool isAdmin = false;
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -53,6 +55,9 @@ class _LoginViewState extends State<LoginView> {
         final administradoresEmailList = await _getAdministradores();
 
         if (administradoresEmailList.contains(emailController.text)) {
+          setState(() {
+            saveUserRol(true);
+          });
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -61,6 +66,9 @@ class _LoginViewState extends State<LoginView> {
             ),
           );
         } else {
+          setState(() {
+            saveUserRol(false);
+          });
           saveUserEmail(userInstance.email ?? "");
           Navigator.push(
             context,
@@ -94,9 +102,19 @@ class _LoginViewState extends State<LoginView> {
     prefs.setBool('isLoggedIn', isLoggedIn);
   }
 
+  Future<void> saveUserRol(bool isAdmin) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isAdmin', isAdmin);
+  }
+
   Future<bool> getLoginState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getBool('isLoggedIn') ?? false;
+  }
+
+  Future<bool> getUserRol() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('isAdmin') ?? false;
   }
 
   @override
@@ -111,16 +129,27 @@ class _LoginViewState extends State<LoginView> {
   }
 
   Future<void> checkLoginStatus() async {
-    bool isLoggedIn = await getLoginState();
+    isLoggedIn = await getLoginState();
+    isAdmin = await getUserRol();
 
     if (isLoggedIn) {
-      String userEmail = await getUserEmail();
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomeUserPage(userEmail: userEmail),
-        ),
-      );
+      if (isAdmin) {
+        String userEmail = await getUserEmail();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomeAdminPage(userEmail: userEmail),
+          ),
+        );
+      } else {
+        String userEmail = await getUserEmail();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomeUserPage(userEmail: userEmail),
+          ),
+        );
+      }
     }
   }
 
